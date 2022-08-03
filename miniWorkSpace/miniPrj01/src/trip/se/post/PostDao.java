@@ -1,4 +1,6 @@
-package post;
+package trip.se.post;
+
+import static trip.min.common.JDBCTemplate.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,8 +9,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-
-import static common.JDBCTemplate.*;
 
 public class PostDao {
  

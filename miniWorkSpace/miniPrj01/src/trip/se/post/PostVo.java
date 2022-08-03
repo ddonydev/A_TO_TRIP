@@ -1,4 +1,4 @@
-package post;
+package trip.se.post;
 
 import java.sql.Timestamp;
 

@@ -1,11 +1,11 @@
-package post;
+package trip.se.post;
 
-import static common.JDBCTemplate.*;
+import static trip.min.common.JDBCTemplate.*;
 
 import java.sql.Connection;
 import java.util.List;
 
-import common.JDBCTemplate.*;
+
 
 public class PostService {
 
@@ -28,7 +28,7 @@ public class PostService {
 			if(result == 1) {
 				commit(conn);
 			}else {
-				rollback(conn);
+				rollBack(conn);
 			}
 			
 		} catch (Exception e) {
