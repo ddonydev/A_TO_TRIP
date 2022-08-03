@@ -1,6 +1,6 @@
 package trip.min.main;
 
-import mainPost.MenuPost;
+import trip.se.mainPost.MenuPost;
 import trip.hyewon.lodging.LodgingController;
 import trip.min.main.MemberMain;
 import trip.min.manager.Manager;
