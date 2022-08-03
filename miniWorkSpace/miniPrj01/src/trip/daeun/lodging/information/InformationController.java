@@ -16,11 +16,9 @@ public class InformationController {
 		4. 목록으로 돌아가기
 	 * */
 	
-	public void showInformation() {
+	public void showInformation(int num) {
 
 	//숙소 번호 받기
-	
-	int num = new DaeunMenu().showMenu();
 	
 	//숙소 번호 받으면 ? -> 해당 숙소 정보 상세 조회
 	InformationVo vo = new InformationService().showDetailByNo(num);
