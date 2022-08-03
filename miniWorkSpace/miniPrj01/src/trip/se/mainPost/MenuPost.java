@@ -1,6 +1,6 @@
-package mainPost;
+package trip.se.mainPost;
 
-import util.Util;
+import trip.min.util.InputUtil;
 
 public class MenuPost {
 
@@ -9,7 +9,7 @@ public class MenuPost {
 		System.out.println("2. 게시글 댓글");
 		System.out.println("3. 좋아요");
 		
-		return Util.getInt();
+		return InputUtil.getInt();
 	}	
 		
 	
@@ -20,13 +20,13 @@ public class MenuPost {
 		System.out.println("3. 게시글 수정");
 		System.out.println("4. 게시글 삭제");
 	
-		return Util.getInt();
+		return InputUtil.getInt();
 	}
 	
 
 	public int showPostDetail() {
 		System.out.print("\n 조회할 글 번호 (0번 -> 메인메뉴로 가기) : ");
-		return Util.getInt();
+		return InputUtil.getInt();
 	}
 	
 	

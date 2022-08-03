@@ -1,10 +1,11 @@
-package post;
+package trip.se.post;
 
 import java.sql.Timestamp;
 import java.util.List;
 
-import mainPost.MenuPost;
-import util.Util;
+import trip.min.util.InputUtil;
+import trip.se.mainPost.MenuPost;
+
 
 public class PostController {
 	
@@ -20,9 +21,9 @@ public class PostController {
 		
 		// 데이터 받기
 		System.out.print("제목 : ");
-		String title = Util.sc.nextLine();
+		String title = InputUtil.sc.nextLine();
 		System.out.print("내용 : ");
-		String content = Util.sc.nextLine();
+		String content = InputUtil.sc.nextLine();
 		
 		int memberNo = 5;
 		
@@ -102,9 +103,9 @@ public class PostController {
 		
 		// 가져온 데이터를 수정 (데이터 받기)
 		System.out.print("제목 : ");
-		String title = Util.sc.nextLine();
+		String title = InputUtil.sc.nextLine();
 		System.out.print("내용 : ");
-		String content = Util.sc.nextLine();
+		String content = InputUtil.sc.nextLine();
 		
 		// 데이터 합치기
 		
