@@ -6,7 +6,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import trip.hyewon.util.InputUtil;
+import trip.daeun.lodging.information.InformationController;
+import trip.daeun.lodging.menu.DaeunMenu;
+import trip.min.util.InputUtil;
+
 
 public class LodgingController {
 
@@ -114,7 +117,40 @@ public class LodgingController {
 			}
 		}
 		
-		reserveRoom(Integer.parseInt(input), vo);
+		new InformationController().showInformation(Integer.parseInt(input));
+		DaeunMenu menu = new DaeunMenu();	
+		//menu.showMenu();
+		
+		int input2 = menu.showDetailMenu();
+		
+		switch(input2) {
+		case 1:
+			/*예약하기*/
+			System.out.println("예약 페이지로 넘어갑니다.");
+			reserveRoom(Integer.parseInt(input), vo);
+			break;
+			
+		case 2:
+			/*찜하기*/
+			//new WishController().wish();
+			break;
+			
+		case 3:
+			/*찜하기 취소*/
+			break;
+			
+		case 4:
+			/*숙소 리뷰 보기*/
+			System.out.println("숙소 리뷰 페이지로 넘어갑니다.");
+			break;
+			
+		case 5:
+			/*숙소 리스트로 돌아가기*/
+			System.out.println("숙소 리스트로 돌아갑니다.");
+			break;
+		
+		
+		}
 		
 	}
 	
