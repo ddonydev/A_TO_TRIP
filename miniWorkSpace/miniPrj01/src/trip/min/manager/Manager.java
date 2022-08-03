@@ -96,7 +96,7 @@ public class Manager {
 	//관리자 커뮤니티 조회
 	public void communityselectManager() {
 		//커뮤니티 조회(select)
-		
+		System.out.println("커뮤니티 조회");
 	}
 	
 	//관리자 커뮤니티 변경
