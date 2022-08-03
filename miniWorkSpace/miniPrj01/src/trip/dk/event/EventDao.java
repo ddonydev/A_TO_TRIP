@@ -8,10 +8,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static trip.min.common.JDBCTemplate.*;
 
 
 
-import static trip.dk.common.JDBCTemplate.*;
+
+
 
 public class EventDao {
 	

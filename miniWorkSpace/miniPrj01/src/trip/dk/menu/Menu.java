@@ -2,7 +2,7 @@ package trip.dk.menu;
 
 
 
-import trip.dk.util.InputUtil;
+import trip.min.util.InputUtil;
 
 public class Menu {
 	
