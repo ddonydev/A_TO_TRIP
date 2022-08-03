@@ -5,7 +5,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import trip.hyewon.common.JDBCTemplate;
+import trip.min.common.JDBCTemplate;
+
+
 
 public class LodgingService {
 

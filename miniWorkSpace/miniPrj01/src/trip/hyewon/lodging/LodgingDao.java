@@ -9,7 +9,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import trip.hyewon.common.JDBCTemplate;
+import trip.min.common.JDBCTemplate;
+
+
 
 public class LodgingDao {
 
