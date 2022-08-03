@@ -3,8 +3,9 @@ package trip.daeun.lodging.information;
 
 import java.sql.Connection;
 
-import trip.daeun.lodging.common.JDBCTemplate;
-import static trip.daeun.lodging.common.JDBCTemplate.*;
+import trip.min.common.JDBCTemplate;
+
+
 
 public class InformationService {
 	
@@ -21,14 +22,14 @@ public class InformationService {
 
 		try {
 
-			conn = getConnection();
+			conn = JDBCTemplate.getConnection();
 			vo = new InformationDao().showDetailByNo(conn, num);
 
 		} catch (Exception e) {
 			System.out.println("[ERROR] 숙소 조회 중 예외 발생 !!!");
 			e.printStackTrace();
 		} finally {
-			close(conn);
+			JDBCTemplate.close(conn);
 		}
 
 		return vo;
