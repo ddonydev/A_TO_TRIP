@@ -1,6 +1,6 @@
 package trip.min.main;
 
-import mainPost.MenuPost;
+import trip.se.mainPost.MenuPost;
 import trip.min.member.MemberController;
 import trip.min.member.MemberVo;
 import trip.min.util.InputUtil;
