@@ -6,7 +6,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import trip.daeun.lodging.common.JDBCTemplate;
+import trip.min.common.JDBCTemplate;
+
 
 public class InformationDao {
 

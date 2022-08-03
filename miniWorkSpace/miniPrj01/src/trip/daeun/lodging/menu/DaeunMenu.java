@@ -1,6 +1,6 @@
 package trip.daeun.lodging.menu;
 
-import trip.daeun.lodging.utill.InputUtill;
+import trip.min.util.InputUtil;
 
 public class DaeunMenu {
 
@@ -9,7 +9,7 @@ public class DaeunMenu {
 		System.out.print("원하는 숙소 번호를 입력해 주세요. : \n");
 
 	
-		return InputUtill.getInt();
+		return InputUtil.getInt();
 		
 	}
 	
@@ -22,7 +22,7 @@ public class DaeunMenu {
 		System.out.println("4. 숙소 리뷰 보기");
 		System.out.println("5. 리스트로 돌아가기");
 		
-		return InputUtill.getInt();
+		return InputUtil.getInt();
 		
 	}
 	
