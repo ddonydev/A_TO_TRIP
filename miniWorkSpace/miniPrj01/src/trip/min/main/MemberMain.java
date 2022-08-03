@@ -1,5 +1,6 @@
 package trip.min.main;
 
+import mainPost.MenuPost;
 import trip.min.member.MemberController;
 import trip.min.member.MemberVo;
 import trip.min.util.InputUtil;
@@ -21,6 +22,7 @@ public class MemberMain {
 		System.out.println("===== A to Trip 입니다 =====");
 		
 		MemberMenu menu = new MemberMenu();
+		MenuPost menuP = new MenuPost();
 		
 		while(true) {
 			menu.showMenu();
@@ -39,10 +41,6 @@ public class MemberMain {
 				System.out.println("아이디, 비번찾기");
 				break;
 			case "4":
-				//여행커뮤니티 글 목록 보기
-				System.out.println("여행 커뮤니티 글 목록 보기");
-				break;
-			case "5":
 				//프로그램 종료
 				System.out.println("프로그램을 종료합니다.");
 				return;

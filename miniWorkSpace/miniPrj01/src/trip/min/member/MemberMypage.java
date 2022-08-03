@@ -1,5 +1,9 @@
 package trip.min.member;
 
+import java.awt.im.InputContext;
+
+import trip.min.util.InputUtil;
+
 public class MemberMypage {
 
 	/*
@@ -12,9 +16,56 @@ public class MemberMypage {
 	 * 내가 쓴 리뷰 확인
 	 * 가지고 있는 쿠폰 확인(발급쿠폰)
 	 */
+	public void myPageMenu() {
+		System.out.println("===== 마이페이지 입니다 =====");
+		System.out.println("1. 내 정보 수정하기");
+		System.out.println("2. 숙소 예약 내역 확인");
+		System.out.println("3. 숙소 찜 목록 조회");
+		System.out.println("4. 내가 쓴 게시물 확인");
+		System.out.println("5. 내가 쓴 댓글 확인");
+		System.out.println("6. 내가 쓴 리뷰 확인");
+		System.out.println("7. 현재 보유 쿠폰");
+		
+		while(true) {
+			String input = InputUtil.sc.nextLine();
+			switch(input) {
+			case "1":
+				System.out.println("내정보 수정하기");
+				editMember();
+				break;
+			case "2":
+				System.out.println("숙소 예약 내역 확인");
+				checkReservation();
+				break;
+			case "3":
+				System.out.println("숙소 찜 목록 조회");
+				checkWishList();
+				break;
+			case "4":
+				System.out.println("내가 쓴 게시물 확인");
+				checkcommunity();
+				break;
+			case "5":
+				System.out.println("내가 쓴 댓글 확인");
+				checkmycomment();
+				break;
+			case "6":
+				System.out.println("내가 쓴 리뷰 확인");
+				checkmyreview();
+				break;
+			case "7":
+				System.out.println("현재 보유 쿠폰");
+				keepcoupon();
+				break;
+			default :
+				System.out.println("잘못 입력 하셨습니다.");
+			}
+		}
+		
+	}
 	
 	public void editMember() {
-		//내 정보 수정하기
+		//내 정보 수정하기(sql = update)
 		
 	}
 	
@@ -41,6 +92,10 @@ public class MemberMypage {
 	public void checkmyreview() {
 		//내가 쓴 리뷰 확인
 		
+	}
+	
+	public void keepcoupon() {
+		//현재 보유 쿠폰
 	}
 	
 	

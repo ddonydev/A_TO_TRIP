@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class JDBCTemplate {
-
+	
 	//커넥션
 	public static Connection getConnection() throws Exception {
 		
