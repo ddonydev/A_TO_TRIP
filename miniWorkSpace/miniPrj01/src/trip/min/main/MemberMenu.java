@@ -1,5 +1,6 @@
 package trip.min.main;
 
+import trip.se.mainPost.MainPost;
 import trip.se.mainPost.MenuPost;
 import trip.dk.event.EventController;
 import trip.dk.menu.Menu;
@@ -68,7 +69,7 @@ public class MemberMenu {
 					break;
 				case "4":
 					System.out.println("여행 커뮤니티로 이동합니다."); 
-					new MenuPost().showPost();
+					new MainPost().mainPost();
 					break;
 				case "5":
 					System.out.println("마이페이지로 이동합니다.");
