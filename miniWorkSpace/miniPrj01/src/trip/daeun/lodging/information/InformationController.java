@@ -44,14 +44,5 @@ public class InformationController {
 	
 	
 	
-	public void wish() {
-		// 1. 찜하기 누른 사람(== 로그인 한 사람)
-		// 2. 찜하기 누른 숙소 번호
-		
-		
-	}
-	
-	
-	
 	
 }
