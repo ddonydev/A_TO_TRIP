@@ -15,17 +15,16 @@ public class LodgingReviewDao {
 		//connection, sql
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		List<LodgingReviewVo> lodgingReviewVoList = new ArrayList<LodgingReviewVo>();
 		
 		String query = " select R.no, R.writer, R.lodging_no, R.title, R.cont "
 				+ " from lodging_review R "
 				+ " join lodging_information I on R.lodging_no = I.no "
 				+ " where R.review_delete = 'N' ";
 		
-		pstmt = conn.prepareStatement(query);
-		rs = pstmt.executeQuery();
-		List<LodgingReviewVo> lodgingReviewVoList = new ArrayList<LodgingReviewVo>();
-		
 		try {
+			pstmt = conn.prepareStatement(query);
+			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				//none default field
 				int no = rs.getInt("no");
@@ -84,17 +83,78 @@ public class LodgingReviewDao {
 		
 	}
 	
-	public void deleteReview(Connection conn) throws Exception {
+	public int deleteReview(Connection conn, LodgingReviewVo lodgingReviewVoDelete) throws Exception {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		LodgingReviewVo lodgingReviewVo = null;
+		int result = 0;
 		
-		String query = "";
-		pstmt = conn.prepareStatement(query);
+		String query = " update lodging_review "
+						+ " set review_delete = 'Y' "
+						+ " where no = ? ";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, lodgingReviewVoDelete.getNo());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
 		
-		int result = pstmt.executeUpdate();
-		
+		return result;
 	}
 	
+	public int reviewLikePlus(Connection conn, LodgingReviewVo vo) throws Exception {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int result = 0;
+		String noStr = Integer.toString(vo.getNo());
+		
+		String query = " update lodging_review "
+						+ " set "
+						+ " review_like = review_like + 1 " 
+						+ " where no = ? ";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, noStr);
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public int reviewLikeMinus(Connection conn, LodgingReviewVo vo) throws Exception {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int result = 0;
+		String noStr = Integer.toString(vo.getNo());
+		
+		String query = " update lodging_review "
+				+ " set "
+				+ " review_like = review_like - 1 " 
+				+ " where no = ? ";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, noStr);
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
 	
 }

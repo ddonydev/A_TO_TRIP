@@ -56,11 +56,11 @@ public class LodgingReviewLikeController {
 			
 			if(reviewEditNum == 1) {
 				//lodgingReviewController table에서 수정
-				new LodgingReviewController().editReview(vo);
+//				new LodgingReviewController().editReview(vo);
 				break;
 			} else if(reviewEditNum == 2) {
 				//lodgingReviewController table에서 수정
-				new LodgingReviewController().deleteReview();
+//				new LodgingReviewController().deleteReview(vo);
 				break;
 			} else if(reviewEditNum == 3) {
 				reviewLikePlus();

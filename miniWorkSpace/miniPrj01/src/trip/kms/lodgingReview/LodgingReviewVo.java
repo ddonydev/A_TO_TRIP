@@ -15,6 +15,7 @@ public class LodgingReviewVo {
 	private Timestamp editDate;
 	private int reviewLike;
 	
+	
 	//constructor
 	public LodgingReviewVo() {
 		
