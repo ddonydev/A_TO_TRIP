@@ -1,6 +1,8 @@
 package trip.min.manager;
 
 import trip.min.util.InputUtil;
+import trip.se.mainPost.MainPost;
+import trip.se.chat.ChatBot;
 
 public class ServiceCenter {
 	/*
@@ -14,20 +16,24 @@ public class ServiceCenter {
 	 */
 	
 	public void CenterView() {
-		System.out.println("\n===== 고객센터 입니다. =====");
-		System.out.println("무엇을 도와드릴까요 ? ");
-		System.out.println("1. QnA");
-		System.out.println("2. 챗봇 상담");
 		
 		while(true) {
+			System.out.println("\n===== 고객센터 입니다. =====");
+			System.out.println("무엇을 도와드릴까요 ? ");
+			System.out.println("1. QnA");
+			System.out.println("2. 챗봇 상담");
+			System.out.println("3. 나가기");
 			String input = InputUtil.sc.nextLine();
 			switch(input){
 				case "1" :
-					QnA();
+					new MainPost().mainQnaPost(); 
 					break;
 				case "2" :
-					chatBot();
-					break;
+					new ChatBot().show(); 
+					return;
+				case "3" :
+					System.out.println("이전 메뉴로 돌아갑니다.");
+					return;
 				default :
 					System.out.println("잘못 입력하셨습니다.");
 			}
