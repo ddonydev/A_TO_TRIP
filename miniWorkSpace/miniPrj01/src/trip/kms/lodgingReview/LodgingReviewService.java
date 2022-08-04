@@ -14,10 +14,10 @@ public class LodgingReviewService {
 		Connection conn = null;
 		List<LodgingReviewVo> lodgingReviewVoList = null;
 		
-		if(MemberMain.LoginMember == null) {
-			System.out.println("로그인을 먼저 진행해주세요.");
-			return lodgingReviewVoList; //다음 내용 진행 막기(빈껍대기)
-		}
+//		if(MemberMain.LoginMember == null) {
+//			System.out.println("로그인을 먼저 진행해주세요.");
+//			return lodgingReviewVoList; //다음 내용 진행 막기(빈껍대기)
+//		}
 		
 		try {
 			//connect db
@@ -59,19 +59,76 @@ public class LodgingReviewService {
 		
 	}
 	
-	public void deleteReview(LodgingReviewVo lodgingReviewVoDelete) {
+	public int deleteReview(LodgingReviewVo lodgingReviewVoDelete) {
 		Connection conn = null;
-		
+		int result = 0;
 		try {
 			conn = JDBCTemplate.getConnection();
-			new LodgingReviewDao().deleteReview(conn);
+			result = new LodgingReviewDao().deleteReview(conn, lodgingReviewVoDelete);
+			
+			if(result == 1) {
+				JDBCTemplate.commit(conn);
+			}else {
+				JDBCTemplate.rollBack(conn);
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			JDBCTemplate.close(conn);
 		}
-		
+	
+		return result;
 	}
 
+	public int reviewLikePlus(LodgingReviewVo vo) {
+		Connection conn = null;
+		int result = 0;
+		
+		try {
+			conn = JDBCTemplate.getConnection();
+			result = new LodgingReviewDao().reviewLikePlus(conn, vo);
+			
+			if(result == 1) {
+//				vo.setReviewLike(vo.getReviewLike() + 1);
+				JDBCTemplate.commit(conn);
+			} else {
+				JDBCTemplate.rollBack(conn);
+			}
+			
+		} catch (Exception e) {
+			JDBCTemplate.rollBack(conn);
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return result;
+	}
+
+	public int reviewLikeMinus(LodgingReviewVo vo) {
+		Connection conn = null;
+		int result = 0;
+		
+		try {
+			conn = JDBCTemplate.getConnection();
+			result = new LodgingReviewDao().reviewLikeMinus(conn, vo);
+			
+			if(result == 1) {
+//				vo.setReviewLike(vo.getReviewLike() - 1);
+				JDBCTemplate.commit(conn);
+			} else {
+				JDBCTemplate.rollBack(conn);
+			}
+			
+		} catch (Exception e) {
+			JDBCTemplate.rollBack(conn);
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return result;
+	}
+	
 }

@@ -10,6 +10,7 @@ public class LodgingReviewLikeService {
 		
 		Connection conn = null;
 		LodgingReviewLikeVo lodgingReviewLikeVo = null;
+		
 		try {
 			conn = JDBCTemplate.getConnection();
 			lodgingReviewLikeVo = new LodgingReviewLikeDao().showEditReview(conn, reviewNum);
