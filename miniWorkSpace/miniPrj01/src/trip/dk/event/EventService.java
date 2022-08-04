@@ -133,12 +133,12 @@ public class EventService {
 			if (result == 1) {
 				commit(conn);
 			}else {
-				rollback(conn);
+				rollBack(conn);
 			}
 		} catch (Exception e) {
 			//롤백 해야함.
 			e.printStackTrace();
-			rollback(conn);
+			rollBack(conn);
 		}finally {
 			close(conn);
 		}
