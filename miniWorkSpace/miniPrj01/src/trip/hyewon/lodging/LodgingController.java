@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import trip.daeun.lodging.information.InformationController;
+import trip.daeun.lodging.wish.WishController;
 import trip.daeun.lodging.menu.DaeunMenu;
 import trip.min.main.MemberMain;
 import trip.min.util.InputUtil;
@@ -18,8 +19,6 @@ public class LodgingController {
 	public void searchLodging() {
 		
 		while(true) {
-			
-			
 			String location = null;
 			while(true) {
 				System.out.println("\n----- 숙소 검색 -----");
@@ -138,42 +137,63 @@ public class LodgingController {
 				DaeunMenu menu = new DaeunMenu();	
 				//menu.showMenu();
 				
-				int input2 = menu.showDetailMenu();
+				boolean isWish = menu.showDetailMenu(MemberMain.LoginMember.getNo(), input); //리턴 boolean값 찜했으면 true, 찜안했으면 false
 				
-				switch(input2) {
-				case 1:
-					/*예약하기*/
-					System.out.println("예약 페이지로 넘어갑니다.");
-					reserveRoom(Integer.parseInt(input), vo);
-					break;
+				if(isWish == true) {
+					System.out.println("1. 예약하기");
+					System.out.println("2. 찜취소하기");
+					System.out.println("3. 숙소리뷰보기");
+					System.out.println("4. 숙소리스트로 돌아가기");
+					System.out.print("입력 : ");
+					String deinput1 = InputUtil.sc.nextLine();
 					
-				case 2:
-					/*찜하기*/
-					//new WishController().wish();
-					break;
+					switch(deinput1) {
+					case "1" :
+						System.out.println("예약 페이지로 넘어갑니다.");
+						reserveRoom(Integer.parseInt(input), vo);
+						break;
+					case "2" : //찜취소
+						new WishController().wishCancel();
+						break;
+					case "3" : //리뷰보기
+						break;
+						
+					}
+					if(deinput1.equals("4")) {
+						continue;
+					}
 					
-				case 3:
-					/*찜하기 취소*/
-					break;
+				}else {
+					System.out.println("1. 예약하기");
+					System.out.println("2. 찜하기");
+					System.out.println("3. 숙소리뷰보기");
+					System.out.println("4. 숙소리스트로 돌아가기");
+					System.out.print("입력 : ");
+					String deinput2 = InputUtil.sc.nextLine();
 					
-				case 4:
-					/*숙소 리뷰 보기*/
-					System.out.println("숙소 리뷰 페이지로 넘어갑니다.");
-					break;
+					switch(deinput2) {
+					case "1" :
+						System.out.println("예약 페이지로 넘어갑니다.");
+						reserveRoom(Integer.parseInt(input), vo);
+						break;
+					case "2" : //찜하기
+						new WishController().wish();
+						break;
+					case "3" : //리뷰보기
+						break;
+					}
+					if(deinput2.equals("4")) {
+						continue;
+					}
 					
-				case 5:
-					/*숙소 리스트로 돌아가기*/
-					System.out.println("숙소 리스트로 돌아갑니다.");
-					break;
-					
-					
-				}
+				}			
+				
 			}
 		}
 		
 		
 		
-	}
+	}//숙소검색 메소드
 	
 	public boolean checkLocationNum(String location) {
 		return new LodgingService().checkLocationNum(location);
@@ -317,8 +337,8 @@ public class LodgingController {
 		//예약테이블, 결제테이블에 insert 하기 위한 객체 생성
 		LodgingReservationVo rv = new LodgingReservationVo();
 		
-		rv.setCouponYn("N");
-		rv.setCouponIssuedNo("0"); //발급쿠폰번호 디폴트값 NULL로 바꾸고싶으면 바꾸면됨.
+		rv.setCouponYn("N"); //최종 쿠폰사용여부 디폴트N
+		rv.setCouponIssuedNo("0"); //최종 발급쿠폰번호 디폴트0
 		
 		int discount = 0;
 		if(cv != null) {
@@ -326,7 +346,7 @@ public class LodgingController {
 			rv.setCouponIssuedNo(Integer.toString(cv.getCouponIssuedNo()));
 			//쿠폰번호에 따른 할인가격
 			discount = lodgingDiscount(couponNo);
-			rv.setCouponYn("Y");
+			rv.setCouponYn("Y"); //최종 쿠폰사용여부
 		}
 
 		System.out.println("\n선불, 후불을 선택해주세요.");
@@ -359,19 +379,19 @@ public class LodgingController {
 		if(choiceBreakfastYn.equals("Y")) {
 			System.out.println("총 가격 : " + ((userPrice*diffDays)*(-1)+35000-discount));
 			rv.setPayment(Long.toString(((userPrice*diffDays)*(-1)+35000-discount)));
-			rv.setBreakfastYn("Y");
+			rv.setBreakfastYn("Y"); //최종 조식선택여부
 		}else {
 			System.out.println("총 가격 : " + ((userPrice*diffDays)*(-1)-discount));
 			rv.setPayment(Long.toString(((userPrice*diffDays)*(-1)-discount)));
-			rv.setBreakfastYn("N");
+			rv.setBreakfastYn("N"); //최종 조식선택여부
 		}
 		if(payMoment.equals("1")) {
 			System.out.println("결제수단 : " + pay + "(결제완료)");
 			rv.setPayWay(pay);
-			rv.setPayYn("Y");
+			rv.setPayYn("Y"); //최종 결제여부
 		}else{
 			System.out.println("\n결제는 " +vo.getStartDate() +"에 만나서 결제해주세요!");
-			rv.setPayYn("N");
+			rv.setPayYn("N"); //최종 결제여부
 		}
 		
 		
@@ -401,8 +421,159 @@ public class LodgingController {
 		}
 		
 
+	}//예약끝
+	
+	//마이페이지에서 예약내역 보여주기(여기서 num은 회원번호임!)
+	public void showMyReservation(String num) {
+		System.out.println("\n----- 나의 예약 내역 -----\n");
+		
+		List<LodgingReservationVo> voList = new LodgingService().showMyReserVation(num);
+		List noList = new ArrayList();
+		List cancelYnList = new ArrayList();
+		List breakfastYnList = new ArrayList();
+		for(int i=0; i<voList.size(); i++) {
+			LodgingReservationVo vo = voList.get(i);
+			String no = vo.getNo();
+			String reserveDate = vo.getReserveDate();
+			String lodgingName = vo.getLodgingName();
+			String address = vo.getAddress();
+			String phone = vo.getLodgingPhone();
+			String startDate = vo.getStartDate();
+			String endDate = vo.getEndDate();
+			String people = vo.getPeople();
+			String breakfastYn = vo.getBreakfastYn();
+			String payment = vo.getPayment();
+			String payYn = vo.getPayYn();
+			String cancelYn = vo.getCancelYn();
+			
+			noList.add(no);
+			cancelYnList.add(cancelYn);
+			breakfastYnList.add(breakfastYn);
+			
+			System.out.println("[예약번호 : " + no + " ]");
+			System.out.println("예약날짜 : " + reserveDate);
+			System.out.println("숙소이름 : " + lodgingName);
+			System.out.println("숙소주소 : " + address);
+			System.out.println("숙소전화번호 : " + phone);
+			System.out.println("입실날짜 : " + startDate);
+			System.out.println("퇴실날짜 : " + endDate);
+			System.out.println("인원수 : " + people);
+			System.out.println("조식여부 : " + breakfastYn);
+			System.out.println("총금액 : " + payment);
+			System.out.println("결제여부 : " + payYn);
+			System.out.println("예약취소여부 " + cancelYn);
+			System.out.println();
+			System.out.println();
+		}
+		
+		String input = "";
+		while(!input.equals("1")&&!input.equals("2")&&!input.equals("3")) {
+			System.out.println("1. 예약 취소하기");
+			System.out.println("2. 예약 변경하기");
+			System.out.println("3. 나가기");
+			System.out.print("입력 : ");
+			input = InputUtil.sc.nextLine();
+			
+			switch(input) {
+			case "1" : //예약취소
+				String cancelNo = cancelReservation(noList, cancelYnList);
+				updateCancelY(cancelNo);
+				break;
+			case "2" : //예약변경
+				String updateNo = updateReservation(noList, cancelYnList);
+				updateMenu(noList, updateNo, breakfastYnList);
+				break;
+			case "3" :
+				return;
+			default:
+				System.out.println("잘못된 입력입니다!");
+			}
+			
+		}
+		
+		
 	}
 	
+	//예약 번호 리스트 중에서 && 예약취소여부가 N인것만 수정가능함! 예약번호 리턴하는 메소드
+	public String updateReservation(List noList, List cancelYnList) {
+		System.out.println("예약변경할 예약번호를 입력해주세요");
+		boolean isNum = false;
+		String input = "";
+		while(!isNum) {
+			System.out.print("입력 : ");
+			input = InputUtil.sc.nextLine();
+			
+			for(int i=0; i<noList.size(); i++) {
+				if(input.equals(noList.get(i))&& cancelYnList.get(i).equals("N")) {
+					isNum = true;
+					break;
+				}
+			}
+		}
+		return input;
+	}
+	
+	public void updateMenu(List noList, String updateNo, List breakfastYnList) {
+		int a = 0;
+		//사용자가 선택한 조식여부가 Y인지N인지 판단하기
+		for(int i=0; i<noList.size(); i++) {
+			if(noList.get(i).equals(updateNo)) {
+				a = i;
+				break;
+			}
+		}
+		
+		String userBreakfastYn = (String)breakfastYnList.get(a);
+		
+		String number = "";
+		while(!number.equals("1")&&!number.equals("2")&&!number.equals("3")) {
+			System.out.println("1. 조식선택 변경하기");
+			System.out.println("2. 날짜 변경하기");
+			System.out.println("3. 나가기");
+			System.out.print("입력 : ");
+			number = InputUtil.sc.nextLine();
+			
+			switch(number) {
+			case "1" : //조식변경
+				break;
+			case "2" : //날짜변경
+				break;
+			case "3" :
+				return;
+			}
+			
+		}
+	}
+	
+	
+	//예약 번호 리스트 중에서 && 예약취소여부가 N인것만 예약 취소해야됨! 예약번호 리턴하는 메소드
+	public String cancelReservation(List noList, List cancelYnList) {
+		System.out.println("예약취소할 예약번호를 입력해주세요");
+		boolean isNum = false;
+		String input = "";
+		while(!isNum) {
+			System.out.print("입력 : ");
+			input = InputUtil.sc.nextLine();
+			
+			for(int i=0; i<noList.size(); i++) {
+				if(input.equals(noList.get(i))&& cancelYnList.get(i).equals("N")) {
+					isNum = true;
+					break;
+				}
+			}
+		}
+		return input;
+		
+	}
+	//예약 취소 Y로 예약테이블에 업데이트하기
+	public void updateCancelY(String input) {
+		int result = new LodgingService().updateCancelY(input);
+		if(result == 1) {
+			System.out.println("예약취소가 완료되었습니다.");
+		}else {
+			System.out.println("예약취소 중 에러발생!");
+		}
+	}
 	
 	
 	

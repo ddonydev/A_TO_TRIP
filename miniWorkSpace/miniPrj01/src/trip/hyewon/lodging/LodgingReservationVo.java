@@ -6,10 +6,13 @@ public class LodgingReservationVo {
 		
 	}
 
+	
+
+
 	public LodgingReservationVo(String no, String memberNo, String lodgingNo, String roomNo, String reserveDate,
 			String people, String startDate, String endDate, String payYn, String payment, String breakfastYn,
 			String cancelYn, String locationCode, String lodgingName, String address, String couponIssuedNo,
-			String couponYn, String payWay) {
+			String couponYn, String payWay, String lodgingPhone) {
 		super();
 		this.no = no;
 		this.memberNo = memberNo;
@@ -29,10 +32,13 @@ public class LodgingReservationVo {
 		this.couponIssuedNo = couponIssuedNo;
 		this.couponYn = couponYn;
 		this.payWay = payWay;
+		this.lodgingPhone = lodgingPhone;
 	}
 
 
-	private String no;
+
+
+	private String no;			//예약번호
 	private String memberNo;	//회원번호
 	private String lodgingNo;	//숙소번호
 	private String roomNo;		//방번호
@@ -50,8 +56,19 @@ public class LodgingReservationVo {
 	private String couponIssuedNo; //발급쿠폰번호
 	private String couponYn; 	//쿠폰사용여부
 	private String payWay;		//결제수단
+	private String lodgingPhone;//숙소전화번호
 	
 	
+	
+	
+	public String getLodgingPhone() {
+		return lodgingPhone;
+	}
+
+	public void setLodgingPhone(String lodgingPhone) {
+		this.lodgingPhone = lodgingPhone;
+	}
+
 	public String getCouponIssuedNo() {
 		return couponIssuedNo;
 	}
@@ -174,8 +191,10 @@ public class LodgingReservationVo {
 				+ ", endDate=" + endDate + ", payYn=" + payYn + ", payment=" + payment + ", breakfastYn=" + breakfastYn
 				+ ", cancelYn=" + cancelYn + ", locationCode=" + locationCode + ", lodgingName=" + lodgingName
 				+ ", address=" + address + ", couponIssuedNo=" + couponIssuedNo + ", couponYn=" + couponYn + ", payWay="
-				+ payWay + "]";
+				+ payWay + ", lodgingPhone=" + lodgingPhone + "]";
 	}
+
+	
 
 
 }
