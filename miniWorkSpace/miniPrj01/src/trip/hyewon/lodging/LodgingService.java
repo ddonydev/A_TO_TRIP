@@ -301,6 +301,45 @@ public class LodgingService {
 		return result;
 	}
 
+	public List<LodgingReservationVo> showMyReserVation(String num) {
+		Connection conn = null;
+		List<LodgingReservationVo> voList = null;
+		try {
+			conn = JDBCTemplate.getConnection();
+			voList = new LodgingDao().showMyReservation(num, conn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return voList;
+	}
+
+	
+	public int updateCancelY(String input) {
+		Connection conn = null;
+		int result = 0;
+		
+		try {
+			conn = JDBCTemplate.getConnection();
+			result = new LodgingDao().updateCancelY(input, conn);
+			
+			if(result == 1) {
+				JDBCTemplate.commit(conn);
+			}else {
+				JDBCTemplate.rollBack(conn);
+			}
+		} catch (Exception e) {
+			JDBCTemplate.rollBack(conn);
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return result;
+	}
+
 	
 
 }

@@ -380,4 +380,81 @@ public class LodgingDao {
 		return result;
 	}
 
+	public List<LodgingReservationVo> showMyReservation(String num, Connection conn) throws Exception {
+		
+		String sql = "SELECT LR.NO, LR.RESERVE_DATE, LR.PEOPLE, LR.START_DATE, LR.END_DATE, LR.PAYMENT_YN, LR.PAYMENT, LR.BREAKFAST_YN, LR.CANCEL_YN, LI.NAME, LI.PHONE, LI.ADDRESS FROM LODGING_RESERVATION LR JOIN LODGING_INFORMATION LI ON LR.LODGING_NO = LI.NO WHERE LR.MEMBER_NO = ?";
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		List<LodgingReservationVo> VoList = new ArrayList<LodgingReservationVo>();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			int input = Integer.parseInt(num);
+			pstmt.setInt(1, input);
+			
+			rs = pstmt.executeQuery();
+			
+			
+			
+			while(rs.next()) {
+				int no = rs.getInt("NO");
+				String reserveDate = rs.getString("RESERVE_DATE");
+				String lodgingName = rs.getString("NAME");
+				String address = rs.getString("ADDRESS");
+				String phone = rs.getString("PHONE");
+				String startDate = rs.getString("START_DATE");
+				String endDate = rs.getString("END_DATE");
+				int people = rs.getInt("PEOPLE");
+				String breakfastYn = rs.getString("BREAKFAST_YN");
+				int payment = rs.getInt("PAYMENT");
+				String payYn = rs.getString("PAYMENT_YN");
+				String cancelYn = rs.getString("CANCEL_YN");
+				
+				LodgingReservationVo vo = new LodgingReservationVo();
+				vo.setNo(Integer.toString(no));
+				vo.setReserveDate(reserveDate);
+				vo.setLodgingName(lodgingName);
+				vo.setAddress(address);
+				vo.setLodgingPhone(phone);
+				vo.setStartDate(startDate);
+				vo.setEndDate(endDate);
+				vo.setPeople(Integer.toString(people));
+				vo.setBreakfastYn(breakfastYn);
+				vo.setPayment(Integer.toString(payment));
+				vo.setPayYn(payYn);
+				vo.setCancelYn(cancelYn);
+				
+				VoList.add(vo);
+			} 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return VoList;
+	}
+
+	public int updateCancelY(String input, Connection conn) throws Exception {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = "UPDATE LODGING_RESERVATION SET CANCEL_YN = 'Y' WHERE NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(input));
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
 }
