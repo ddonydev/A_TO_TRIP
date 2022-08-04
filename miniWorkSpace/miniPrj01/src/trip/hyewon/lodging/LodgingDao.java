@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import trip.min.common.JDBCTemplate;
+import trip.min.main.MemberMain;
 
 
 
@@ -23,7 +24,7 @@ public class LodgingDao {
 		String endDate = vo.getEndDate();
 		String headCount = vo.getPeople();
 				
-		String sql = "SELECT DISTINCT(LI.NO), LI.NAME, LI.ADDRESS FROM LODGING_INFORMATION LI JOIN ROOM R ON LI.NO = R.LODGING_NO WHERE LOCATION_CODE = ? AND R.MAX_PEOPLE >= ? AND R.NO NOT IN (SELECT R.NO FROM LODGING_INFORMATION LI JOIN ROOM R ON LI.NO = R.LODGING_NO JOIN LODGING_RESERVATION LR ON R.NO = LR.ROOM_NO AND ((LR.START_DATE >= TO_DATE(?) AND LR.START_DATE < TO_DATE(?)) OR (LR.END_DATE > TO_DATE(?) AND LR.END_DATE <= TO_DATE(?)) OR (LR.START_DATE < TO_DATE(?) AND LR.END_DATE > TO_DATE(?)))) ORDER BY LI.NO";
+		String sql = "SELECT DISTINCT(LI.NO), LI.NAME, LI.ADDRESS FROM LODGING_INFORMATION LI JOIN ROOM R ON LI.NO = R.LODGING_NO WHERE LOCATION_CODE = ? AND R.MAX_PEOPLE >= ? AND R.NO NOT IN (SELECT R.NO FROM LODGING_INFORMATION LI JOIN ROOM R ON LI.NO = R.LODGING_NO JOIN LODGING_RESERVATION LR ON R.NO = LR.ROOM_NO AND ((LR.START_DATE >= TO_DATE(?) AND LR.START_DATE < TO_DATE(?) AND CANCEL_YN = 'N') OR (LR.END_DATE > TO_DATE(?) AND LR.END_DATE <= TO_DATE(?) AND CANCEL_YN = 'N') OR (LR.START_DATE < TO_DATE(?) AND LR.END_DATE > TO_DATE(?) AND CANCEL_YN = 'N'))) ORDER BY LI.NO";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
@@ -137,7 +138,7 @@ public class LodgingDao {
 
 	public List<RoomVo> showRoom(LodgingReservationVo vo, Connection conn) throws Exception {
 				
-		String sql = "SELECT LI.NAME,LI.PHONE, LI.ADDRESS, R.NO, RT.R_TYPE, R.PRICE, R.MAX_PEOPLE, LI.BREAKFAST_YN FROM LODGING_INFORMATION LI JOIN ROOM R ON LI.NO = R.LODGING_NO JOIN ROOM_TYPE RT ON R.ROOM_CODE = RT.CODE WHERE R.NO IN ( SELECT R.NO FROM LODGING_INFORMATION LI JOIN ROOM R ON LI.NO = R.LODGING_NO WHERE LOCATION_CODE = ? AND LI.NO = ? AND R.MAX_PEOPLE >= ? AND R.NO NOT IN (SELECT R.NO FROM LODGING_INFORMATION LI JOIN ROOM R ON LI.NO = R.LODGING_NO JOIN LODGING_RESERVATION LR ON R.NO = LR.ROOM_NO AND ((LR.START_DATE >= TO_DATE(?) AND LR.START_DATE < TO_DATE(?)) OR (LR.END_DATE > TO_DATE(?) AND LR.END_DATE <= TO_DATE(?)) OR (LR.START_DATE < TO_DATE(?) AND LR.END_DATE > TO_DATE(?)))) ) ORDER BY R.NO";
+		String sql = "SELECT LI.NAME,LI.PHONE, LI.ADDRESS, R.NO, RT.R_TYPE, R.PRICE, R.MAX_PEOPLE, LI.BREAKFAST_YN FROM LODGING_INFORMATION LI JOIN ROOM R ON LI.NO = R.LODGING_NO JOIN ROOM_TYPE RT ON R.ROOM_CODE = RT.CODE WHERE R.NO IN ( SELECT R.NO FROM LODGING_INFORMATION LI JOIN ROOM R ON LI.NO = R.LODGING_NO WHERE LOCATION_CODE = ? AND LI.NO = ? AND R.MAX_PEOPLE >= ? AND R.NO NOT IN (SELECT R.NO FROM LODGING_INFORMATION LI JOIN ROOM R ON LI.NO = R.LODGING_NO JOIN LODGING_RESERVATION LR ON R.NO = LR.ROOM_NO AND ((LR.START_DATE >= TO_DATE(?) AND LR.START_DATE < TO_DATE(?) AND CANCEL_YN = 'N') OR (LR.END_DATE > TO_DATE(?) AND LR.END_DATE <= TO_DATE(?) AND CANCEL_YN = 'N') OR (LR.START_DATE < TO_DATE(?) AND LR.END_DATE > TO_DATE(?) AND CANCEL_YN = 'N'))) ) ORDER BY R.NO";
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -220,6 +221,163 @@ public class LodgingDao {
 		}
 		
 		return roomVo;
+	}
+
+	public List<LodgingCouponVo> checkCoupon(int no, Connection conn) throws Exception {
+		
+		String sql = "SELECT A.NO, A.COUPON_INFO_NO, A.MEMBER_NO, A.USED_YN, A.USED_DATE, B.EVENT_NO, B.DISCOUNT_RATE, B.COUPON_CODE FROM COUPON_ISSUED A JOIN COUPON_INFO B ON A.COUPON_INFO_NO = B.NO WHERE A.MEMBER_NO = ? AND A.USED_YN = 'N'";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		List<LodgingCouponVo> lodgingCouponVoList = new ArrayList<LodgingCouponVo>();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, no);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				int couponIssuedNo = rs.getInt("NO");
+				int couponInfoNo = rs.getInt("COUPON_INFO_NO");
+				String usedYn = rs.getString("USED_YN");
+				Timestamp usedDate = rs.getTimestamp("USED_DATE");
+				int eventNo = rs.getInt("EVENT_NO");
+				String discount = rs.getString("DISCOUNT_RATE");
+				String couponCode = rs.getString("COUPON_CODE");
+				
+				LodgingCouponVo vo = new LodgingCouponVo();
+				vo.setCouponIssuedNo(couponIssuedNo);
+				vo.setCouponInfoNo(couponInfoNo);
+				vo.setUsedYn(usedYn);
+				vo.setUsedDate(usedDate);
+				vo.setEventNo(eventNo);
+				vo.setDiscount(discount);
+				vo.setCouponCode(couponCode);
+				
+				lodgingCouponVoList.add(vo);
+			} 
+			
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return lodgingCouponVoList;
+	}
+
+	public int updateCouponIssued(int couponIssuedNo, Connection conn) throws Exception {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = "UPDATE COUPON_ISSUED SET USED_YN = 'Y', USED_DATE = SYSDATE WHERE NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, couponIssuedNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int insertReservation(LodgingReservationVo rv, Connection conn) throws Exception {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = "INSERT INTO LODGING_RESERVATION VALUES(SEQ_RESERVE_NO.NEXTVAL,?,?,?,SYSDATE,?,TO_DATE(?),TO_DATE(?),?,?,?,'N')";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(rv.getMemberNo()));
+			pstmt.setInt(2, Integer.parseInt(rv.getLodgingNo()));
+			pstmt.setInt(3, Integer.parseInt(rv.getRoomNo()));
+			pstmt.setInt(4, Integer.parseInt(rv.getPeople()));
+			pstmt.setString(5, rv.getStartDate());
+			pstmt.setString(6, rv.getEndDate());
+			pstmt.setString(7, rv.getPayYn());
+			pstmt.setInt(8, Integer.parseInt(rv.getPayment()));
+			pstmt.setString(9, rv.getBreakfastYn());
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int getReservationNo(LodgingReservationVo rv, Connection conn) throws Exception {
+		
+		String sql = "SELECT NO FROM LODGING_RESERVATION WHERE MEMBER_NO = ? AND LODGING_NO = ? AND ROOM_NO = ? AND PEOPLE = ? AND START_DATE = TO_DATE(?) AND END_DATE = TO_DATE(?) AND PAYMENT_YN = 'Y' AND PAYMENT = ? AND BREAKFAST_YN = ? AND CANCEL_YN = 'N'";
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int result = 0;
+		
+		try {
+			int memberNo = Integer.parseInt(rv.getMemberNo());
+			int lodgingNo = Integer.parseInt(rv.getLodgingNo());
+			int roomNo = Integer.parseInt(rv.getRoomNo());
+			int people = Integer.parseInt(rv.getPeople());
+			String startDate = rv.getStartDate();
+			String endDate = rv.getEndDate();
+			String payment = rv.getPayment();
+			String breakfastYn = rv.getBreakfastYn();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, memberNo);
+			pstmt.setInt(2, lodgingNo);
+			pstmt.setInt(3, roomNo);
+			pstmt.setInt(4, people);
+			pstmt.setString(5, startDate);
+			pstmt.setString(6, endDate);
+			pstmt.setString(7, payment);
+			pstmt.setString(8, breakfastYn);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt("NO");
+				
+			} 			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int insertPayment(LodgingReservationVo rv, Connection conn) throws Exception {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = "INSERT INTO LODGING_PAYMENT VALUES(SEQ_LODGING_PAYMENT_NO.NEXTVAL,?,?,SYSDATE,?,'N',?)";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(rv.getNo()));
+			pstmt.setInt(2, Integer.parseInt(rv.getCouponIssuedNo()));
+			pstmt.setString(3, rv.getPayWay());
+			pstmt.setString(4, rv.getCouponYn());
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
 	}
 
 }
