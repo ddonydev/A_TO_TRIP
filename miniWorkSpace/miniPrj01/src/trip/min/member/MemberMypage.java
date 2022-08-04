@@ -2,7 +2,10 @@ package trip.min.member;
 
 import java.awt.im.InputContext;
 
+import trip.hyewon.lodging.LodgingController;
+import trip.min.main.MemberMain;
 import trip.min.util.InputUtil;
+import trip.dk.coupon.CouponControll;
 
 public class MemberMypage {
 
@@ -25,6 +28,7 @@ public class MemberMypage {
 		System.out.println("5. 내가 쓴 댓글 확인");
 		System.out.println("6. 내가 쓴 리뷰 확인");
 		System.out.println("7. 현재 보유 쿠폰");
+		System.out.println("8. 나가기");
 		
 		while(true) {
 			String input = InputUtil.sc.nextLine();
@@ -35,7 +39,7 @@ public class MemberMypage {
 				break;
 			case "2":
 				System.out.println("숙소 예약 내역 확인");
-				checkReservation();
+				new LodgingController().showMyReservation(MemberMain.LoginMember.getNo) 
 				break;
 			case "3":
 				System.out.println("숙소 찜 목록 조회");
@@ -57,6 +61,9 @@ public class MemberMypage {
 				System.out.println("현재 보유 쿠폰");
 				keepcoupon();
 				break;
+			case "8":
+				System.out.println("이전 페이지로 돌아갑니다.");
+				return;
 			default :
 				System.out.println("잘못 입력 하셨습니다.");
 			}
@@ -96,6 +103,7 @@ public class MemberMypage {
 	
 	public void keepcoupon() {
 		//현재 보유 쿠폰
+		new CouponController().showCoupon(); 
 	}
 	
 	

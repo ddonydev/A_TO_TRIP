@@ -20,10 +20,9 @@ public class MemberMain {
 		System.out.println("======== 환영합니다 ========");
 		System.out.println("===== A to Trip 입니다 =====");
 		
-		MemberMenu menu = new MemberMenu();
-		
 		while(true) {
-			menu.showMenu();
+			
+			new MemberMenu().showMenu();
 			String input = InputUtil.sc.nextLine();
 			switch(input) {
 			case "1":

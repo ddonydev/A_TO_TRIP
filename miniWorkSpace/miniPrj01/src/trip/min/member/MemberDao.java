@@ -42,7 +42,7 @@ public class MemberDao {
 		return vo;
 	}//login
 	
-public int join(MemberVo vo, Connection conn) throws Exception {
+	public int join(MemberVo vo, Connection conn) throws Exception {
 		
 		//DB insert
 		int result = 0;

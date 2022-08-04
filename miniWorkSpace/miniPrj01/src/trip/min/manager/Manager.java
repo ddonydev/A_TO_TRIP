@@ -1,6 +1,9 @@
 package trip.min.manager;
 
+import trip.hyewon.lodging.LodgingController;
 import trip.min.util.InputUtil;
+import trip.se.mainPost.MainPost;
+import trip.se.post.PostController;
 
 public class Manager {
 
@@ -18,20 +21,19 @@ public class Manager {
 	
 	//관리자 메뉴
 	public void managerMenu() {
-		System.out.println("===== 관리자 메뉴 입니다 =====");
-		System.out.println("1. 숙소 조회");
-		System.out.println("2. 숙소 등록");
-		System.out.println("3. 숙소 변경");
-		System.out.println("4. 커뮤니티 조회");
-		System.out.println("5. 커뮤니티 변경");
-		System.out.println("6. Q&A 조회");
-		System.out.println("7. Q&A 변경");
-		System.out.println("8. 회원 조회");
-		System.out.println("9. 회원정보 변경");
-		System.out.println("10. 숙소 예약 현황 조회");
-		System.out.println("11. 관리자 메뉴 나가기");
 		
 		while(true) {
+			System.out.println("===== 관리자 메뉴 입니다 =====");
+			System.out.println("1. 숙소 조회");
+			System.out.println("2. 숙소 등록");
+			System.out.println("3. 숙소 변경");
+			System.out.println("4. 커뮤니티 조회");
+			System.out.println("5. Q&A 조회");
+			System.out.println("6. Q&A 변경");
+			System.out.println("7. 회원 조회");
+			System.out.println("8. 회원정보 변경");
+			System.out.println("9. 숙소 예약 현황 조회");
+			System.out.println("10. 관리자 메뉴 나가기");
 			String input = InputUtil.sc.nextLine();
 			switch(input) {
 				case "1":
@@ -47,24 +49,21 @@ public class Manager {
 					communityselectManager();
 					break;
 				case "5":
-					comunityupadateManager();
-					break;
-				case "6":
 					QnASelectManager();
 					break;
-				case "7":
+				case "6":
 					QnAUpdateManager();
 					break;
-				case "8":
+				case "7":
 					memberSelectManager();
 					break;
-				case "9":
+				case "8":
 					memberUpdateManager();
 					break;
-				case "10":
+				case "9":
 					lodgingMagager();
 					break;
-				case "11":
+				case "10":
 					return;
 			}		
 		
@@ -76,6 +75,7 @@ public class Manager {
 	public void searchManager() {
 		//숙소 검색 or 조회(select)
 		System.out.println("숙소 조회");
+		new LodgingController().searchLodging();
 		
 	}
 	
@@ -83,27 +83,20 @@ public class Manager {
 	public void insertManager() {
 		//숙소 등록(Insert)
 		System.out.println("숙소 등록");
-		
+		new ManagerController().joinLodging();
 	}
-	
 	//관리자 숙소 변경
 	public void updateManager() {
 		//숙소 변경(update)
 		System.out.println("숙소 변경");
-		
+		new ManagerController().editLodging();
 	}
 	
 	//관리자 커뮤니티 조회
 	public void communityselectManager() {
 		//커뮤니티 조회(select)
 		System.out.println("커뮤니티 조회");
-	}
-	
-	//관리자 커뮤니티 변경
-	public void comunityupadateManager() {
-		//커뮤니티 변경(update)
-		System.out.println("커뮤니티 변경");
-		
+		new MainPost().mainPost();
 	}
 	
 	//관리자 Q&A 조회 및 변경
