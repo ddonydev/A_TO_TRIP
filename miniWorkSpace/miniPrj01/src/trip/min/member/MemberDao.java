@@ -74,4 +74,36 @@ public int join(MemberVo vo, Connection conn) throws Exception {
 		return result;
 	}//join
 	
+	public MemberVo findIdPwd(String birth) throws Exception {
+		//아이디, 패스워드 간편 찾기
+		Connection conn = JDBCTemplate.getConnection();
+		
+		//SQL 작성
+		String sql = "SELECT ID, PWD, NAME FROM MEMBER WHERE BIRTH = ?";
+		
+		//SQL 객체에 담기
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, birth);
+		
+		//SQL 실행
+		ResultSet rs = pstmt.executeQuery();
+		
+		MemberVo vo = null;
+		
+		if(rs.next()) {
+			String id = rs.getString("ID");
+			String pwd = rs.getString("PWD");
+			String name = rs.getString("NAME");
+			
+			vo = new MemberVo();
+			vo.setId(id);
+			vo.setPwd(pwd);
+			vo.setName(name);
+		}
+		
+		return vo;
+		
+		
+	}//findIdPwd
+
 }//class

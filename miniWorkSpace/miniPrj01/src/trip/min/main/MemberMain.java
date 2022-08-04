@@ -1,6 +1,5 @@
 package trip.min.main;
 
-import trip.se.mainPost.MenuPost;
 import trip.min.member.MemberController;
 import trip.min.member.MemberVo;
 import trip.min.util.InputUtil;
@@ -22,7 +21,6 @@ public class MemberMain {
 		System.out.println("===== A to Trip 입니다 =====");
 		
 		MemberMenu menu = new MemberMenu();
-		MenuPost menuP = new MenuPost();
 		
 		while(true) {
 			menu.showMenu();
@@ -30,15 +28,15 @@ public class MemberMain {
 			switch(input) {
 			case "1":
 				//로그인
-				new MemberController().login();
+				new MemberController().login(); 
 				break;
 			case "2":
 				//회원가입
-				new MemberController().join();
+				new MemberController().join(); 
 				break;
 			case "3":
 				//아이디, 비밀번호 찾기
-				System.out.println("아이디, 비번찾기");
+				new MemberController().findIdPwdView(); 
 				break;
 			case "4":
 				//프로그램 종료

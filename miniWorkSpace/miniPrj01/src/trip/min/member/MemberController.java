@@ -1,7 +1,12 @@
 package trip.min.member;
 
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
+import trip.min.common.JDBCTemplate;
 import trip.min.main.MemberMain;
 import trip.min.util.InputUtil;
 
@@ -25,7 +30,7 @@ public class MemberController {
 			MemberVo vo = new MemberDao().login(id, pwd);
 			if(vo != null) {
 				//로그인 성공
-				System.out.println("로그인 성공 !\n\n");
+				System.out.println("로그인 성공 !\n");
 				MemberMain.LoginMember = vo;
 			}else {
 				//로그인 실패
@@ -68,7 +73,6 @@ public class MemberController {
 		vo.setPhone(phone);
 		vo.setNick(nick);
 		
-		
 		int result = new MemberService().join(vo);
 	
 		//실행 결과에 따른 응답
@@ -77,9 +81,32 @@ public class MemberController {
 		}else {
 			System.out.println("[ERROR:" + result + "] 회원가입 실패하셨습니다.");
 		}
-		
-		
+
 		
 	}//join
+
+	public void findIdPwdView () {
+		
+		System.out.println("===== 아이디 비밀번호 찾기 =====");
+		System.out.println("\n생년월일을 아래에 입력해주세요");
+		System.out.print("yymmdd 방식으로 입력해주세요 : ");
+		String birth = InputUtil.sc.nextLine();
+		
+		try {
+			MemberVo vo = new MemberDao().findIdPwd(birth);
+			
+			if(vo != null) {
+				System.out.println('"'+ vo.getName()+ '"' +" 님의 아이디 및 비밀번호 입니다.");
+				System.out.println("아이디 : " + vo.getId());
+				System.out.println("비밀번호 : " + vo.getPwd());
+			}else {
+				System.out.println("생년월일 정보를 정확히 입력해주세요.");
+			}
+		} catch (Exception e) {
+			System.out.println("[ERROR] :: 에러");
+			e.printStackTrace();
+		}
+		
+	}//findIdPwdview
 
 }//class
