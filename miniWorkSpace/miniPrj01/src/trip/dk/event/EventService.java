@@ -59,24 +59,31 @@ public class EventService {
 
 		EventParticipateVo epv = new EventParticipateVo();
 		EventVo ev = new EventVo();
+		
+	
 
 		// 참여 할 게임 물어보기.
 		// 출력문 입력받기.
-		if(num.equals("1")) {
-			epv.setMemberNo(MemberMain.LoginMember.getNo());
-			epv.setEventNo("1");
-			epv.setEventYn("Y");
-			// 가위바위보 게임
-			System.out.println("가위바위보게임을 5번 진행 후, 승리한 횟수에 따라 쿠폰을 차등 지급합니다!");
-			System.out.println(" == 3회 이상 : 10만원 할인 쿠폰 코드 증정! == ");
-			System.out.println(" == 2회 이상 :  5만원 할인 쿠폰 코드 증정! == ");
-			System.out.println(" == 1회 이상 :  5천원 할인 쿠폰 코드 증정! == ");
+		
+			if(num.equals("1")) {
 
-		rpsResult = new EventGame().rpsGame();
+				epv.setMemberNo(MemberMain.LoginMember.getNo());
+				epv.setEventNo("1");
+				epv.setEventYn("Y");
+				// 가위바위보 게임
+				System.out.println("가위바위보게임을 5번 진행 후, 승리한 횟수에 따라 쿠폰을 차등 지급합니다!");
+				System.out.println(" == 3회 이상 : 10만원 할인 쿠폰 코드 증정! == ");
+				System.out.println(" == 2회 이상 :  5만원 할인 쿠폰 코드 증정! == ");
+				System.out.println(" == 1회 이상 :  5천원 할인 쿠폰 코드 증정! == ");
 
-
-
-		}
+			rpsResult = new EventGame().rpsGame();
+			
+			}
+		
+		
+		
+		
+		
 
 		if(num.equals("2")) {
 			epv.setMemberNo(MemberMain.LoginMember.getNo());
@@ -115,13 +122,12 @@ public class EventService {
 				
 			}
 			
-		
-			
 		}
+	
 		
 
 
-		// 참여 확인
+		// 참여 한 결과 값 넘긴것 같음..
 		Connection conn = null;
 		int result = 0;
 		try {
@@ -143,9 +149,28 @@ public class EventService {
 			close(conn);
 		}
 
-
-
-
 		}
+		
+		// 이벤트 미참여
+		public EventParticipateVo participateCheck(String num) {
 
+			Connection conn = null;
+			EventParticipateVo epv = null;
+			try {
+				conn = getConnection();
+
+				epv = new EventDao().EventCheckYN(conn,num);
+
+			}catch (Exception e) {
+				System.out.println("[ERROR] 이벤트 참여 조회 중 예외 발생 !!!");
+				e.printStackTrace();
+			}finally {
+				close(conn);
+			}
+			return epv;
+
+	}
+
+		
+		
 }

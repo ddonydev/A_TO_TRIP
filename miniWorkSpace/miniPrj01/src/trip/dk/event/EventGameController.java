@@ -5,8 +5,8 @@ import trip.min.main.MemberMenu;
 public class EventGameController {
 
 
-	int rpsResult =0;
-	int upDownResult =0;
+	public int rpsResult =0;
+	public int upDownResult =0;
 
 
 
@@ -14,7 +14,9 @@ public class EventGameController {
 	public void eventGame() {
 		// 참여 할 게임 물어보기.
 		// 출력문 입력받기.
+		
 		String gameNo = new MemberMenu().eventGame();
+		
 		if(gameNo.equals("1")) {
 			// 가위바위보 게임
 			System.out.println("가위바위보게임을 5번 진행 후, 승리한 횟수에 따라 쿠폰을 차등 지급합니다!");
