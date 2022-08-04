@@ -112,17 +112,17 @@ public class MemberMenu {
     }
 
 
-    public int showDetailByNo() {
+    public String showDetailByNo() {
 
         System.out.println("참여할 게임을 선택 해주세요. (0번은 메인 메뉴)");
 
-        return InputUtil.getInt();
+        return InputUtil.sc.nextLine();
 
     }
 
-    public int eventGame() {
+    public String eventGame() {
 
-        return InputUtil.getInt();
+        return InputUtil.sc.nextLine();
     }
 	
 }//class
