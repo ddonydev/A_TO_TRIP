@@ -5,7 +5,7 @@ import java.awt.im.InputContext;
 import trip.hyewon.lodging.LodgingController;
 import trip.min.main.MemberMain;
 import trip.min.util.InputUtil;
-import trip.dk.coupon.CouponControll;
+import trip.dk.coupon.CouponController;
 
 public class MemberMypage {
 
@@ -39,7 +39,7 @@ public class MemberMypage {
 				break;
 			case "2":
 				System.out.println("숙소 예약 내역 확인");
-				new LodgingController().showMyReservation(MemberMain.LoginMember.getNo) 
+				new LodgingController().showMyReservation(MemberMain.LoginMember.getNo()); 
 				break;
 			case "3":
 				System.out.println("숙소 찜 목록 조회");
