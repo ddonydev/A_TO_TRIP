@@ -7,6 +7,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import trip.min.common.JDBCTemplate;
+
 public class LodgingReviewDao {
 
 	public List<LodgingReviewVo> showList(Connection conn) throws Exception {
@@ -46,14 +48,53 @@ public class LodgingReviewDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if(pstmt != null)
-				pstmt.close();
-			if(rs != null)
-				rs.close();
+			JDBCTemplate.close(pstmt);
+			JDBCTemplate.close(rs);
 		}
 		
 		
 		return lodgingReviewVoList;
+	}
+	
+	public int editReview(Connection conn, LodgingReviewVo lodgingReviewVoEdit) throws Exception {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		LodgingReviewVo lodgingReviewVo = lodgingReviewVoEdit;
+		
+		
+		String query = " update lodging_review "
+				+ " set "
+				+ " title = ?, cont = ? "
+				+ " where no = ? ";
+		
+		pstmt = conn.prepareStatement(query);
+		pstmt.setString(1, lodgingReviewVo.getTitle());
+		pstmt.setString(2, lodgingReviewVo.getContent());
+		pstmt.setInt(3, lodgingReviewVo.getNo());
+		
+		int result = pstmt.executeUpdate();
+		
+		if(result == 1) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollBack(conn);
+		}
+		
+		return result;
 		
 	}
+	
+	public void deleteReview(Connection conn) throws Exception {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		LodgingReviewVo lodgingReviewVo = null;
+		
+		String query = "";
+		pstmt = conn.prepareStatement(query);
+		
+		int result = pstmt.executeUpdate();
+		
+	}
+	
+	
 }
