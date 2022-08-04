@@ -1,29 +1,28 @@
-package trip.se.post;
+package trip.se.comment;
 
 import static trip.min.common.JDBCTemplate.*;
 
 import java.sql.Connection;
 import java.util.List;
 
+import trip.se.post.PostDao;
+import trip.se.post.PostVo;
 
-public class PostService {
 
-	// 게시글 작성
-	public int write(PostVo vo) {
+
+public class CmtService {
+	
+	public int write(CmtVo vo) {
 		
-		if(vo.getTitle().length() < 1) {
+		if(vo.getCmt().length() < 1) {
 			return -1;
-		}
-		
-		if(vo.getContent().length() < 1) {
-			return -2;
 		}
 		
 		int result = 0;
 		
 		try {
 			Connection conn = getConnection();
-			result = new PostDao().write(vo, conn);
+			result = new CmtDao().write(vo, conn);
 			
 			if(result == 1) {
 				commit(conn);
@@ -36,36 +35,35 @@ public class PostService {
 		}
 		
 		return result;
-	}
-
-	// 게시판 조회
-	public List<PostVo> showList() {
+	}// write
+	
+	public List<CmtVo> showList(String postNo) {
 		
 		Connection conn = null;
-		List<PostVo> postVoList =null;
+		List<CmtVo> cmtVoList =null;
 		
 		try {
 			conn = getConnection();
-			postVoList = new PostDao().showList(conn);
+			cmtVoList = new CmtDao().showList(postNo, conn);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
 			close(conn);
 		}
 		
-		return postVoList;
+		return cmtVoList;
 		
 	}// showList
-	
-	// 게시글 상세조회
-	public PostVo showPostDetail(String num) {
+
+
+	public CmtVo showCmtDetail(int num) {
 		
 		Connection conn = null;
-		PostVo vo = null;
+		CmtVo vo = null;
 		
 		try { 
 			conn = getConnection();
-			vo = new PostDao().showPostDetail(conn, num);
+			vo = new CmtDao().showCmtDetail(conn, num);
 			commit(conn);
 			
 		} catch (Exception e) {
@@ -74,26 +72,21 @@ public class PostService {
 		}
 		return vo;
 		
-	}// showPostDetail
+	}// showCmtDetail
 	
-	public int editPost(PostVo vo) {
 		
-		if(vo.getTitle().length() < 1) {
+	public int editCmt(CmtVo vo) {
+		
+		if(vo.getCmt().length() < 1) {
 			// 제목이 비어있음
 			return -1;
 		}
-		
-		if(vo.getContent().length() < 1){
-			// 내용이 비어있음
-			return -2;
-		}
-		
 		Connection conn = null;
 		int result = 0;
 		
 		try {
 			conn = getConnection();
-			result = new PostDao().editPost(vo, conn);
+			result = new CmtDao().editCmt(vo, conn);
 			
 			if(result == 1) {
 				commit(conn);
@@ -109,16 +102,16 @@ public class PostService {
 		
 		return result;
 		
-	}//editPost
+	}//editCmt
 	
-	public int deletePost(String postNo) {
+	public int deleteCmt(int cmtNo) {
 		
 		Connection conn = null;
 		int result = 0;
 		
 		try {
 			conn = getConnection();
-			result = new PostDao().deletePost(postNo, conn);
+			result = new CmtDao().deleteCmt(cmtNo, conn);
 			
 			if(result == 1) {
 				commit(conn);
@@ -134,32 +127,8 @@ public class PostService {
 		
 		return result;
 		
-	}// deletePost
-	
-	public int likePost(String num) {
-		
-		Connection conn = null;
-		int result = 0;
-		
-		try {
-			conn = getConnection();
-			result = new PostDao().likePost(num, conn);
-			
-			if(result == 1) {
-				commit(conn);
-			}else {
-				rollBack(conn);
-			}
-			
-		} catch (Exception e) {
-			rollBack(conn);
-		}finally {
-			close(conn);
-		}
-		
-		return result;
-		
-	}//likePost
+	}// deleteCmt
+
 	
 	
 	
@@ -169,4 +138,4 @@ public class PostService {
 	
 	
 	
-}//class
+}

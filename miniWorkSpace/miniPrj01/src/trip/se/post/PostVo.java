@@ -10,34 +10,36 @@ public class PostVo {
 		
 	}
 	
-	public PostVo(int no, String title, String content, int writer, Timestamp date, String deleteYN, int like,
-			Timestamp editDate, int viewCount) {
+	public PostVo(String no, String title, String content, String writer, String nick, Timestamp date, String deleteYN,
+			String like, Timestamp editDate, String viewCount) {
 		super();
 		this.no = no;
 		this.title = title;
 		this.content = content;
 		this.writer = writer;
+		this.nick = nick;
 		this.date = date;
 		this.deleteYN = deleteYN;
 		this.like = like;
 		this.editDate = editDate;
 		this.viewCount = viewCount;
 	}
-	
-	private int no;
+
+	private String no;
 	private String title;
 	private String content;
-	private int writer;
+	private String writer;
+	private String nick;
 	private Timestamp date;
 	private String deleteYN;
-	private int like;
+	private String like;
 	private Timestamp editDate;
-	private int viewCount;
+	private String viewCount;
 	
-	public int getNo() {
+	public String getNo() {
 		return no;
 	}
-	public void setNo(int no) {
+	public void setNo(String no) {
 		this.no = no;
 	}
 	public String getTitle() {
@@ -52,12 +54,21 @@ public class PostVo {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public int getWriter() {
+	public String getWriter() {
 		return writer;
 	}
-	public void setWriter(int writer) {
+	public void setWriter(String writer) {
 		this.writer = writer;
 	}
+	
+	public String getNick() {
+		return nick;
+	}
+
+	public void setNick(String nick) {
+		this.nick = nick;
+	}
+
 	public Timestamp getDate() {
 		return date;
 	}
@@ -70,10 +81,10 @@ public class PostVo {
 	public void setDeleteYN(String deleteYN) {
 		this.deleteYN = deleteYN;
 	}
-	public int getLike() {
+	public String getLike() {
 		return like;
 	}
-	public void setLike(int like) {
+	public void setLike(String like) {
 		this.like = like;
 	}
 	public Timestamp getEditDate() {
@@ -82,20 +93,18 @@ public class PostVo {
 	public void setEditDate(Timestamp editDate) {
 		this.editDate = editDate;
 	}
-	public int getViewCount() {
+	public String getViewCount() {
 		return viewCount;
 	}
-	public void setViewCount(int viewCount) {
+	public void setViewCount(String viewCount) {
 		this.viewCount = viewCount;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "PostVo [no=" + no + ", title=" + title + ", content=" + content + ", writer=" + writer + ", date="
-				+ date + ", deleteYN=" + deleteYN + ", like=" + like + ", editDate=" + editDate + ", viewCount="
-				+ viewCount + "]";
+		return "PostVo [no=" + no + ", title=" + title + ", content=" + content + ", writer=" + writer + ", nick="
+				+ nick + ", date=" + date + ", deleteYN=" + deleteYN + ", like=" + like + ", editDate=" + editDate
+				+ ", viewCount=" + viewCount + "]";
 	}
-	
-	
 	
 }

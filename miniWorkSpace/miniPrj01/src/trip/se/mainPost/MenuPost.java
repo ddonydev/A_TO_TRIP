@@ -1,68 +1,76 @@
 package trip.se.mainPost;
 
 import trip.min.util.InputUtil;
+import trip.se.post.PostController;
 
 public class MenuPost {
 
-	public int showMenu() {
+	public String showMenu() {
 		System.out.println("1. 게시글");
 		System.out.println("2. 게시글 댓글");
 		System.out.println("3. 좋아요");
 		
-		return InputUtil.getInt();
+		return InputUtil.sc.nextLine();
 	}	
 		
 	
-	public int showPost() {
+	public String showPost() {
 		System.out.println("===== 게시판 =====");
 		System.out.println("1. 게시글 조회");
 		System.out.println("2. 게시글 작성");
-		System.out.println("3. 게시글 수정");
-		System.out.println("4. 게시글 삭제");
 	
-		return InputUtil.getInt();
+		return InputUtil.sc.nextLine();
 	}
 	
 
-	public int showPostDetail() {
+	public String showPostDetail() {
 		System.out.print("\n 조회할 글 번호 (0번 -> 메인메뉴로 가기) : ");
-		return InputUtil.getInt();
+		return InputUtil.sc.nextLine();
 	}
 	
+	public String showComment() {
+		System.out.println("===== 선택해 주세요 =====");
+		System.out.println("1. 게시글 글 수정");
+		System.out.println("2. 게시글 글 삭제");
+		System.out.println("3. 게시글 댓글 작성");
+		System.out.println("4. 게시글 댓글 수정");
+		System.out.println("5. 게시글 댓글 삭제");
+		System.out.println("6. 좋아요 누르기");
+
+		return InputUtil.sc.nextLine();
+	}
+	
+		
 	
 }
+	
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//public int showComment() {
-//System.out.println("===== 댓글 =====");
-//System.out.println("3. 게시글 댓글 조회");
-//System.out.println("4. 게시글 댓글 작성");
-//System.out.println("5. 게시글 댓글 수정");
-//System.out.println("6. 게시글 댓글 삭제");
-//
-//return Util.getInt();
+//while(true) {
+//	
+//	int x = showPost();
+//	
+//	switch(x) {
+//	
+//	case 1 : new PostController().postView(); break;
+//	
+//	case 2 : new PostController().postWrite(); break;
+//	
+//	
+//	}
 //}
-//
-//public int showLike() {
-//System.out.println("===== 좋아요 =====");
-//System.out.println("1. 좋아요 누르기");
-//System.out.println("2. 좋아요 누르기 취소");
-//
-//return Util.getInt();
-//}
-//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
