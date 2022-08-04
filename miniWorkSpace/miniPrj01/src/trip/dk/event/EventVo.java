@@ -2,13 +2,13 @@ package trip.dk.event;
 
 
 public class EventVo {
-	
-	
+
+
 	public EventVo() {
-		
+
 	}
-	
-	public EventVo(int no, String startDate, String endDate, String title) {
+
+	public EventVo(String no, String startDate, String endDate, String title) {
 		super();
 		this.no = no;
 		this.startDate = startDate;
@@ -18,28 +18,28 @@ public class EventVo {
 
 
 
-	private int no;
+	private String no;
 	private String startDate;
 	private String endDate;
 	private String title;
-	
-	
-	
-	public String getTitle(int no) {
-		String title =  "";
-		if(no== 1) {
+
+
+
+	public String getTitle(String no) {
+		String title =  null;
+		if(no.equals("1")) {
 			title = " 가위 바위 보!";
 		}
-		if(no==2) {
+		if(no.equals("2")) {
 			title = " UP & DOWN ";
 		}
 		return title;
 	}
-	
-	public int getNo() {
+
+	public String getNo() {
 		return no;
 	}
-	public void setNo(int no) {
+	public void setNo(String no) {
 		this.no = no;
 	}
 	public String getStartDate() {
@@ -55,14 +55,14 @@ public class EventVo {
 		this.endDate = endDate;
 	}
 
-//	@Override
+	@Override
 	public String toString() {
 		return "EventVo [no=" + no + ", startDate=" + startDate + ", endDate=" + endDate + ", title=" + title + "]";
 	}
 
-	
-	
-	
-	
+
+
+
+
 
 }
