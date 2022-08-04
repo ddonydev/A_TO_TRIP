@@ -1,13 +1,11 @@
-package trip.se.comment;
+package trip.se.qnacmt;
 
-import java.util.List;
-
-import trip.se.post.PostService;
-import trip.se.post.PostVo;
 import trip.min.main.MemberMain;
 import trip.min.util.InputUtil;
+import trip.se.comment.CmtService;
+import trip.se.comment.CmtVo;
 
-public class CmtController {
+public class QnaCmtController {
 
 	public void write(String num) {
 
@@ -20,12 +18,12 @@ public class CmtController {
 		String memberNo = MemberMain.LoginMember.getNo();
 		
 		// 데이터 뭉치기
-		CmtVo vo = new CmtVo();
+		QnaCmtVo vo = new QnaCmtVo();
 		vo.setCmt(cmt);
 		vo.setWriter(memberNo);
-		vo.setPostNo(num);
+		vo.setQnaNo(num);
 		
-		int result = new CmtService().write(vo);
+		int result = new QnaCmtService().write(vo);
 		
 		// insert 결과에 따라 로직 처리
 		if(result == 1) {
@@ -40,17 +38,12 @@ public class CmtController {
 
 	// 댓글 수정
 	public void editCmt() {
-
-		if(MemberMain.LoginMember == null) {
-			System.out.println("로그인을 먼저 해주세요.\n\n");
-			return;
-		}
 		
 		System.out.println("\n----- 댓글 수정 -----");
 		
 		System.out.print("수정할 댓글의 번호 : ");
 		int cmtNo = InputUtil.getInt();
-		CmtVo cmt = new CmtService().showCmtDetail(cmtNo);
+		QnaCmtVo cmt = new QnaCmtService().showCmtDetail(cmtNo);
 		
 		cmt.setWriter(MemberMain.LoginMember.getNo());
 		if(cmt.getWriter() != MemberMain.LoginMember.getNo()) {
@@ -67,7 +60,7 @@ public class CmtController {
 		cmt.setCmt(content);
 		
 		
-		int result = new CmtService().editCmt(cmt);
+		int result = new QnaCmtService().editCmt(cmt);
 		
 		// insert 결과에 따라 로직 처리
 		if(result == 1) {
@@ -87,15 +80,9 @@ public class CmtController {
 		
 		System.out.print("삭제할 댓글의 번호 : ");
 		int cmtNo = InputUtil.getInt();
-		CmtVo cmt = new CmtService().showCmtDetail(cmtNo);
-		cmt.setWriter(MemberMain.LoginMember.getNo());
-		
-		if(cmt.getWriter() != MemberMain.LoginMember.getNo()) {
-			System.out.println("[삭제 불가] 본인의 글을 선택해 주세요.");
-			return;
-		}
-		
-		int result = new CmtService().deleteCmt(cmtNo);
+		QnaCmtVo cmt = new QnaCmtService().showCmtDetail(cmtNo);
+	
+		int result = new QnaCmtService().deleteCmt(cmtNo);
 		
 
 		// insert 결과에 따라 로직 처리
@@ -109,12 +96,4 @@ public class CmtController {
 		
 	}//deleteCmt
 	
-	
-	
 }
-
-
-/*
- * 게시글 불러올때 -> 댓글도 같이 불러오기
- * 게시글 보여주고 댓글도 보여주기
- */

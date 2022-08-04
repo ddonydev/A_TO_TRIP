@@ -1,6 +1,7 @@
 package trip.se.mainPost;
 
 import trip.se.post.PostController;
+import trip.se.qna.QnaController;
 
 public class MainPost {
 
@@ -25,6 +26,26 @@ public class MainPost {
 		
 	}
 
+	public void mainQnaPost() {
+		
+		MenuPost mp = new MenuPost();
+		
+		while(true) {
+				
+			String x = mp.showQna();
+		
+			switch(x) {
+			
+			case "1" : new QnaController().qnaView(); break;
+			
+			case "2" : new QnaController().qnaWrite(); break;
+				
+			}
+			
+		}
+		
+	}
+	
 	
 }
 

@@ -29,7 +29,6 @@ public class PostController {
 		String content = InputUtil.sc.nextLine();
 		
 		String memberNo = MemberMain.LoginMember.getNo();
-//		int memberNo = 5;
 		
 		// 데이터 뭉치기
 		PostVo vo = new PostVo();
@@ -128,14 +127,10 @@ public class PostController {
 	// 게시글 수정
 	public void editPost(String num) {
 
-		if(MemberMain.LoginMember == null) {
-			System.out.println("로그인을 먼저 해주세요.\n\n");
-			return;
-		}
-		
 		System.out.println("\n----- 게시글 수정 -----");
 		
 		PostVo post = new PostService().showPostDetail(num);
+		post.setWriter(MemberMain.LoginMember.getNo());
 		
 		if(post.getWriter() != MemberMain.LoginMember.getNo()) {
 			System.out.println("[수정 불가] 본인의 글을 선택해 주세요.");
@@ -175,6 +170,7 @@ public class PostController {
 		System.out.println("\n----- 게시글 삭제 -----");
 		
 		PostVo post = new PostService().showPostDetail(num);
+		post.setWriter(MemberMain.LoginMember.getNo());
 		
 		if(post.getWriter() != MemberMain.LoginMember.getNo()) {
 			System.out.println("[삭제 불가] 본인의 글을 선택해 주세요.");
