@@ -9,7 +9,7 @@ public class EventParticipateVo {
 	}
 
 
-	public EventParticipateVo(int participateNo, String memberNo, String eventNo, String eventYn) {
+	public EventParticipateVo(String participateNo, String memberNo, String eventNo, String eventYn) {
 
 		this.participateNo = participateNo;
 		this.memberNo = memberNo;
@@ -17,16 +17,16 @@ public class EventParticipateVo {
 		this.eventYn = eventYn;
 	}
 
-	private int participateNo;
+	private String participateNo;
 	private String memberNo;
 	private String eventNo;
 	private String eventYn;
 
 
-	public int getParticipateNo() {
+	public String getParticipateNo() {
 		return participateNo;
 	}
-	public void setParticipateNo(int participateNo) {
+	public void setParticipateNo(String participateNo) {
 		this.participateNo = participateNo;
 	}
 	public String getMemberNo() {
