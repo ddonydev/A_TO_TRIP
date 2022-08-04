@@ -19,7 +19,6 @@ public class Manager {
 	//관리자 메뉴
 	public void managerMenu() {
 		System.out.println("===== 관리자 메뉴 입니다 =====");
-		
 		System.out.println("1. 숙소 조회");
 		System.out.println("2. 숙소 등록");
 		System.out.println("3. 숙소 변경");
@@ -30,47 +29,48 @@ public class Manager {
 		System.out.println("8. 회원 조회");
 		System.out.println("9. 회원정보 변경");
 		System.out.println("10. 숙소 예약 현황 조회");
-		
+		System.out.println("11. 관리자 메뉴 나가기");
 		
 		while(true) {
-			int input = InputUtil.getInt();
+			String input = InputUtil.sc.nextLine();
 			switch(input) {
-				case 1:
+				case "1":
 					searchManager();
 					break;
-				case 2:
+				case "2":
 					insertManager();
 					break;
-				case 3:
+				case "3":
 					updateManager();
 					break;
-				case 4:
+				case "4":
 					communityselectManager();
 					break;
-				case 5:
+				case "5":
 					comunityupadateManager();
 					break;
-				case 6:
+				case "6":
 					QnASelectManager();
 					break;
-				case 7:
+				case "7":
 					QnAUpdateManager();
 					break;
-				case 8:
+				case "8":
 					memberSelectManager();
 					break;
-				case 9:
+				case "9":
 					memberUpdateManager();
 					break;
-				case 10:
+				case "10":
 					lodgingMagager();
 					break;
-		}		
+				case "11":
+					return;
+			}		
 		
 		}
 		
-		
-	}
+	}//managerMenu
 	
 	//관리자 숙소 조회
 	public void searchManager() {
