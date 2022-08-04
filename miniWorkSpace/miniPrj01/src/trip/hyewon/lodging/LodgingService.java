@@ -13,7 +13,7 @@ public class LodgingService {
 
 	//지역번호 체크
 	public boolean checkLocationNum(String location) {
-		if(location.equals("1")||location.equals("2")||location.equals("3")||location.equals("4")||location.equals("5")||location.equals("6")) {
+		if(location.equals("1")||location.equals("2")||location.equals("3")||location.equals("4")||location.equals("5")||location.equals("6")||location.equals("Q")) {
 			return true;
 		}
 		return false;
@@ -201,5 +201,106 @@ public class LodgingService {
 		
 		return roomVo;
 	}
+
+	public List<LodgingCouponVo> checkCoupon(int no) {
+		Connection conn = null;
+		List<LodgingCouponVo> lodgingCouponVoList = null;
+		try {
+			conn = JDBCTemplate.getConnection();
+			lodgingCouponVoList = new LodgingDao().checkCoupon(no, conn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return lodgingCouponVoList;
+	}
+
+	public int updateCouponIssued(int couponIssuedNo) {
+		Connection conn = null;
+		int result = 0;
+		
+		try {
+			conn = JDBCTemplate.getConnection();
+			result = new LodgingDao().updateCouponIssued(couponIssuedNo, conn);
+			
+			if(result == 1) {
+				JDBCTemplate.commit(conn);
+			}else {
+				JDBCTemplate.rollBack(conn);
+			}
+		} catch (Exception e) {
+			JDBCTemplate.rollBack(conn);
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return result;
+	}
+
+	public int insertReservation(LodgingReservationVo rv) {
+		Connection conn = null;
+		int result = 0;
+		
+		try {
+			conn = JDBCTemplate.getConnection();
+			result = new LodgingDao().insertReservation(rv, conn);
+			
+			if(result == 1) {
+				JDBCTemplate.commit(conn);
+			}else {
+				JDBCTemplate.rollBack(conn);
+			}
+		} catch (Exception e) {
+			JDBCTemplate.rollBack(conn);
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return result;
+	}
+
+	public int getReservationNo(LodgingReservationVo rv) {
+		Connection conn = null;
+		int result = 0;
+		try {
+			conn = JDBCTemplate.getConnection();
+			result = new LodgingDao().getReservationNo(rv, conn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return result;
+	}
+
+	public int insertPayment(LodgingReservationVo rv) {
+		Connection conn = null;
+		int result = 0;
+		
+		try {
+			conn = JDBCTemplate.getConnection();
+			result = new LodgingDao().insertPayment(rv, conn);
+			
+			if(result == 1) {
+				JDBCTemplate.commit(conn);
+			}else {
+				JDBCTemplate.rollBack(conn);
+			}
+		} catch (Exception e) {
+			JDBCTemplate.rollBack(conn);
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return result;
+	}
+
+	
 
 }
