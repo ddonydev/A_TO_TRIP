@@ -7,11 +7,12 @@ import java.util.Scanner;
 import trip.kms.lodgingReviewLike.LodgingReviewLikeController;
 import trip.kms.lodgingReviewLike.LodgingReviewLikeVo;
 import trip.min.main.MemberMain;
+import trip.min.main.MemberMenu;
 import trip.min.member.MemberVo;
 
 public class LodgingReviewController {
 
-	//review 보여주기
+	//전체 리뷰 보여주기
 	public void showReview() {
 		
 		while(true) {
@@ -87,7 +88,8 @@ public class LodgingReviewController {
 		
 		while(true) {
 			System.out.println("1. 수정");
-			System.out.println("2. 이전으로 돌아가기");
+			System.out.println("2. 작정");
+			System.out.println("3. 이전으로 돌아가기");
 			System.out.println("-----------------------");
 			System.out.print("번호를 입력하세요 : ");
 			Scanner scanner = new Scanner(System.in);
@@ -98,6 +100,10 @@ public class LodgingReviewController {
 				showReviewChoose(vo);
 				break;
 			} else if(reviewLikeNum.equals("2")) {
+				System.out.println("작성페이지로 이동합니다.");
+				writeReview(vo);
+				break;
+			} else if(reviewLikeNum.equals("3")) {
 				System.out.println("이전페이지로 돌아갑니다.");
 				showReview();
 				break;
@@ -113,29 +119,25 @@ public class LodgingReviewController {
 		
 		while(true) {
 			System.out.println("-----------------------");
-			System.out.println("1. 글 작성");
-			System.out.println("2. 글 수정"); 
-			System.out.println("3. 글 삭제");
-			System.out.println("4. 좋아요 누르기");
-			System.out.println("5. 좋아요 취소하기");
+			System.out.println("1. 글 수정"); 
+			System.out.println("2. 글 삭제");
+			System.out.println("3. 좋아요 누르기");
+			System.out.println("4. 좋아요 취소하기");
 			
 			System.out.print("번호를 입력하세요 : ");
 			String reviewEditNumStr = scanner.nextLine();
 			int reviewEditNum = Integer.valueOf(reviewEditNumStr);
 			
 			if(reviewEditNum == 1) {
-				writeReview();
-				break;
-			} else if(reviewEditNum == 2) {
 				editReview(vo);
 				break;
-			} else if(reviewEditNum == 3) {
+			} else if(reviewEditNum == 2) {
 				deleteReview(vo);
 				break;
-			} else if(reviewEditNum == 4) {
+			} else if(reviewEditNum == 3) {
 				reviewLikePlus(vo);
 				break;
-			} else if(reviewEditNum == 5) {
+			} else if(reviewEditNum == 4) {
 				reviewLikeMinus(vo);
 				break;
 			} else {
@@ -145,7 +147,32 @@ public class LodgingReviewController {
 	}
 	
 	//1->1. 게시글 작성 선택시
-	public void writeReview() {
+	public void writeReview(LodgingReviewVo vo) {
+		System.out.println("===== 게시글 작성 =====");
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("제목 : ");
+		String title = scanner.nextLine();
+		System.out.print("내용 : ");
+		String content = scanner.nextLine();
+		
+		int writer = Integer.valueOf(MemberMain.LoginMember.getNo());
+		
+		LodgingReviewVo lodgingReviewVo = new LodgingReviewVo();
+//		lodgingReviewVo.setNo();
+		lodgingReviewVo.setWriter(writer);
+		lodgingReviewVo.setLodgingNo(vo.getLodgingNo());
+		lodgingReviewVo.setTitle(title);
+		lodgingReviewVo.setContent(content);
+		
+		int result = new LodgingReviewService().writeReview(lodgingReviewVo);
+		
+		if(result == 1) {
+			//글 작성 성공
+			System.out.println("게시글 작성 성공");
+		} else {
+			//글 작성 실패
+			System.out.println("게시글 작성 실패");
+		}
 		
 	}
 	
@@ -229,5 +256,55 @@ public class LodgingReviewController {
 		} else {
 			System.out.println("좋아요 취소 실패");
 		}
+	}
+	
+	//마이페이지 리뷰 보여주기
+	public void showMyReview() {
+		Scanner scanner = new Scanner(System.in);
+		MemberVo memberVo = MemberMain.LoginMember;
+		String name = memberVo.getName();
+		System.out.println(MemberMain.LoginMember.getName());
+		System.out.println("===== " + name + "님의 숙소 리뷰 =====");
+		
+		List<LodgingReviewVo> lodgingReviewVoList = new LodgingReviewService().showMyList();
+		for(int i = 0 ; i < lodgingReviewVoList.size() ; i++) {
+			LodgingReviewVo tmp = lodgingReviewVoList.get(i);
+			
+			int no = tmp.getNo(); 
+			int writer = tmp.getWriter(); 
+			int lodgingNo = tmp.getLodgingNo(); 
+			String title = tmp.getTitle(); 
+			String content = tmp.getContent(); 
+			Timestamp reviewDate = tmp.getReviewDate(); 
+			Timestamp editDate = tmp.getEditDate(); 
+			int reviewLike = tmp.getReviewLike();
+			
+			System.out.print("no=" + no + " || ");
+			System.out.print("writer=" + writer + " || ");
+			System.out.print("lodgingNo=" + lodgingNo + " || ");
+			System.out.print("title=" + title + " || ");
+			System.out.print("content=" + content + " || ");
+			System.out.print("reviewLike=" + reviewLike);
+			System.out.println();
+			
+			while(true) {
+				System.out.println("---------------------------");
+				System.out.println("1. 전체 리뷰 보기로 이동");
+				System.out.println("2. 마이 페이지로 이동");
+				System.out.print("선택 : ");
+				String choose = scanner.nextLine();
+				
+				if(choose.equals("1")) {
+					showReview();
+					break;
+				} else if(choose.equals("2")) {
+					new MemberMenu().loginMenu();
+					break;
+				} else {
+					System.out.println("다시 입력하세요");
+				}
+			}
+		}
+		
 	}
 }

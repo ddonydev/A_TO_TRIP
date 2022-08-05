@@ -36,6 +36,35 @@ public class LodgingReviewService {
 		return lodgingReviewVoList;
 	}
 	
+	public int writeReview(LodgingReviewVo vo) {
+		if(vo.getTitle().length() < 1) 
+			return -1;
+		if(vo.getContent().length() < 1) 
+			return -2;
+		
+		Connection conn = null;
+		int result = 0;
+		
+		try {
+			conn = JDBCTemplate.getConnection();
+			result = new LodgingReviewDao().writeReview(conn, vo);
+			
+			if(result == 1) {
+				JDBCTemplate.commit(conn);
+			} else {
+				JDBCTemplate.rollBack(conn);
+			}
+			
+		} catch (Exception e) {
+			JDBCTemplate.rollBack(conn);
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return 1;
+	}
+	
 	public int editReview(LodgingReviewVo lodgingReviewVoEdit) {
 		Connection conn = null;
 		int result = 0;
@@ -129,6 +158,27 @@ public class LodgingReviewService {
 		}
 		
 		return result;
+	}
+	
+	public List<LodgingReviewVo> showMyList() {
+		Connection conn = null;
+		List<LodgingReviewVo> lodgingReviewVoList = null;
+		
+		try {
+			//connect db
+			conn = JDBCTemplate.getConnection();
+			
+			lodgingReviewVoList = new LodgingReviewDao().showMyList(conn);
+			JDBCTemplate.commit(conn);
+			
+		} catch (Exception e) {
+			JDBCTemplate.rollBack(conn);
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return lodgingReviewVoList;
 	}
 	
 }
