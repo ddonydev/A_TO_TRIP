@@ -41,7 +41,7 @@ public class EventService {
 			ev = new EventDao().showDetailByNo(conn,num);
 
 		}catch (Exception e) {
-			System.out.println("[ERROR] 게시글 상세조회 중 예외 발생 !!!");
+			System.out.println("[ERROR] 이벤트 상세조회 중 예외 발생 !!!");
 			e.printStackTrace();
 		}finally {
 			close(conn);
