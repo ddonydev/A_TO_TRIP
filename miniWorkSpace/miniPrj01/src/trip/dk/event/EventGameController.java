@@ -3,7 +3,6 @@ package trip.dk.event;
 import trip.min.main.MemberMenu;
 
 public class EventGameController {
-
 	public int rpsResult =0;
 	public int upDownResult =0;
 
@@ -12,6 +11,8 @@ public class EventGameController {
 		// 출력문 입력받기.
 		
 		String gameNo = new MemberMenu().eventGame();
+		
+		
 		
 		
 		if(gameNo.equals("1")) {

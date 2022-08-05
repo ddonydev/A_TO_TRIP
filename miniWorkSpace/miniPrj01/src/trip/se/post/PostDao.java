@@ -78,7 +78,7 @@ public class PostDao {
 				postVoList.add(vo);
 				
 			}
-			
+		
 		} finally {
 			close(rs);
 			close(pstmt);

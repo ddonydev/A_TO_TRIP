@@ -32,25 +32,10 @@ public class CouponService {
 	}
 	
 	
-	//게임 결과에 따라 쿠폰을 이벤트 번호, 회원번호에 맞춰 발급
-	public int couponIssued(CouponVo cv)  {
+
+	public int couponIssued(String cv)  {
 		
-//		if(rpsResult==1) {
-//		}else if(rpsResult==2) {
-//			
-//		}else if(rpsResult>=3) {
-//		}else {
-//		}
-//		
-//		if(upDownResult<=3) {
-//
-//		}else if(upDownResult<=5) {
-//
-//		}else if(upDownResult<=7) {
-//		}else {
-//		}
-//	
-		
+
 		Connection conn = null;
 		int result = 0;
 		

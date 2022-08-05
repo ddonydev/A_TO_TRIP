@@ -18,17 +18,15 @@ public class CouponDao {
 	public List<CouponVo> showList(Connection conn) throws Exception {
 		//CONN 준비
 		//SQL 준비
-		String sql = "SELECT ISS.NO,INFO.NO,M.NO,E.NO,INFO.DISCOUNT_RATE,ISS.USED_YN,ISS.USED_DATE,INFO.COUPON_CODE FROM COUPON_ISSUED ISS JOIN COUPON_INFO INFO ON INFO.NO = ISS.NO JOIN MEMBER M ON M.NO = ISS.MEMBER_NO JOIN EVENT E ON E.NO = INFO.EVENT_NO";
-		
-		//SQL 담을 객체 준비 및 SQL 완성
-		PreparedStatement pstmt=null;
-//		pstmt.setString(1,MemberMain.LoginMember.getNo());
-		
+		String sql = "SELECT INFO.NO,M.NO,E.NO,INFO.COUPON_CODE,INFO.DISCOUNT_RATE,ISS.USED_YN,ISS.USED_DATE FROM COUPON_ISSUED ISS JOIN COUPON_INFO INFO ON INFO.NO = ISS.COUPON_INFO_NO JOIN MEMBER M ON M.NO = ISS.MEMBER_NO JOIN EVENT E ON E.NO = INFO.EVENT_NO WHERE M.NO = ?";
 		
 		ResultSet rs = null;
+		PreparedStatement pstmt=null;
 		List<CouponVo> couponVoList = new ArrayList<CouponVo>();
 		try {	
+			//SQL 담을 객체 준비 및 SQL 완성
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1,MemberMain.LoginMember.getNo());
 			//SQL실행 및 결과 저장
 			rs = pstmt.executeQuery();
 
@@ -44,17 +42,17 @@ public class CouponDao {
 				Timestamp usedDate=rs.getTimestamp("USED_DATE");
 				
 				
-				CouponVo civ = new CouponVo();
-				civ.setCouponIssuedNo(no);
-				civ.setCouponInfoNo(couponInfoNo);
-				civ.setMemberNo(MemberMain.LoginMember.getNo());
-				civ.setEventNo(eventNo);
-				civ.setDiscountRate(discountRate);
-				civ.setCouponCode(couponCode);
-				civ.setUsedYn(usedYn);
-				civ.setUsedDate(usedDate);
+				CouponVo cv = new CouponVo();
+				cv.setCouponIssuedNo(no);
+				cv.setCouponInfoNo(couponInfoNo);
+				cv.setMemberNo(MemberMain.LoginMember.getNo());
+				cv.setEventNo(eventNo);
+				cv.setDiscountRate(discountRate);
+				cv.setCouponCode(couponCode);
+				cv.setUsedYn(usedYn);
+				cv.setUsedDate(usedDate);
 				
-				couponVoList.add(civ);
+				couponVoList.add(cv);
 			}
 			
 		} finally {
@@ -73,7 +71,7 @@ public class CouponDao {
 	
 	
 	// 쿠폰 발급 인설트
-	public int couponIssued(CouponVo cv,Connection conn) throws Exception {
+	public int couponIssued(String cv,Connection conn) throws Exception {
 		
 		int result = 0;
 		PreparedStatement pstmt = null;
@@ -84,7 +82,7 @@ public class CouponDao {
 			
 			//sql객체에 담아주기.(물음표 채우기)
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, cv.getCouponInfoNo());
+			pstmt.setString(1, cv);
 			pstmt.setString(2, MemberMain.LoginMember.getNo());
 			pstmt.setString(3, "N");
 			
