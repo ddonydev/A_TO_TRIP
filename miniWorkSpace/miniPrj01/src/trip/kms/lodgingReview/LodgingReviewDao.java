@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import trip.min.common.JDBCTemplate;
+import trip.min.main.MemberMain;
 
 public class LodgingReviewDao {
 
@@ -53,6 +54,39 @@ public class LodgingReviewDao {
 		
 		
 		return lodgingReviewVoList;
+	}
+	
+	public int writeReview(Connection conn, LodgingReviewVo vo) throws Exception {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int result = 0;
+		LodgingReviewVo lodgingReviewVo = new LodgingReviewVo();
+		
+		String query = " insert into lodging_review(no, writer, lodging_no, title, cont) "
+				+ " values(SEQ_REVIEW_NO.nextval, ?, ?, ?, ?) ";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, vo.getWriter());
+			pstmt.setInt(2, vo.getLodgingNo());
+			pstmt.setString(3, vo.getTitle());
+			pstmt.setString(4, vo.getContent());
+			
+			result = pstmt.executeUpdate();
+			
+			if(result == 1) {
+				JDBCTemplate.commit(conn);
+			} else {
+				JDBCTemplate.rollBack(conn);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
 	}
 	
 	public int editReview(Connection conn, LodgingReviewVo lodgingReviewVoEdit) throws Exception {
@@ -155,6 +189,49 @@ public class LodgingReviewDao {
 		}
 		
 		return result;
+	}
+	
+	public List<LodgingReviewVo> showMyList(Connection conn) throws Exception {
+		//connection, sql
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<LodgingReviewVo> lodgingReviewVoList = new ArrayList<LodgingReviewVo>();
+		
+		String query = " select R.no, R.writer, R.lodging_no, R.title, R.cont "
+				+ " from lodging_review R "
+				+ " join lodging_information I on R.lodging_no = I.no "
+				+ " where R.review_delete = 'N' and writer = " + MemberMain.LoginMember.getNo();
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				//none default field
+				int no = rs.getInt("no");
+				int writer = rs.getInt("writer"); 
+				int lodgingNo = rs.getInt("lodging_no");
+				String title = rs.getString("title");
+				String content = rs.getString("cont");
+				
+				//add list
+				LodgingReviewVo lodgingReviewVo = new LodgingReviewVo();
+				lodgingReviewVo.setNo(no);
+				lodgingReviewVo.setWriter(writer);
+				lodgingReviewVo.setLodgingNo(lodgingNo);
+				lodgingReviewVo.setTitle(title);
+				lodgingReviewVo.setContent(content);
+				
+				lodgingReviewVoList.add(lodgingReviewVo);
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+			JDBCTemplate.close(rs);
+		}
+		
+		return lodgingReviewVoList;
 	}
 	
 }
