@@ -72,11 +72,12 @@ public class WishDao {
 	}
 	
 
-	public List<LodgingVo> showZzimList(LodgingVo vo, Connection conn) throws Exception {
+	public List<LodgingVo> showZzimList(Connection conn) throws Exception {
 
 		// SQL 준비
-		String sql = "SELECT I.NO, I.NAME , I.ADDRESS , I.PHONE FROM LODGING_WISH W JOIN LODGING_INFORMATION I ON W.LODGING_NO = I.NO WHERE W.MEMBER_NO = ? AND W.LODGING_NO = ? AND W.CANCEL = 'N'";
+		String sql = "SELECT I.NO, I.NAME , I.ADDRESS , I.PHONE FROM LODGING_WISH W JOIN LODGING_INFORMATION I ON W.LODGING_NO = I.NO WHERE W.MEMBER_NO = ? AND W.CANCEL = 'N'";
 
+		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<LodgingVo> lodgingVoList = new ArrayList<LodgingVo>();
@@ -86,7 +87,7 @@ public class WishDao {
 			// SQL 담을 객체 준비 및 SQL 완성
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, MemberMain.LoginMember.getNo());
-			pstmt.setString(2, vo.getLodgingCode());
+			LodgingVo vo = new LodgingVo();
 
 			// SQL 실행 및 결과 저장
 			rs = pstmt.executeQuery();			

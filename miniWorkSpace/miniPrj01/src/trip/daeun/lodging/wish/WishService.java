@@ -47,14 +47,14 @@ public class WishService {
 	}
 	
 	
-	public List<LodgingVo> showZzimList(LodgingVo vo) {
+	public List<LodgingVo> showZzimList() {
 		
 		Connection conn = null;
 		List<LodgingVo> lodgingVoList = null;
 		
 		try {
 			conn = JDBCTemplate.getConnection();
-			lodgingVoList  = new WishDao().showZzimList(vo, conn);
+			lodgingVoList  = new WishDao().showZzimList(conn);
 			
 		}catch(Exception e) {
 			e.printStackTrace();

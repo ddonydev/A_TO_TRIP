@@ -68,9 +68,9 @@ public class WishController {
 	}
 	
 	
-	public void showZzimList(LodgingVo vo) {
+	public void showZzimList() {
 		
-		List<LodgingVo> lodgingVoList = new WishService().showZzimList(vo);
+		List<LodgingVo> lodgingVoList = new WishService().showZzimList();
 		System.out.println("----- 찜한 숙소 목록 -----");
 		
 		for(int i = 0; i < lodgingVoList.size(); ++i) {
