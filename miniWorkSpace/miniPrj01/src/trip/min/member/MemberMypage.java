@@ -7,6 +7,8 @@ import trip.min.main.MemberMain;
 import trip.min.manager.ManagerController;
 import trip.min.util.InputUtil;
 import trip.se.post.PostController;
+import trip.se.qna.QnaController;
+import trip.daeun.lodging.wish.WishController;
 import trip.dk.coupon.CouponController;
 
 public class MemberMypage {
@@ -46,15 +48,15 @@ public class MemberMypage {
 				break;
 			case "3":
 				System.out.println("숙소 찜 목록 조회");
-				new WishController().showZzimList(LodgingVo vo);
+				new WishController().showZzimList();
 				break;
 			case "4":
 				System.out.println("내가 쓴 게시물 확인");
-				new PostController().showMyPost();
+				new PostController().showMyPost(MemberMain.LoginMember);
 				break;
 			case "5":
 				System.out.println("내가 쓴 문의글 확인");
-				new QnaController().showMyQna();
+				new QnaController().showMyQna(MemberMain.LoginMember);
 				break;
 			case "6":
 				System.out.println("내가 쓴 리뷰 확인");
