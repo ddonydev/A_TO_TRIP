@@ -20,17 +20,17 @@ public class MemberMypage {
 	 * 가지고 있는 쿠폰 확인(발급쿠폰)
 	 */
 	public void myPageMenu() {
-		System.out.println("===== 마이페이지 입니다 =====");
-		System.out.println("1. 내 정보 수정하기");
-		System.out.println("2. 숙소 예약 내역 확인");
-		System.out.println("3. 숙소 찜 목록 조회");
-		System.out.println("4. 내가 쓴 게시물 확인");
-		System.out.println("5. 내가 쓴 댓글 확인");
-		System.out.println("6. 내가 쓴 리뷰 확인");
-		System.out.println("7. 현재 보유 쿠폰");
-		System.out.println("8. 나가기");
 		
 		while(true) {
+			System.out.println("===== 마이페이지 입니다 =====");
+			System.out.println("1. 내 정보 수정하기");
+			System.out.println("2. 숙소 예약 내역 확인");
+			System.out.println("3. 숙소 찜 목록 조회");
+			System.out.println("4. 내가 쓴 게시물 확인");
+			System.out.println("5. 내가 쓴 댓글 확인");
+			System.out.println("6. 내가 쓴 리뷰 확인");
+			System.out.println("7. 현재 보유 쿠폰");
+			System.out.println("8. 나가기");
 			String input = InputUtil.sc.nextLine();
 			switch(input) {
 			case "1":
