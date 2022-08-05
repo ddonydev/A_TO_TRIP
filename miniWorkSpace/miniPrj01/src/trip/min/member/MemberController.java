@@ -8,6 +8,7 @@ import java.sql.SQLException;
 
 import trip.min.common.JDBCTemplate;
 import trip.min.main.MemberMain;
+import trip.min.manager.ManagerService;
 import trip.min.util.InputUtil;
 
 public class MemberController {
@@ -108,5 +109,26 @@ public class MemberController {
 		}
 		
 	}//findIdPwdview
+	
+	public void signOutMember() {
+		System.out.println("===== 회원 탈퇴 =====");
+		System.out.println("!!!정말 회원 탈퇴 하시겠습니까!!!");
+		System.out.print("1. 회원탈퇴 여부 'Y / N' : ");
+		String quitYn = InputUtil.sc.nextLine();
+		System.out.print("2. 마지막으로 아이디를 입력해주세요 : ");
+		String id = InputUtil.sc.nextLine();
+	
+		MemberVo vo = new MemberVo();
+		vo.setEmail(quitYn);
+		vo.setName(id);
+		
+		int result = new MemberService().signOutMember(vo);
+		
+		if(result == 1) {
+			System.out.println("회원 탈퇴가 완료되었습니다.");
+		}else {
+			System.out.println("[ERROR :" + result + "] : 회원정보 수정 에러");
+		}
+	}//editMember
 
 }//class

@@ -1,9 +1,12 @@
 package trip.min.manager;
 
 import trip.hyewon.lodging.LodgingController;
+import trip.min.main.MemberMain;
 import trip.min.util.InputUtil;
 import trip.se.mainPost.MainPost;
 import trip.se.post.PostController;
+import trip.se.qna.QnaController;
+import trip.se.qnacmt.QnaCmtController;
 
 public class Manager {
 
@@ -53,10 +56,12 @@ public class Manager {
 					new MainPost().mainPost();
 					break;
 				case "5":
-					QnASelectManager();
+					System.out.println("Q&A 조회");
+					new MainPost().mainQnaPost(); 
 					break;
 				case "6":
-					QnAUpdateManager();
+					System.out.println("Q&A 변경");
+					new QnaController().qnaView();
 					break;
 				case "7":
 					System.out.println("회원 조회");
@@ -67,7 +72,8 @@ public class Manager {
 					new ManagerController().editMember();
 					break;
 				case "9":
-					lodgingMagager();
+					System.out.println("숙소 예약 현황 조회");
+					new LodgingController().showMyReservation(MemberMain.LoginMember.getNo());
 					break;
 				case "10":
 					return;
@@ -77,29 +83,7 @@ public class Manager {
 		
 	}//managerMenu
 	
-	
-	//관리자 Q&A 조회 및 변경
-	public void QnASelectManager() {
-		//Q&A 조회(select)
-		System.out.println("Q&A 조회");
-		
-	}
-	
-	//관리자 Q&A 변경
-	public void QnAUpdateManager() {
-		//Q&A 변경(update)
-		System.out.println("Q&A 변경");
-		
-	}
-	
-	//숙소 예약 현황 조회 -> Lodging_reservation 테이블 목록
-	public void lodgingMagager() {
-		//숙소 조회
-		System.out.println("숙소 예약 현황 조회");
-		
-	}
-	
-	
+
 	
 	
 }//class

@@ -114,9 +114,9 @@ public class ManagerController {
 			Timestamp enrollDate = temp.getEnrollDate();
 			String quitYn = temp.getQuitYn();
 			//변수에 담은것 출력
-			System.out.println(id + "|"+ email + "|" + name + "|" + birth);
-			System.out.println(phone + "|" + nick + "|" + quitYn);
-			System.out.println(enrollDate);
+			System.out.println(" "+ id + " | "+ email + " | " + name + " | " + birth);
+			System.out.println(" " + phone + " | " + nick + " | " + quitYn);
+			System.out.println(" " + enrollDate + " |");
 		}
 		
 	}//showlistMember

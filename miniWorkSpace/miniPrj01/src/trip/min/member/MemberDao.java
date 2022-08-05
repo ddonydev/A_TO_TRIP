@@ -3,6 +3,7 @@ package trip.min.member;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import trip.min.common.JDBCTemplate;
 
@@ -106,6 +107,26 @@ public class MemberDao {
 		
 	}//findIdPwd
 	
+	public int memberSignOut(MemberVo vo, Connection conn) throws Exception {
+		
+		PreparedStatement pstmt = null;
+		int result = 0;
+		//sql
+		String sql = "UPDATE MEMBER SET QUIT_YN = ? WHERE ID = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, vo.getQuitYn());
+			pstmt.setString(2, vo.getId());
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
 
 
 }//class
