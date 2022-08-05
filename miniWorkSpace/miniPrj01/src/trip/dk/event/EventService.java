@@ -89,18 +89,21 @@ public class EventService{
 			if(rpsResult==1) {
 				cv.setCouponInfoNo("1");
 				System.out.println("5천원 할인 쿠폰 당첨! 마이페이지를 확인해주세요.");
+				couponIssued("1");
 			}else if(rpsResult==2) {
 				cv.setCouponInfoNo("2");
 				System.out.println("5만원 할인 쿠폰 당첨! 마이페이지를 확인해주세요.");
+				couponIssued("2");
 				
 			}else if(rpsResult>=3) {
 				cv.setCouponInfoNo("3");
 				System.out.println("10만원 할인 쿠폰 당첨! 마이페이지를 확인해주세요.");
+				couponIssued("3");
 			}else {
 				cv.setCouponInfoNo("0");
 				System.out.println(" 아쉽지만 다른 이벤트에 도전하세요!");
 			}
-			couponIssued(cv);	
+				
 			}
 			
 
@@ -119,21 +122,23 @@ public class EventService{
 		upDownResult =new EventGame().upDownGame();
 		
 		if(upDownResult<=3) {
-			cv.setCouponInfoNo("4");
+			cv.setCouponInfoNo("6");
 			System.out.println("10만원 할인 쿠폰 당첨! 마이페이지를 확인해주세요.");
+			couponIssued("6");
 
 		}else if(upDownResult<=5) {
 			cv.setCouponInfoNo("5");
 			System.out.println("5만원 할인 쿠폰 당첨! 마이페이지를 확인해주세요.");
+			couponIssued("5");
 
 		}else if(upDownResult<=7) {
-			cv.setCouponInfoNo("6");
+			cv.setCouponInfoNo("4");
 			System.out.println("5천원 할인 쿠폰 당첨! 마이페이지를 확인해주세요.");
-		}else {
+			couponIssued("4");
+		}else if (upDownResult>7) {
 			cv.setCouponInfoNo("0");
 			System.out.println(" 아쉽지만 다른 이벤트에 도전하세요!");
 		}
-		couponIssued(cv);
 
 		}
 
@@ -162,15 +167,16 @@ public class EventService{
 
 		}
 		
-		public void couponIssued(CouponVo cv) {
+		//쿠폰발급
+		public void couponIssued(String string) {
 			
-			int result = new CouponService().couponIssued(cv);
+			int result = new CouponService().couponIssued(string);
 			
 			if(result == 1) {
-				System.out.println("쿠폰 발급 완료");
+				System.out.println("이벤트 결과");
 				
 			}else{
-				System.out.println("쿠폰 발급 중 에러 발생!");
+				System.out.println("이벤트 결과 중 에러 발생!");
 			}
 		}
 		
