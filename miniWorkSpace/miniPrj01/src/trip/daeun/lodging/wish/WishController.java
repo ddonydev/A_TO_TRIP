@@ -1,7 +1,9 @@
 package trip.daeun.lodging.wish;
 
 import java.sql.Connection;
+import java.util.List;
 
+import trip.hyewon.lodging.LodgingVo;
 import trip.min.main.MemberMain;
 import trip.min.util.InputUtil;
 
@@ -64,6 +66,41 @@ public class WishController {
 		
 		}
 	}
+	
+	
+	public void showZzimList(LodgingVo vo) {
+		
+		List<LodgingVo> lodgingVoList = new WishService().showZzimList(vo);
+		System.out.println("----- 찜한 숙소 목록 -----");
+		
+		for(int i = 0; i < lodgingVoList.size(); ++i) {
+			LodgingVo temp = lodgingVoList.get(i);
+			
+			String no = temp.getNo();
+			String name = temp.getName();
+			String address = temp.getAddress();
+			String phone = temp.getPhone();
+			
+			System.out.println("[" + no + "]");
+			System.out.println("숙소 : " + name);
+			System.out.println();
+			System.out.println("------------------------");
+			System.out.println("주소 : " + address);
+			System.out.println();
+			System.out.println("------------------------");
+			System.out.println("번호 : " + phone);
+			System.out.println();
+			System.out.println("------------------------");
+	
+		}
+		
+		
+		
+		
+		
+	}
+	
+	
 	
 	
 }
