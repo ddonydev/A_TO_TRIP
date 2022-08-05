@@ -1,8 +1,10 @@
 package trip.min.member;
 
 import java.sql.Connection;
+import java.util.List;
 
 import trip.min.common.JDBCTemplate;
+import trip.min.manager.ManagerDao;
 
 public class MemberService {
 
@@ -53,5 +55,22 @@ public class MemberService {
 		
 	}//join
 	
+	public List<MemberVo> showListMember() {
+		
+		Connection conn = null;
+		List<MemberVo> memberVoList = null;
+		
+		try {
+			conn = JDBCTemplate.getConnection();
+			
+			memberVoList = new ManagerDao().selectMember(conn);
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return memberVoList;
+	}//showListMember
 	
 }//class

@@ -30,8 +30,28 @@ public class MemberVo {
 	private String birth;
 	private String phone;
 	private String nick;
+	private Timestamp enrollDate;
+	private String quitYn;
 	
 	
+	
+	
+	public Timestamp getEnrollDate() {
+		return enrollDate;
+	}
+
+	public void setEnrollDate(Timestamp enrollDate) {
+		this.enrollDate = enrollDate;
+	}
+
+	public String getQuitYn() {
+		return quitYn;
+	}
+
+	public void setQuitYn(String quitYn) {
+		this.quitYn = quitYn;
+	}
+
 	public String getNo() {
 		return no;
 	}

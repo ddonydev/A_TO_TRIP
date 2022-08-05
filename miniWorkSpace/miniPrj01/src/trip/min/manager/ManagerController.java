@@ -1,7 +1,12 @@
 package trip.min.manager;
 
+import java.sql.Timestamp;
+import java.util.List;
+
 import trip.hyewon.lodging.LodgingVo;
 import trip.min.manager.ManagerService;
+import trip.min.member.MemberService;
+import trip.min.member.MemberVo;
 import trip.min.util.InputUtil;
 
 public class ManagerController {
@@ -89,5 +94,64 @@ public class ManagerController {
 		}
 		
 	}//editLodging
+	
+	public void showListMember() {
+		
+		List<MemberVo> memberVoList = new MemberService().showListMember();
+		
+		System.out.println("===== 회원 조회 =====");
+		
+		for (int i = 0; i < memberVoList.size(); i++) {
+			//꺼내오기
+			MemberVo temp = memberVoList.get(i);
+			//변수에 담아주기
+			String id = temp.getId();
+			String email = temp.getEmail();
+			String name = temp.getName();
+			String birth = temp.getBirth();
+			String phone = temp.getPhone();
+			String nick = temp.getNick();
+			Timestamp enrollDate = temp.getEnrollDate();
+			String quitYn = temp.getQuitYn();
+			//변수에 담은것 출력
+			System.out.println(id + "|"+ email + "|" + name + "|" + birth);
+			System.out.println(phone + "|" + nick + "|" + quitYn);
+			System.out.println(enrollDate);
+		}
+		
+	}//showlistMember
+	
+	public void editMember() {
+		System.out.println("===== 회원 정보 수정 =====");
+		System.out.println("!!!모든 항목 작성하여야 함!!!");
+		System.out.print("1. 변경할 이메일 : ");
+		String email = InputUtil.sc.nextLine();
+		System.out.print("2. 변경할 이름 : ");
+		String name = InputUtil.sc.nextLine();
+		System.out.print("3. 변경할 연락처 : ");
+		String phone = InputUtil.sc.nextLine();
+		System.out.print("4. 변경할 닉네임 : ");
+		String nick = InputUtil.sc.nextLine();
+		System.out.print("5. 회원탈퇴 여부 'Y / N' : ");
+		String quitYn = InputUtil.sc.nextLine();
+		System.out.print("6. 사용자 아이디 : ");
+		String id = InputUtil.sc.nextLine();
+	
+		MemberVo vo = new MemberVo();
+		vo.setEmail(email);
+		vo.setName(name);
+		vo.setPhone(phone);
+		vo.setNick(nick);
+		vo.setQuitYn(quitYn);
+		vo.setId(id);
+		
+		int result = new ManagerService().editMember(vo);
+		
+		if(result == 1) {
+			System.out.println("회원 정보가 변경되었습니다.");
+		}else {
+			System.out.println("[ERROR :" + result + "] : 회원정보 수정 에러");
+		}
+	}//editMember
 	
 }
