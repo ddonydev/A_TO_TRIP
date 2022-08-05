@@ -92,6 +92,7 @@ public class MemberMenu {
 				case "admin9":
 					System.out.println("관리자 페이지로 이동합니다.");
 					new Manager().managerMenu();
+					break;
 				default :
 					System.out.println("다시 입력해주세요.");
 			}
