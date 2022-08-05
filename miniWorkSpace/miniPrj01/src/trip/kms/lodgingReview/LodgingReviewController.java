@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Scanner;
 
+import trip.hyewon.lodging.LodgingController;
 import trip.kms.lodgingReviewLike.LodgingReviewLikeController;
 import trip.kms.lodgingReviewLike.LodgingReviewLikeVo;
 import trip.min.main.MemberMain;
@@ -17,7 +18,7 @@ public class LodgingReviewController {
 		
 		while(true) {
 			List<LodgingReviewVo> lodgingReviewVoList = new LodgingReviewService().showList();
-			System.out.println("====== 숙소 리뷰 =====");
+			System.out.println("===== 숙소 리뷰 =====");
 			for(int i = 0 ; i < lodgingReviewVoList.size() ; i++) {
 				LodgingReviewVo tmp = lodgingReviewVoList.get(i);
 				
@@ -30,20 +31,21 @@ public class LodgingReviewController {
 				Timestamp editDate = tmp.getEditDate(); 
 				int reviewLike = tmp.getReviewLike();
 				
-				System.out.print("no=" + no + " || ");
-				System.out.print("writer=" + writer + " || ");
-				System.out.print("lodgingNo=" + lodgingNo + " || ");
-				System.out.print("title=" + title + " || ");
-				System.out.print("content=" + content + " || ");
-				System.out.print("reviewLike=" + reviewLike);
+				System.out.print("리뷰 번호 :: " + no + " || ");
+				System.out.print("작성자 번호 :: " + writer + " || ");
+				System.out.print("숙소 번호 :: " + lodgingNo + " || ");
+				System.out.print("제목 :: " + title + " || ");
+				System.out.print("내용 :: " + content + " || ");
+				System.out.print("좋아요 갯수 :: " + reviewLike + " || ");
+				System.out.print("최근 작성일 :: " + reviewDate);
 				System.out.println();
 				
 //				System.out.println(tmp.toString());
 			}
 			
 			LodgingReviewVo vo = new LodgingReviewVo();
-		
-			System.out.println("==== 리뷰 번호 선택 ====");
+			
+			System.out.println("===== 리뷰 번호 선택 =====");
 			Scanner scanner = new Scanner(System.in);
 			System.out.print("조회할 리뷰 번호  : ");
 			String inputNumStr = scanner.nextLine();
@@ -88,8 +90,7 @@ public class LodgingReviewController {
 		
 		while(true) {
 			System.out.println("1. 수정");
-			System.out.println("2. 작정");
-			System.out.println("3. 이전으로 돌아가기");
+			System.out.println("2. 이전으로 돌아가기");
 			System.out.println("-----------------------");
 			System.out.print("번호를 입력하세요 : ");
 			Scanner scanner = new Scanner(System.in);
@@ -100,10 +101,6 @@ public class LodgingReviewController {
 				showReviewChoose(vo);
 				break;
 			} else if(reviewLikeNum.equals("2")) {
-				System.out.println("작성페이지로 이동합니다.");
-				writeReview(vo);
-				break;
-			} else if(reviewLikeNum.equals("3")) {
 				System.out.println("이전페이지로 돌아갑니다.");
 				showReview();
 				break;
@@ -146,9 +143,10 @@ public class LodgingReviewController {
 		}
 	}
 	
-	//1->1. 게시글 작성 선택시
-	public void writeReview(LodgingReviewVo vo) {
+	//2. 예약 페이지에서 lodgingNo 받아서 그 값으로만 review 생성
+	public void writeReview(int lodgingReservationNo) {
 		System.out.println("===== 게시글 작성 =====");
+		System.out.println(lodgingReservationNo + " 번 숙소의 리뷰를 작성합니다.");
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("제목 : ");
 		String title = scanner.nextLine();
@@ -160,7 +158,7 @@ public class LodgingReviewController {
 		LodgingReviewVo lodgingReviewVo = new LodgingReviewVo();
 //		lodgingReviewVo.setNo();
 		lodgingReviewVo.setWriter(writer);
-		lodgingReviewVo.setLodgingNo(vo.getLodgingNo());
+		lodgingReviewVo.setLodgingNo(lodgingReservationNo);
 		lodgingReviewVo.setTitle(title);
 		lodgingReviewVo.setContent(content);
 		
@@ -176,7 +174,7 @@ public class LodgingReviewController {
 		
 	}
 	
-	//1->2. 게시글 수정 선택시
+	//1->1. 게시글 수정 선택시
 	public void editReview(LodgingReviewVo vo) {
 		System.out.println("===== 게시글 수정 =====");
 		Scanner scanner = new Scanner(System.in);
@@ -195,11 +193,14 @@ public class LodgingReviewController {
 		lodgingReviewVoEdit.setTitle(title);
 		lodgingReviewVoEdit.setContent(content);
 		lodgingReviewVoEdit.setLodgingNo(vo.getLodgingNo());
-		lodgingReviewVoEdit.setWriter(memberWriter);
+		lodgingReviewVoEdit.setWriter(vo.getWriter());
 		lodgingReviewVoEdit.setReviewLike(vo.getReviewLike());
 		
 		int result = new LodgingReviewService().editReview(lodgingReviewVoEdit);
-		if(result == 1 /* && memberWriter == lodgingReviewVoDelete.getWriter() */) {
+		System.out.println("memberWriter = " + memberWriter);
+		System.out.println("lodgingReviewEdit.getWriter() = " + lodgingReviewVoEdit.getWriter());
+		
+		if(result == 1  && memberWriter == lodgingReviewVoEdit.getWriter() ) {
 			System.out.println("수정 완료");
 		} else {
 			System.out.println("수정 실패");
@@ -207,7 +208,7 @@ public class LodgingReviewController {
 		
 	}
 	
-	//1->3. 게시글 삭제 선택시
+	//1->2. 게시글 삭제 선택시
 	public void deleteReview(LodgingReviewVo vo) {
 		System.out.println("===== 게시글 삭제 =====");
 		LodgingReviewVo lodgingReviewVoDelete = vo;
@@ -229,7 +230,7 @@ public class LodgingReviewController {
 		}
 	}
 	
-	//1->4. 좋아요 누르기
+	//1->3. 좋아요 누르기
 	public void reviewLikePlus(LodgingReviewVo vo) {
 		//membervo 받아와서 pwd 검사? => no 그냥 받아오기
 		int memberWriter = Integer.valueOf(MemberMain.LoginMember.getNo());
@@ -243,7 +244,7 @@ public class LodgingReviewController {
 			System.out.println("좋아요 누르기 실패");
 		}
 	}
-	//1->5. 좋아요 취소하기
+	//1->4. 좋아요 취소하기
 	public void reviewLikeMinus(LodgingReviewVo vo) {
 		//membervo 받아와서 pwd 검사? => no 그냥 받아오기
 		int memberWriter = Integer.valueOf(MemberMain.LoginMember.getNo());
@@ -262,11 +263,11 @@ public class LodgingReviewController {
 	public void showMyReview() {
 		Scanner scanner = new Scanner(System.in);
 		MemberVo memberVo = MemberMain.LoginMember;
-		String name = memberVo.getName();
-		System.out.println(MemberMain.LoginMember.getName());
-		System.out.println("===== " + name + "님의 숙소 리뷰 =====");
-		
+		String nick = memberVo.getNick();
+		System.out.println(MemberMain.LoginMember.getNick());
+		System.out.println("===== " + nick + "님의 숙소 리뷰 =====");
 		List<LodgingReviewVo> lodgingReviewVoList = new LodgingReviewService().showMyList();
+		
 		for(int i = 0 ; i < lodgingReviewVoList.size() ; i++) {
 			LodgingReviewVo tmp = lodgingReviewVoList.get(i);
 			
@@ -279,30 +280,33 @@ public class LodgingReviewController {
 			Timestamp editDate = tmp.getEditDate(); 
 			int reviewLike = tmp.getReviewLike();
 			
-			System.out.print("no=" + no + " || ");
-			System.out.print("writer=" + writer + " || ");
-			System.out.print("lodgingNo=" + lodgingNo + " || ");
-			System.out.print("title=" + title + " || ");
-			System.out.print("content=" + content + " || ");
-			System.out.print("reviewLike=" + reviewLike);
-			System.out.println();
+			if(Integer.valueOf(memberVo.getNo()) == writer) {
+				System.out.print("리뷰 번호 :: " + no + " || ");
+				System.out.print("작성자 번호 :: " + writer + " || ");
+				System.out.print("숙소 번호 :: " + lodgingNo + " || ");
+				System.out.print("제목 :: " + title + " || ");
+				System.out.print("내용 :: " + content + " || ");
+				System.out.print("좋아요 갯수 :: " + reviewLike + " || ");
+				System.out.print("최근 작성일 :: " + reviewDate);
+				System.out.println();
+			}
+		}
+		
+		while(true) {
+			System.out.println("---------------------------");
+			System.out.println("1. 전체 리뷰 보기로 이동");
+			System.out.println("2. 마이 페이지로 이동");
+			System.out.print("선택 : ");
+			String choose = scanner.nextLine();
 			
-			while(true) {
-				System.out.println("---------------------------");
-				System.out.println("1. 전체 리뷰 보기로 이동");
-				System.out.println("2. 마이 페이지로 이동");
-				System.out.print("선택 : ");
-				String choose = scanner.nextLine();
-				
-				if(choose.equals("1")) {
-					showReview();
-					break;
-				} else if(choose.equals("2")) {
-					new MemberMenu().loginMenu();
-					break;
-				} else {
-					System.out.println("다시 입력하세요");
-				}
+			if(choose.equals("1")) {
+				showReview();
+				break;
+			} else if(choose.equals("2")) {
+				new MemberMenu().loginMenu();
+				break;
+			} else {
+				System.out.println("다시 입력하세요");
 			}
 		}
 		
