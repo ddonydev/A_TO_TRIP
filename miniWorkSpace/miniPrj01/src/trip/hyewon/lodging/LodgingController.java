@@ -305,8 +305,9 @@ public class LodgingController {
 			String no = temp.getNo();
 			String name = temp.getName();
 			String address = temp.getAddress();
+			int reviewCnt = temp.getReviewCnt();
 			
-			System.out.println(no + " | " + name + " | " + address);
+			System.out.println(no + " | 리뷰:" + reviewCnt + "개 | " + name + " | " + address);
 		}
 		System.out.println();
 	}
@@ -321,8 +322,9 @@ public class LodgingController {
 			String no = temp.getNo();
 			String name = temp.getName();
 			String address = temp.getAddress();
+			int zzimCnt = temp.getZzimCnt();
 			
-			System.out.println(no + " | " + name + " | " + address);
+			System.out.println(no + " | 찜 " + zzimCnt + "개 | " + name + " | " + address);
 		}
 		System.out.println();
 	}
@@ -350,7 +352,7 @@ public class LodgingController {
 			
 			roomNoList.add(no);
 			
-			System.out.println(no + " | " + roomType + " | " + "1박가격:"+price + " | " + "조식여부:"+breakfastYn + " | " + "최대인원수:"+people);
+			System.out.println(no + " | " + roomType + " | " + "1박가격:"+price + " | " + "조식여부:"+breakfastYn + " | " + "최대인원수:"+people + " | 1개남음");
 			
 		}
 		
@@ -434,20 +436,47 @@ public class LodgingController {
 			rv.setCouponYn("Y"); //최종 쿠폰사용여부
 		}
 
-		System.out.println("\n선불, 후불을 선택해주세요.");
-		System.out.println("1. 선불");
-		System.out.println("2. 후불");
-		System.out.println("3. 나가기");
-		System.out.print("입력 : ");
-		String payMoment = InputUtil.sc.nextLine();
-		String pay = "";
-		if(payMoment.equals("1")) {
-			pay = selectPay();
-		}
-		if(payMoment.equals("3")) {
-			return;
+		//총가격이 0원 이하면 선불, 후불 선택안하고 pay=쿠폰사용 넣기
+		//바로 예약 내역 보여주기
+		long totalPrice = 0;
+		
+		if(choiceBreakfastYn.equals("Y")) {
+			totalPrice = (userPrice*diffDays)*(-1)+35000-discount;
+			
+			if(totalPrice<0) {
+				totalPrice = 0;
+			}
+			rv.setPayment(Long.toString(totalPrice));
+			rv.setBreakfastYn("Y"); //최종 조식선택여부
+		}else {
+			totalPrice = (userPrice*diffDays)*(-1)-discount;
+			
+			if(totalPrice<0) {
+				totalPrice = 0;
+			}
+			rv.setPayment(Long.toString(totalPrice));
+			rv.setBreakfastYn("N"); //최종 조식선택여부
 		}
 		
+		String pay = "";
+		String payMoment = "";
+		if(totalPrice>0) {
+			System.out.println("\n선불, 후불을 선택해주세요.");
+			System.out.println("1. 선불");
+			System.out.println("2. 후불");
+			System.out.println("3. 나가기");
+			System.out.print("입력 : ");
+			payMoment = InputUtil.sc.nextLine();
+			if(payMoment.equals("1")) {
+				pay = selectPay();
+			}
+			if(payMoment.equals("3")) {
+				return;
+			}
+			
+		}else {
+			pay = "쿠폰사용";
+		}
 		
 		
 		//예약 내역 보여주기
@@ -461,22 +490,20 @@ public class LodgingController {
 		System.out.println("인원수 : " + vo.getPeople());
 		System.out.println("조식선택 : " + choiceBreakfastYn);
 		System.out.println("1박기준가격 : " + userPrice);
-		if(choiceBreakfastYn.equals("Y")) {
-			System.out.println("총 가격 : " + ((userPrice*diffDays)*(-1)+35000-discount));
-			rv.setPayment(Long.toString(((userPrice*diffDays)*(-1)+35000-discount)));
-			rv.setBreakfastYn("Y"); //최종 조식선택여부
-		}else {
-			System.out.println("총 가격 : " + ((userPrice*diffDays)*(-1)-discount));
-			rv.setPayment(Long.toString(((userPrice*diffDays)*(-1)-discount)));
-			rv.setBreakfastYn("N"); //최종 조식선택여부
-		}
-		if(payMoment.equals("1")) {
+		System.out.println("총 가격 : " + totalPrice);
+		
+
+		if(payMoment.equals("1")&&(totalPrice>0)) {
 			System.out.println("결제수단 : " + pay + "(결제완료)");
 			rv.setPayWay(pay);
 			rv.setPayYn("Y"); //최종 결제여부
-		}else{
+		}else if(payMoment.equals("2")&&(totalPrice>0)){
 			System.out.println("\n결제는 " +vo.getStartDate() +"에 만나서 결제해주세요!");
 			rv.setPayYn("N"); //최종 결제여부
+		}else {
+			System.out.println("결제수단 : 쿠폰사용");
+			rv.setPayYn("Y");
+			rv.setPayWay("쿠폰사용");
 		}
 		
 		

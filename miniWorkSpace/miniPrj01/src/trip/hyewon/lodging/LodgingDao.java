@@ -69,7 +69,9 @@ public class LodgingDao {
 
 	//추천 숙소 조회
 	public List<LodgingVo> showRecommendLodgingList(Connection conn) throws Exception {
-		String sql = "SELECT NO, NAME, ADDRESS FROM LODGING_INFORMATION WHERE NO IN (SELECT COUNT(LODGING_NO) FROM LODGING_REVIEW LR JOIN LODGING_INFORMATION LI ON LR.LODGING_NO = LI.NO GROUP BY LODGING_NO ORDER BY COUNT(LR.LODGING_NO) DESC OFFSET 0 ROWS FETCH NEXT 10 ROWS ONLY)";
+		//String sql = "SELECT NO, NAME, ADDRESS FROM LODGING_INFORMATION WHERE NO IN (SELECT COUNT(LODGING_NO) FROM LODGING_REVIEW LR JOIN LODGING_INFORMATION LI ON LR.LODGING_NO = LI.NO GROUP BY LODGING_NO ORDER BY COUNT(LR.LODGING_NO) DESC OFFSET 0 ROWS FETCH NEXT 10 ROWS ONLY)";
+		String sql = "SELECT LI.NO, COUNT(LR.LODGING_NO), LI.NAME, LI.ADDRESS FROM LODGING_REVIEW LR JOIN LODGING_INFORMATION LI ON LR.LODGING_NO = LI.NO GROUP BY NAME, ADDRESS, LI.NO ORDER BY COUNT(LR.LODGING_NO) DESC OFFSET 0 ROWS FETCH NEXT 10 ROWS ONLY";
+		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
@@ -84,11 +86,13 @@ public class LodgingDao {
 				int no = rs.getInt("NO");
 				String name = rs.getString("NAME");
 				String address = rs.getString("ADDRESS");
+				int reviewCnt = rs.getInt("COUNT(LR.LODGING_NO)");
 				
 				LodgingVo lodgingVo = new LodgingVo();
 				lodgingVo.setNo(Integer.toString(no));
 				lodgingVo.setName(name);
 				lodgingVo.setAddress(address);
+				lodgingVo.setReviewCnt(reviewCnt);
 		
 				lodgingVoList.add(lodgingVo);
 			}
@@ -104,7 +108,9 @@ public class LodgingDao {
 	//인기 숙소 조회
 	public List<LodgingVo> showPopularLodgingList(Connection conn) throws Exception {
 
-		String sql = "SELECT * FROM LODGING_INFORMATION ORDER BY LODGING_LIKE DESC OFFSET 0 ROWS FETCH NEXT 10 ROWS ONLY";
+		//String sql = "SELECT * FROM LODGING_INFORMATION ORDER BY LODGING_LIKE DESC OFFSET 0 ROWS FETCH NEXT 10 ROWS ONLY";
+		String sql = "SELECT LI.NO, NAME, ADDRESS, COUNT(LW.LODGING_NO) FROM LODGING_WISH LW JOIN LODGING_INFORMATION LI ON LW.LODGING_NO = LI.NO GROUP BY NAME, ADDRESS, LI.NO ORDER BY COUNT(LW.LODGING_NO) DESC OFFSET 0 ROWS FETCH NEXT 10 ROWS ONLY";
+		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
@@ -119,11 +125,13 @@ public class LodgingDao {
 				int no = rs.getInt("NO");
 				String name = rs.getString("NAME");
 				String address = rs.getString("ADDRESS");
+				int zzimCnt = rs.getInt("COUNT(LW.LODGING_NO)");
 				
 				LodgingVo lodgingVo = new LodgingVo();
 				lodgingVo.setNo(Integer.toString(no));
 				lodgingVo.setName(name);
 				lodgingVo.setAddress(address);
+				lodgingVo.setZzimCnt(zzimCnt);
 		
 				lodgingVoList.add(lodgingVo);
 			}
