@@ -11,6 +11,7 @@ import trip.se.qna.QnaVo;
 import trip.dk.coupon.CouponService;
 import trip.dk.coupon.CouponVo;
 import trip.min.main.MemberMain;
+import trip.min.member.MemberVo;
 import trip.min.util.InputUtil;
 
 public class PostController {
@@ -201,33 +202,40 @@ public class PostController {
 		
 	}//likePost
 	
-//	public void showMyPost(String num) {
+	public void showMyPost(MemberVo loginMember) {
 		
-		public String showMyPost() {
-			List<PostVo> PostVoList = new PostService().showMyPost();
-			System.out.println("==== "+MemberMain.LoginMember.getNick()+"님이 현재 보유 하고있는 쿠폰 내역입니다. ====");
-			for(int i = 0; i<PostVoList.size();++i) {
-						
-						
-				PostVo temp = (PostVo)PostVoList.get(i);
-
+		
+//		String n = post.getWriter();
+//		post.setWriter(MemberMain.LoginMember.getNo());
+		String nick = loginMember.getNick();
+		
+			List<PostVo> myPostList = new PostService().showMyPost();
+		
+			System.out.println("----- " + nick +"님의 게시글 조회 -----");
+			
+			for(int i = 0; i < myPostList.size(); i++) {
+				
+				PostVo temp = myPostList.get(i);
+				
 				String no = temp.getNo();
-				String content = temp.getContent();
+				String title = temp.getTitle();
+				String writer = temp.getNick();
+				String like = temp.getLike();
+				String viewcount = temp.getViewCount();
 				Timestamp date = temp.getDate();
-				String nick = temp.getNick();
 				
 				// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
-				System.out.println("[" + no + "] " + content + " |   " + nick + "  |  " + date + "\n");
-					
+				System.out.println("[" + no + "] " + title + " |   " + writer + "  |  " +"좋아요 : "+ like + "  |  " + "조회수 : " + viewcount + "  |  " + date + "\n");
+			}
 			
-		}
-			return InputUtil.sc.nextLine();
+
+		// 로그인 한 사람의 회원번호 == 글 쓴 사람의 회원 번호 비교
+		// 글 리스트 보여주고
+		
+		// 선택
 		
 		
-		}
-		
-		
-//	}//showMyPost
+	}//showMyPost
 	
 	
 }// class
