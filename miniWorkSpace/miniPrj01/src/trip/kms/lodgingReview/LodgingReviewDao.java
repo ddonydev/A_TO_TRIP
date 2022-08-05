@@ -97,6 +97,7 @@ public class LodgingReviewDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		LodgingReviewVo lodgingReviewVo = lodgingReviewVoEdit;
+		int memberWriter = Integer.valueOf(MemberMain.LoginMember.getNo());
 		
 		
 		String query = " update lodging_review "
@@ -111,7 +112,7 @@ public class LodgingReviewDao {
 		
 		int result = pstmt.executeUpdate();
 		
-		if(result == 1) {
+		if(result == 1 && memberWriter == lodgingReviewVo.getWriter()) {
 			JDBCTemplate.commit(conn);
 		} else {
 			JDBCTemplate.rollBack(conn);
@@ -124,17 +125,24 @@ public class LodgingReviewDao {
 	public int deleteReview(Connection conn, LodgingReviewVo lodgingReviewVoDelete) throws Exception {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		LodgingReviewVo lodgingReviewVo = null;
+		LodgingReviewVo lodgingReviewVo = lodgingReviewVoDelete;
 		int result = 0;
+		int memberWriter = Integer.valueOf(MemberMain.LoginMember.getNo());
 		
 		String query = " update lodging_review "
 						+ " set review_delete = 'Y' "
 						+ " where no = ? ";
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setInt(1, lodgingReviewVoDelete.getNo());
+			pstmt.setInt(1, lodgingReviewVo.getNo());
 			
 			result = pstmt.executeUpdate();
+			
+			if(result == 1 && memberWriter == lodgingReviewVo.getWriter()) {
+				JDBCTemplate.commit(conn);
+			} else {
+				JDBCTemplate.rollBack(conn);
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();

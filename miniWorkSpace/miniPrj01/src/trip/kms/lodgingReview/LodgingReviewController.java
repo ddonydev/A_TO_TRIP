@@ -47,10 +47,13 @@ public class LodgingReviewController {
 			
 			System.out.println("===== 리뷰 번호 선택 =====");
 			Scanner scanner = new Scanner(System.in);
-			System.out.print("조회할 리뷰 번호  : ");
+			System.out.print("조회할 리뷰 번호('Q'를 통해 뒤로 이동)  : ");
 			String inputNumStr = scanner.nextLine();
-			int reviewNum = Integer.valueOf(inputNumStr);
+			if(inputNumStr.equals("Q")) {
+				break;
+			}
 			
+			int reviewNum = Integer.valueOf(inputNumStr);
 			if(reviewNum > lodgingReviewVoList.size()) {
 				System.out.println("리뷰 범위를 초과하였습니다.");
 			}
@@ -187,7 +190,6 @@ public class LodgingReviewController {
 		System.out.print("수정할 content : ");
 		String content = scanner.nextLine();
 		
-		
 		LodgingReviewVo lodgingReviewVoEdit = new LodgingReviewVo();
 		lodgingReviewVoEdit.setNo(vo.getNo());
 		lodgingReviewVoEdit.setTitle(title);
@@ -197,10 +199,8 @@ public class LodgingReviewController {
 		lodgingReviewVoEdit.setReviewLike(vo.getReviewLike());
 		
 		int result = new LodgingReviewService().editReview(lodgingReviewVoEdit);
-		System.out.println("memberWriter = " + memberWriter);
-		System.out.println("lodgingReviewEdit.getWriter() = " + lodgingReviewVoEdit.getWriter());
 		
-		if(result == 1  && memberWriter == lodgingReviewVoEdit.getWriter() ) {
+		if(result == 1 && memberWriter == lodgingReviewVoEdit.getWriter()) {
 			System.out.println("수정 완료");
 		} else {
 			System.out.println("수정 실패");
@@ -218,12 +218,8 @@ public class LodgingReviewController {
 		int memberWriter = Integer.valueOf(MemberMain.LoginMember.getNo());
 		
 		result = new LodgingReviewService().deleteReview(lodgingReviewVoDelete);
-//		if(memberWriter != lodgingReviewVoDelete.getWriter()) {
-//			System.out.println("삭제 불가능");
-//			return;
-//		}
 		
-		if(result == 1/* && memberWriter == lodgingReviewVoDelete.getWriter()*/) {
+		if(result == 1 && memberWriter == lodgingReviewVoDelete.getWriter()) {
 			System.out.println("삭제 성공");
 		} else {
 			System.out.println("삭제 실패");
