@@ -555,7 +555,8 @@ public class LodgingController {
 		while(!input.equals("1")&&!input.equals("2")&&!input.equals("3")) {
 			System.out.println("1. 예약 취소하기");
 			System.out.println("2. 예약 변경하기");
-			System.out.println("3. 나가기");
+			System.out.println("3. 리뷰 작성하기");
+			System.out.println("4. 나가기");
 			System.out.print("입력 : ");
 			input = InputUtil.sc.nextLine();
 			
@@ -568,7 +569,12 @@ public class LodgingController {
 				String updateNo = updateReservation(noList, cancelYnList);
 				updateMenu(noList, updateNo, breakfastYnList);
 				break;
-			case "3" :
+			case "3" : //리뷰작성
+				String reviewNo = reviewReservation(noList, cancelYnList); //예약번호
+				int lodgingNo = selectLodgingNo(reviewNo); //예약번호로 숙소번호 셀렉트해옴
+				new LodgingReviewController().writeReview(lodgingNo);
+				break;
+			case "4" :
 				return;
 			default:
 				System.out.println("잘못된 입력입니다!");
@@ -581,7 +587,7 @@ public class LodgingController {
 	
 	//예약 번호 리스트 중에서 && 예약취소여부가 N인것만 수정가능함! 예약번호 리턴하는 메소드
 	public String updateReservation(List noList, List cancelYnList) {
-		System.out.println("예약변경할 예약번호를 입력해주세요");
+		System.out.println("\n예약변경할 예약번호를 입력해주세요");
 		boolean isNum = false;
 		String input = "";
 		while(!isNum) {
@@ -596,6 +602,12 @@ public class LodgingController {
 			}
 		}
 		return input;
+	}
+	
+	//예약번호로 숙소번호 select하는 메소드
+	public int selectLodgingNo(String updateNo) {
+		int lodgingNo = new LodgingService().selectLodgingNo(updateNo);
+		return lodgingNo;
 	}
 	
 	public void updateMenu(List noList, String updateNo, List breakfastYnList) {
@@ -652,11 +664,11 @@ public class LodgingController {
 				int num = selectRoomNo(updateNo);
 				boolean isEmpty = checkEmpty(num, startDate, endDate);
 				if(isEmpty==false) {
-					System.out.println("해당날짜는 예약완료되었습니다. 다른 날짜를 선택해주세요");
+					System.out.println("\n해당날짜는 예약완료되었습니다. 다른 날짜를 선택해주세요");
 					return;
 				}
 				if(isEmpty) {
-					System.out.println("변경한 날짜로 예약변경 진행 중...");
+					System.out.println("\n변경한 날짜로 예약변경 진행 중...");
 					//해당 예약번호에 입실,퇴실날짜 업데이트
 					updateStartEndDate(updateNo, startDate, endDate);
 				}
@@ -671,7 +683,7 @@ public class LodgingController {
 	private void updateStartEndDate(String updateNo, String startDate, String endDate) {
 		int result = new LodgingService().updateStartEndDate(updateNo, startDate, endDate);
 		if(result == 1) {
-			System.out.println("예약 날짜 변경이 완료되었습니다.");
+			System.out.println("예약 날짜 변경이 완료되었습니다.\n");
 		}else {
 			System.out.println("예약 날짜 변경 중 에러발생!");
 		}
@@ -680,7 +692,7 @@ public class LodgingController {
 
 	public void updateBreakfastYn(String userBreakfastYn, String updateNo) {
 		if(userBreakfastYn.equals("Y")) { //사용자가 조식을 선택했다면 취소하는 경우밖에 없음!
-			System.out.println("조식을 취소하시겠습니까?");
+			System.out.println("\n조식을 취소하시겠습니까?");
 			
 			System.out.println("1. 예");
 			System.out.println("2. 아니오");
@@ -701,7 +713,7 @@ public class LodgingController {
 		if(userBreakfastYn.equals("N")) {  
 			boolean isBf = checkBfYn(updateNo);
 			if(isBf) {
-				System.out.println("조식을 추가하시겠습니까?");
+				System.out.println("\n조식을 추가하시겠습니까?");
 				
 				System.out.println("1. 예");
 				System.out.println("2. 아니오");
@@ -715,7 +727,7 @@ public class LodgingController {
 				}
 			}
 			if(isBf==false) {
-				System.out.println("숙소에 조식이 없으므로 조식변경이 불가합니다!");
+				System.out.println("\n숙소에 조식이 없으므로 조식변경이 불가합니다!");
 				return;
 			}
 		}
@@ -746,7 +758,7 @@ public class LodgingController {
 		int result = new LodgingService().cancelBf(updateNo);
 		if(result == 1) {
 			System.out.println("조식 취소가 완료되었습니다.");
-			System.out.println("등록된 계좌로 35000원 환불되었습니다.");
+			System.out.println("등록된 계좌로 35000원 환불되었습니다.\n");
 		}else {
 			System.out.println("조식 취소 중 에러발생!");
 		}
@@ -756,7 +768,7 @@ public class LodgingController {
 		int result = new LodgingService().addBf(updateNo);
 		if(result == 1) {
 			System.out.println("조식 추가가 완료되었습니다.");
-			System.out.println("등록된 계좌로 35000원 추가 결제되었습니다.");
+			System.out.println("등록된 계좌로 35000원 추가 결제되었습니다.\n");
 		}else {
 			System.out.println("조식 추가 중 에러발생!");
 		}
@@ -796,11 +808,32 @@ public class LodgingController {
 		return input;
 		
 	}
+	
+	//예약 번호 리스트 중에서 && 예약취소여부가 N인것만 리뷰작성 가능함!! 예약번호 리턴하는 메소드
+	public String reviewReservation(List noList, List cancelYnList) {
+		System.out.println("리뷰 작성할 예약번호를 입력해주세요");
+		boolean isNum = false;
+		String input = "";
+		while(!isNum) {
+			System.out.print("입력 : ");
+			input = InputUtil.sc.nextLine();
+			
+			for(int i=0; i<noList.size(); i++) {
+				if(input.equals(noList.get(i))&& cancelYnList.get(i).equals("N")) {
+					isNum = true;
+					break;
+				}
+			}
+		}
+		return input;
+		
+	}
+	
 	//예약 취소 Y로 예약테이블에 업데이트하기
 	public void updateCancelY(String input) {
 		int result = new LodgingService().updateCancelY(input);
 		if(result == 1) {
-			System.out.println("예약취소가 완료되었습니다.");
+			System.out.println("\n예약취소가 완료되었습니다.\n");
 		}else {
 			System.out.println("예약취소 중 에러발생!");
 		}

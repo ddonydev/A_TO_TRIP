@@ -538,6 +538,21 @@ public class LodgingService {
 		return result;
 	}
 
+	public int selectLodgingNo(String updateNo) {
+		Connection conn = null;
+		int lodgingNo = 0;
+		try {
+			conn = JDBCTemplate.getConnection();
+			lodgingNo = new LodgingDao().selectLodgingNo(updateNo, conn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return lodgingNo;
+	}
+
 	
 
 }
