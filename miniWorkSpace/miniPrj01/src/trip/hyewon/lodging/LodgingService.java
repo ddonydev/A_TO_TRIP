@@ -340,6 +340,204 @@ public class LodgingService {
 		return result;
 	}
 
+	public boolean checkBfYn(String updateNo) {
+		Connection conn = null;
+		Boolean isBf = false;
+		try {
+			conn = JDBCTemplate.getConnection();
+			isBf = new LodgingDao().checkBfYn(updateNo, conn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return isBf;
+	}
+
+	public int cancelBf(String updateNo) {
+		Connection conn = null;
+		int result = 0;
+		
+		try {
+			conn = JDBCTemplate.getConnection();
+			result = new LodgingDao().cancelBf(updateNo, conn);
+			
+			if(result == 1) {
+				JDBCTemplate.commit(conn);
+			}else {
+				JDBCTemplate.rollBack(conn);
+			}
+		} catch (Exception e) {
+			JDBCTemplate.rollBack(conn);
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return result;
+	}
+
+	public int addBf(String updateNo) {
+		Connection conn = null;
+		int result = 0;
+		
+		try {
+			conn = JDBCTemplate.getConnection();
+			result = new LodgingDao().addBf(updateNo, conn);
+			
+			if(result == 1) {
+				JDBCTemplate.commit(conn);
+			}else {
+				JDBCTemplate.rollBack(conn);
+			}
+		} catch (Exception e) {
+			JDBCTemplate.rollBack(conn);
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return result;
+	}
+
+	public boolean checkEmpty(int roomNo, String startDate, String endDate) {
+		Connection conn = null;
+		Boolean isEmpty = false;
+		try {
+			conn = JDBCTemplate.getConnection();
+			isEmpty = new LodgingDao().checkEmpty(roomNo, startDate, endDate, conn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return isEmpty;
+	}
+
+	public int selectRoomNo(String updateNo) {
+		Connection conn = null;
+		int roomNo = 0;
+		try {
+			conn = JDBCTemplate.getConnection();
+			roomNo = new LodgingDao().selectRoomNo(updateNo, conn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return roomNo;
+	}
+
+	public int updateStartEndDate(String updateNo, String startDate, String endDate) {
+		Connection conn = null;
+		int result = 0;
+		
+		try {
+			conn = JDBCTemplate.getConnection();
+			result = new LodgingDao().updateStartEndDate(updateNo, startDate, endDate, conn);
+			
+			if(result == 1) {
+				JDBCTemplate.commit(conn);
+			}else {
+				JDBCTemplate.rollBack(conn);
+			}
+		} catch (Exception e) {
+			JDBCTemplate.rollBack(conn);
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return result;
+	}
+
+	public String checkZzimCancel(String lodgingNo) {
+		Connection conn = null;
+		String zzimCancel = "";
+		try {
+			conn = JDBCTemplate.getConnection();
+			zzimCancel = new LodgingDao().checkZzimCancel(lodgingNo, conn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return zzimCancel;
+	}
+
+	public int zzimInsert(String lodgingNo) {
+		Connection conn = null;
+		int result = 0;
+		
+		try {
+			conn = JDBCTemplate.getConnection();
+			result = new LodgingDao().zzimInsert(lodgingNo, conn);
+			
+			if(result == 1) {
+				JDBCTemplate.commit(conn);
+			}else {
+				JDBCTemplate.rollBack(conn);
+			}
+		} catch (Exception e) {
+			JDBCTemplate.rollBack(conn);
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return result;
+	}
+
+	public int updateZzimCancelY(String lodgingNo) {
+		Connection conn = null;
+		int result = 0;
+		
+		try {
+			conn = JDBCTemplate.getConnection();
+			result = new LodgingDao().updateZzimCancelY(lodgingNo, conn);
+			
+			if(result == 1) {
+				JDBCTemplate.commit(conn);
+			}else {
+				JDBCTemplate.rollBack(conn);
+			}
+		} catch (Exception e) {
+			JDBCTemplate.rollBack(conn);
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return result;
+	}
+
+	public int updateZzimCancelN(String lodgingNo) {
+		Connection conn = null;
+		int result = 0;
+		
+		try {
+			conn = JDBCTemplate.getConnection();
+			result = new LodgingDao().updateZzimCancelN(lodgingNo, conn);
+			
+			if(result == 1) {
+				JDBCTemplate.commit(conn);
+			}else {
+				JDBCTemplate.rollBack(conn);
+			}
+		} catch (Exception e) {
+			JDBCTemplate.rollBack(conn);
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return result;
+	}
+
 	
 
 }

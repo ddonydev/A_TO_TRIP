@@ -8,6 +8,7 @@ import java.util.List;
 
 import trip.daeun.lodging.information.InformationController;
 import trip.daeun.lodging.wish.WishController;
+import trip.kms.lodgingReview.LodgingReviewController;
 import trip.daeun.lodging.menu.DaeunMenu;
 import trip.min.main.MemberMain;
 import trip.min.util.InputUtil;
@@ -41,7 +42,7 @@ public class LodgingController {
 			}
 			
 			if(location.equals("Q")) {
-				break;
+				break;//잘됨
 			}
 			
 			String startDate = null;
@@ -130,40 +131,83 @@ public class LodgingController {
 				}
 				
 				if(input.equals("Q")) {
-					break;
+					break;//잘됨
 				}
 				
 				new InformationController().showInformation(Integer.parseInt(input));
-				DaeunMenu menu = new DaeunMenu();	
+				
 				//menu.showMenu();
 				
-				boolean isWish = menu.showDetailMenu(MemberMain.LoginMember.getNo(), input); //리턴 boolean값 찜했으면 true, 찜안했으면 false
+				boolean isWish = new DaeunMenu().showDetailMenu(MemberMain.LoginMember.getNo(), input); //리턴 boolean값 찜했었으면 true, 찜안했으면 false
+				
+				//isWish가 false면 무조건 찜하기가 떠야되고
+				//isWish가 true이면서 찜취소여부가 Y일때 찜하기가 떠야되고
+				//isWish가 true이면서 찜취소여부가 N일때 찜하기 취소가 떠야된다.
+				
 				
 				if(isWish == true) {
-					System.out.println("1. 예약하기");
-					System.out.println("2. 찜취소하기");
-					System.out.println("3. 숙소리뷰보기");
-					System.out.println("4. 숙소리스트로 돌아가기");
-					System.out.print("입력 : ");
-					String deinput1 = InputUtil.sc.nextLine();
+					//찜했던 경험은 있지만 찜취소를했는지 안했는지 판단 먼저 해야한다.
+					String zzimCancel = checkZzimCancel(input);
 					
-					switch(deinput1) {
-					case "1" :
-						System.out.println("예약 페이지로 넘어갑니다.");
-						reserveRoom(Integer.parseInt(input), vo);
-						break;
-					case "2" : //찜취소
-						new WishController().wishCancel();
-						break;
-					case "3" : //리뷰보기
-						break;
+					//찜취소를 했었다면 찜하기할때 N으로 [업데이트] 해야한다.
+					if(zzimCancel.equals("Y")) {
+						System.out.println("1. 예약하기");
+						System.out.println("2. 찜하기");
+						System.out.println("3. 숙소리뷰보기");
+						System.out.println("4. 숙소리스트로 돌아가기");
+						System.out.print("입력 : ");
+						String deinput1 = InputUtil.sc.nextLine();
+						switch(deinput1) {
+						case "1" :
+							System.out.println("예약 페이지로 넘어갑니다.");
+							reserveRoom(Integer.parseInt(input), vo);	//숙소예약하기
+							break;
+						case "2" : //찜하기 업데이트메소드
+							//new WishController().wishCancel();
+							updateZzimCancelN(input);
+							break;
+						case "3" : //리뷰보기
+							new LodgingReviewController().showReview();
+							break;
+							
+						}
+						if(deinput1.equals("4")) {
+							continue;//잘됨
+						}
+					}
+					
+					//찜하기만 했었다면 찜취소할때 Y로 [업데이트]
+					if(zzimCancel.equals("N")) {
+						System.out.println("1. 예약하기");
+						System.out.println("2. 찜취소하기");
+						System.out.println("3. 숙소리뷰보기");
+						System.out.println("4. 숙소리스트로 돌아가기");
+						System.out.print("입력 : ");
+						String deinput1 = InputUtil.sc.nextLine();
 						
+						switch(deinput1) {
+						case "1" :
+							System.out.println("예약 페이지로 넘어갑니다.");
+							reserveRoom(Integer.parseInt(input), vo);	//숙소예약하기
+							break;
+						case "2" : //찜취소 업데이트 메소드
+							//new WishController().wishCancel();
+							updateZzimCancelY(input);
+							break;
+						case "3" : //리뷰보기
+							new LodgingReviewController().showReview();
+							break;
+							
+						}
+						if(deinput1.equals("4")) {
+							continue;//잘됨
+						}
 					}
-					if(deinput1.equals("4")) {
-						continue;
-					}
-					
-				}else {
+
+				}
+				
+				//회원번호 숙소번호로 찜테이블에서 조회가 안된거면 찜하기 [INSERT]부터 해야한다.
+				if(isWish == false) {
 					System.out.println("1. 예약하기");
 					System.out.println("2. 찜하기");
 					System.out.println("3. 숙소리뷰보기");
@@ -174,39 +218,79 @@ public class LodgingController {
 					switch(deinput2) {
 					case "1" :
 						System.out.println("예약 페이지로 넘어갑니다.");
-						reserveRoom(Integer.parseInt(input), vo);
+						reserveRoom(Integer.parseInt(input), vo);	//숙소예약하기
 						break;
-					case "2" : //찜하기
-						new WishController().wish();
+					case "2" : //찜하기 insert 메소드
+						//new WishController().wish();
+						zzimInsert(input);
 						break;
 					case "3" : //리뷰보기
+						new LodgingReviewController().showReview();
 						break;
 					}
 					if(deinput2.equals("4")) {
-						continue;
+						continue;//잘됨
 					}
 					
 				}			
 				
-			}
+			}//숙소리스트 while문
 		}
 		
 		
 		
-	}//숙소검색 메소드
+	}//숙소검색 메소드 끝
 	
+	
+	
+	public String checkZzimCancel(String lodgingNo) {
+		String zzimCancel = new LodgingService().checkZzimCancel(lodgingNo);
+		return zzimCancel;
+	}
+	
+	public void zzimInsert(String lodgingNo) {
+		int result = new LodgingService().zzimInsert(lodgingNo);
+		if(result == 1) {
+			System.out.println("찜하기가 완료되었습니다.");
+		}else {
+			System.out.println("찜하기 INSERT 중 에러발생!");
+		}
+	}
+	
+	public void updateZzimCancelY(String lodgingNo) {
+		int result = new LodgingService().updateZzimCancelY(lodgingNo);
+		if(result == 1) {
+			System.out.println("찜취소가 완료되었습니다.");
+		}else {
+			System.out.println("찜취소 업데이트 중 에러발생!");
+		}
+	}
+	
+	public void updateZzimCancelN(String lodgingNo) {
+		int result = new LodgingService().updateZzimCancelN(lodgingNo);
+		if(result == 1) {
+			System.out.println("찜하기가 완료되었습니다.");
+		}else {
+			System.out.println("찜하기 업데이트 중 에러발생!");
+		}
+	}
+	
+	//지역선택 맞는값인지 확인
 	public boolean checkLocationNum(String location) {
 		return new LodgingService().checkLocationNum(location);
 	}
 	
+	//날짜가 올바른 값인지 확인
 	public boolean checkDate(String date) {
 		return new LodgingService().checkDate(date);
 	}
 	
+	//퇴실날짜가 올바른 값인지 확인
 	public boolean checkEndDate(String startDate, String endDate) {
 		return new LodgingService().checkEndDate(startDate, endDate);
 	}
 	
+	//인원수가 올바른 값인지 확인
 	public boolean checkMaxPeople(String headCount) {
 		return new LodgingService().checkMaxPeople(headCount);
 	}
@@ -331,7 +415,6 @@ public class LodgingController {
 		}
 		
 		//사용자가 쿠폰이 있는지 없는지 체크하고 쿠폰이 있다면 쿠폰 보여주고 쿠폰번호 입력받기
-		
 		LodgingCouponVo cv = useCoupon();
 		
 		//예약테이블, 결제테이블에 insert 하기 위한 객체 생성
@@ -423,6 +506,8 @@ public class LodgingController {
 
 	}//예약끝
 	
+	
+	
 	//마이페이지에서 예약내역 보여주기(여기서 num은 회원번호임!)
 	public void showMyReservation(String num) {
 		System.out.println("\n----- 나의 예약 내역 -----\n");
@@ -492,7 +577,7 @@ public class LodgingController {
 		}
 		
 		
-	}
+	}//예약내역 끝
 	
 	//예약 번호 리스트 중에서 && 예약취소여부가 N인것만 수정가능함! 예약번호 리턴하는 메소드
 	public String updateReservation(List noList, List cancelYnList) {
@@ -515,7 +600,7 @@ public class LodgingController {
 	
 	public void updateMenu(List noList, String updateNo, List breakfastYnList) {
 		int a = 0;
-		//사용자가 선택한 조식여부가 Y인지N인지 판단하기
+		//사용자가 선택한 조식여부가 Y인지N인지 메뉴 보여주기 전에 판단하기
 		for(int i=0; i<noList.size(); i++) {
 			if(noList.get(i).equals(updateNo)) {
 				a = i;
@@ -535,14 +620,160 @@ public class LodgingController {
 			
 			switch(number) {
 			case "1" : //조식변경
+				updateBreakfastYn(userBreakfastYn, updateNo);
 				break;
 			case "2" : //날짜변경
+				String startDate = null;
+				while(true) {
+					System.out.println("\n변경할 입실날짜를 입력해주세요(yy/mm/dd)");
+					System.out.print("입력 : ");
+					startDate = InputUtil.sc.nextLine();
+					
+					if(checkDate(startDate)) {
+						break;
+					}else {
+						System.out.println("\n잘못된 입력입니다.\n");
+					}
+				}
+				
+				String endDate = null;
+				while(true) {
+					System.out.println("\n변경할 퇴실날짜를 입력해주세요(yy/mm/dd)");
+					System.out.print("입력 : ");
+					endDate = InputUtil.sc.nextLine();
+					
+					if(checkDate(endDate) && checkEndDate(startDate, endDate)) {
+						break;
+					}else {
+						System.out.println("\n잘못된 입력입니다.\n");
+					}
+				}
+				
+				int num = selectRoomNo(updateNo);
+				boolean isEmpty = checkEmpty(num, startDate, endDate);
+				if(isEmpty==false) {
+					System.out.println("해당날짜는 예약완료되었습니다. 다른 날짜를 선택해주세요");
+					return;
+				}
+				if(isEmpty) {
+					System.out.println("변경한 날짜로 예약변경 진행 중...");
+					//해당 예약번호에 입실,퇴실날짜 업데이트
+					updateStartEndDate(updateNo, startDate, endDate);
+				}
 				break;
 			case "3" :
 				return;
 			}
 			
 		}
+	}
+	
+	private void updateStartEndDate(String updateNo, String startDate, String endDate) {
+		int result = new LodgingService().updateStartEndDate(updateNo, startDate, endDate);
+		if(result == 1) {
+			System.out.println("예약 날짜 변경이 완료되었습니다.");
+		}else {
+			System.out.println("예약 날짜 변경 중 에러발생!");
+		}
+		
+	}
+
+	public void updateBreakfastYn(String userBreakfastYn, String updateNo) {
+		if(userBreakfastYn.equals("Y")) { //사용자가 조식을 선택했다면 취소하는 경우밖에 없음!
+			System.out.println("조식을 취소하시겠습니까?");
+			
+			System.out.println("1. 예");
+			System.out.println("2. 아니오");
+			String input = checkWeirdNum();
+			if(input.equals("1")) {
+				//조식취소코드
+				cancelBf(updateNo);
+			}
+			if(input.equals("2")) {
+				return;
+			}
+			
+		}
+		
+		//사용자가 조식선택을 안했다면 숙소에 조식이 있는데 안한건지,애초에 숙소에 조식이 없는건지 모르니까 숙소조식여부를 알아와야함
+		//숙소조식여부가 N이라면 숙소에 조식이 없습니다. 출력
+		//숙소조식여부가 Y라면 조식을 추가하시겠습니까? 출력하고 예약내역에 업데이트(예약내역에 업데이트 잘되는지 꼼꼼히 봐야겠음!!!)
+		if(userBreakfastYn.equals("N")) {  
+			boolean isBf = checkBfYn(updateNo);
+			if(isBf) {
+				System.out.println("조식을 추가하시겠습니까?");
+				
+				System.out.println("1. 예");
+				System.out.println("2. 아니오");
+				String input = checkWeirdNum();
+				if(input.equals("1")) {
+					//조식추가코드
+					addBf(updateNo);
+				}
+				if(input.equals("2")) {
+					return;
+				}
+			}
+			if(isBf==false) {
+				System.out.println("숙소에 조식이 없으므로 조식변경이 불가합니다!");
+				return;
+			}
+		}
+	}
+	
+	public boolean checkBfYn(String updateNo) {
+		boolean isBf = new LodgingService().checkBfYn(updateNo);
+		if(isBf) {
+			return true;
+		}
+		return false;
+	}
+	
+	public String checkWeirdNum() {
+		String input = "";
+		while(true) {
+			System.out.print("입력 : ");
+			input = InputUtil.sc.nextLine();
+			if(input.equals("1")||input.equals("2")) {
+				break;
+			}
+		}
+		return input;
+	}
+	
+	//조식 취소하면 총금액에서 -35000원, 조식선택여부 N으로 업데이트
+	public void cancelBf(String updateNo) {
+		int result = new LodgingService().cancelBf(updateNo);
+		if(result == 1) {
+			System.out.println("조식 취소가 완료되었습니다.");
+			System.out.println("등록된 계좌로 35000원 환불되었습니다.");
+		}else {
+			System.out.println("조식 취소 중 에러발생!");
+		}
+	}
+	
+	public void addBf(String updateNo) {
+		int result = new LodgingService().addBf(updateNo);
+		if(result == 1) {
+			System.out.println("조식 추가가 완료되었습니다.");
+			System.out.println("등록된 계좌로 35000원 추가 결제되었습니다.");
+		}else {
+			System.out.println("조식 추가 중 에러발생!");
+		}
+	}
+	
+	//예약번호로 방번호 셀렉트해오기
+	public int selectRoomNo(String updateNo) {
+		int num = new LodgingService().selectRoomNo(updateNo);
+		return num;
+	}
+	
+	//예약테이블에 해당 방번호에 사용자가 입력한 입실퇴실 날짜가 겹치는지 확인-> 안겹치면 true리턴
+	public boolean checkEmpty(int roomNo, String startDate, String endDate) {
+		boolean isEmpty = new LodgingService().checkEmpty(roomNo, startDate, endDate);
+		return isEmpty;
+		
+		
 	}
 	
 	

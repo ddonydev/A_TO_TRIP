@@ -457,4 +457,228 @@ public class LodgingDao {
 		return result;
 	}
 
+	public Boolean checkBfYn(String updateNo, Connection conn) {
+		String sql = "SELECT LI.BREAKFAST_YN FROM LODGING_RESERVATION LR JOIN LODGING_INFORMATION LI ON LR.LODGING_NO = LI.NO WHERE LR.NO = ?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		boolean isBf = false;
+		String bf = "N";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(updateNo));
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				bf = rs.getString("BREAKFAST_YN");
+				if(bf.equals("Y")) {
+					isBf = true;
+				}
+			} 			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return isBf;
+		
+	}
+
+	public int cancelBf(String updateNo, Connection conn) throws Exception {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = "UPDATE LODGING_RESERVATION SET PAYMENT = PAYMENT-35000, BREAKFAST_YN = 'N' WHERE NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(updateNo));
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int addBf(String updateNo, Connection conn) throws Exception {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = "UPDATE LODGING_RESERVATION SET PAYMENT = PAYMENT+35000, BREAKFAST_YN = 'Y' WHERE NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(updateNo));
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public Boolean checkEmpty(int roomNo, String startDate, String endDate, Connection conn) {
+		
+		String sql = "SELECT * FROM LODGING_RESERVATION LR WHERE ROOM_NO = ? AND ((LR.START_DATE >= TO_DATE(?) AND LR.START_DATE < TO_DATE(?) AND CANCEL_YN = 'N') OR (LR.END_DATE > TO_DATE(?) AND LR.END_DATE <= TO_DATE(?) AND CANCEL_YN = 'N') OR (LR.START_DATE < TO_DATE(?) AND LR.END_DATE > TO_DATE(?) AND CANCEL_YN = 'N'))";
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		boolean isEmpty = true;
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, roomNo);
+			pstmt.setString(2, startDate);
+			pstmt.setString(3, endDate);
+			pstmt.setString(4, startDate);
+			pstmt.setString(5, endDate);
+			pstmt.setString(6, startDate);
+			pstmt.setString(7, endDate);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				isEmpty = false;
+			} 			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return isEmpty;
+	}
+
+	public int selectRoomNo(String updateNo, Connection conn) {
+		String sql = "SELECT ROOM_NO FROM LODGING_RESERVATION WHERE NO = ? AND CANCEL_YN = 'N'";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int roomNo = 0;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(updateNo));
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				roomNo = rs.getInt("ROOM_NO");
+			} 			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return roomNo;
+	}
+
+	public int updateStartEndDate(String updateNo, String startDate, String endDate, Connection conn) throws Exception {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = "UPDATE LODGING_RESERVATION SET START_DATE = ? , END_DATE = ? WHERE NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, startDate);
+			pstmt.setString(2, endDate);
+			pstmt.setInt(3, Integer.parseInt(updateNo));
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public String checkZzimCancel(String lodgingNo, Connection conn) {
+		String sql = "SELECT CANCEL_YN FROM LODGING_WISH WHERE MEMBER_NO = ? AND LODGING_NO = ?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String zzimCancel = "";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(MemberMain.LoginMember.getNo()));
+			pstmt.setInt(2, Integer.parseInt(lodgingNo));
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				zzimCancel = rs.getString("CANCEL_YN");
+			} 			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return zzimCancel;
+	}
+
+	public int zzimInsert(String lodgingNo, Connection conn) throws Exception {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = "INSERT INTO LODGING_WISH VALUES(SEQ_LODGING_WISH_NO,?,?,'N')";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(MemberMain.LoginMember.getNo()));
+			pstmt.setInt(2, Integer.parseInt(lodgingNo));
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int updateZzimCancelY(String lodgingNo, Connection conn) throws Exception {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = "UPDATE LODGING_WISH SET CANCEL_YN = 'Y' WHERE MEMBER_NO = ? AND LODGING_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(MemberMain.LoginMember.getNo()));
+			pstmt.setInt(2, Integer.parseInt(lodgingNo));
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int updateZzimCancelN(String lodgingNo, Connection conn) throws Exception {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = "UPDATE LODGING_WISH SET CANCEL_YN = 'N' WHERE MEMBER_NO = ? AND LODGING_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(MemberMain.LoginMember.getNo()));
+			pstmt.setInt(2, Integer.parseInt(lodgingNo));
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
+
 }
