@@ -84,7 +84,6 @@ public class ManagerDao {
 		List<MemberVo> memberVoList = new ArrayList<MemberVo>();
 		//sql 준비
 		String sql = "SELECT ID, EMAIL, NAME, BIRTH, PHONE, NICK, ENROLL_DATE, QUIT_YN FROM MEMBER";
-		//
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
