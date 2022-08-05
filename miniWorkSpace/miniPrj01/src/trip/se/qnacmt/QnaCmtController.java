@@ -7,6 +7,7 @@ import trip.se.comment.CmtVo;
 
 public class QnaCmtController {
 
+	// 댓글 작성
 	public void write(String num) {
 
 		System.out.println("\n----- 댓글 작성 -----");
@@ -44,9 +45,10 @@ public class QnaCmtController {
 		System.out.print("수정할 댓글의 번호 : ");
 		int cmtNo = InputUtil.getInt();
 		QnaCmtVo cmt = new QnaCmtService().showCmtDetail(cmtNo);
-		
+		String no = cmt.getWriter();
+
 		cmt.setWriter(MemberMain.LoginMember.getNo());
-		if(cmt.getWriter() != MemberMain.LoginMember.getNo()) {
+		if(!no.equals(MemberMain.LoginMember.getNo())) {
 			System.out.println("[수정 불가] 본인의 글을 선택해 주세요.");
 			return;
 		}
@@ -81,6 +83,13 @@ public class QnaCmtController {
 		System.out.print("삭제할 댓글의 번호 : ");
 		int cmtNo = InputUtil.getInt();
 		QnaCmtVo cmt = new QnaCmtService().showCmtDetail(cmtNo);
+		String no = cmt.getWriter();
+
+		cmt.setWriter(MemberMain.LoginMember.getNo());
+		if(!no.equals(MemberMain.LoginMember.getNo())) {
+			System.out.println("[삭제 불가] 본인의 글을 선택해 주세요.");
+			return;
+		}
 	
 		int result = new QnaCmtService().deleteCmt(cmtNo);
 		
@@ -96,4 +105,4 @@ public class QnaCmtController {
 		
 	}//deleteCmt
 	
-}
+}//class

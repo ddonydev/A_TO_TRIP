@@ -169,4 +169,5 @@ public class QnaCmtDao {
 		return result;
 		
 	}//deleteCmt
-}
+	
+}// class

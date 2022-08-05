@@ -39,7 +39,7 @@ public class CmtDao {
 		return result;
 	}//write
 	
-	// 댓글 조회
+	// 댓글 목록
 	public List<CmtVo> showList(String postNo, Connection conn) throws Exception {		// 커넥션 가져오기
 		String sql = "SELECT C.CMT_NO, C.POST_NO, C.WRITER, C.CMT, C.CMT_DATE, M.NICK FROM TRAVEL_COMM_CMT C JOIN MEMBER M ON C.WRITER = M.NO WHERE DELETE_YN = 'N' AND POST_NO = ? ORDER BY CMT_DATE DESC";
 		
@@ -72,11 +72,8 @@ public class CmtDao {
 				vo.setDate(date);
 				vo.setNick(nick);
 				
-				
 				cmtVoList.add(vo);
-				
 			}
-			
 			
 		} finally {
 			close(rs);

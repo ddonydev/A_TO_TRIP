@@ -84,7 +84,7 @@ public class PostDao {
 		}
 		return postVoList;
 		
-	}
+	}//showList
 	
 	// 게시글 상세 조회
 	public PostVo showPostDetail(Connection conn, String num) throws Exception {
@@ -144,7 +144,7 @@ public class PostDao {
 			close(pstmtCnt);
 		}
 		return vo;
-	}
+	}//showPostDetail
 	
 	// 게시글 수정
 	public int editPost(PostVo vo, Connection conn) throws Exception {
@@ -172,6 +172,7 @@ public class PostDao {
 		
 	}// editPost
 	
+	// 게시글 삭제
 	public int deletePost(String postNo, Connection conn) throws Exception {
 		
 		String sql = "UPDATE TRAVEL_COMM SET DELETE_YN = 'Y' WHERE NO = ?";
@@ -190,8 +191,9 @@ public class PostDao {
 		
 		return result;
 		
-	}
+	}//deletePost
 	
+	// 좋아요
 	public int likePost(String num, Connection conn) throws Exception {
 		
 		String sql = "UPDATE TRAVEL_COMM SET C_LIKE = C_LIKE + 1 WHERE NO = ?";
@@ -212,14 +214,6 @@ public class PostDao {
 		return result;
 		
 	}//likePost
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 }// class

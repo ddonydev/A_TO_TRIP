@@ -9,6 +9,7 @@ import trip.min.util.InputUtil;
 
 public class CmtController {
 
+	// 댓글 작성
 	public void write(String num) {
 
 		System.out.println("\n----- 댓글 작성 -----");
@@ -41,23 +42,18 @@ public class CmtController {
 	// 댓글 수정
 	public void editCmt() {
 
-		if(MemberMain.LoginMember == null) {
-			System.out.println("로그인을 먼저 해주세요.\n\n");
-			return;
-		}
-		
 		System.out.println("\n----- 댓글 수정 -----");
 		
 		System.out.print("수정할 댓글의 번호 : ");
 		int cmtNo = InputUtil.getInt();
 		CmtVo cmt = new CmtService().showCmtDetail(cmtNo);
+		String no = cmt.getWriter();
 		
 		cmt.setWriter(MemberMain.LoginMember.getNo());
-		if(cmt.getWriter() != MemberMain.LoginMember.getNo()) {
-			System.out.println("[수정 불가] 본인의 글을 선택해 주세요.");
+		if(!no.equals(MemberMain.LoginMember.getNo())) {
+			System.out.println("[수정 불가] 본인의 댓글을 선택해 주세요.");
 			return;
 		}
-		
 		System.out.println("현재 내용 : " + cmt.getCmt());
 		
 		System.out.print("수정할 댓글의 내용 : ");
@@ -88,10 +84,12 @@ public class CmtController {
 		System.out.print("삭제할 댓글의 번호 : ");
 		int cmtNo = InputUtil.getInt();
 		CmtVo cmt = new CmtService().showCmtDetail(cmtNo);
+		String no = cmt.getWriter();
+		
 		cmt.setWriter(MemberMain.LoginMember.getNo());
 		
-		if(cmt.getWriter() != MemberMain.LoginMember.getNo()) {
-			System.out.println("[삭제 불가] 본인의 글을 선택해 주세요.");
+		if(!no.equals(MemberMain.LoginMember.getNo())) {
+			System.out.println("[삭제 불가] 본인의 댓글을 선택해 주세요.");
 			return;
 		}
 		
@@ -109,9 +107,7 @@ public class CmtController {
 		
 	}//deleteCmt
 	
-	
-	
-}
+}//class
 
 
 /*
