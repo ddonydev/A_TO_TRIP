@@ -75,7 +75,7 @@ public class WishDao {
 	public List<LodgingVo> showZzimList(Connection conn) throws Exception {
 
 		// SQL 준비
-		String sql = "SELECT I.NO, I.NAME , I.ADDRESS , I.PHONE FROM LODGING_WISH W JOIN LODGING_INFORMATION I ON W.LODGING_NO = I.NO WHERE W.MEMBER_NO = ? AND W.CANCEL = 'N'";
+		String sql = "SELECT I.NO, I.NAME , I.ADDRESS , I.PHONE FROM LODGING_WISH W JOIN LODGING_INFORMATION I ON W.LODGING_NO = I.NO WHERE W.MEMBER_NO = ? AND W.CANCEL_YN = 'N'";
 
 		
 		PreparedStatement pstmt = null;
