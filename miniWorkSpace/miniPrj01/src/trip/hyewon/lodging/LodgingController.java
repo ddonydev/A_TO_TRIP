@@ -308,6 +308,7 @@ public class LodgingController {
 			
 			System.out.println(no + " | " + name + " | " + address);
 		}
+		System.out.println();
 	}
 
 	//인기 숙소 조회
@@ -323,6 +324,7 @@ public class LodgingController {
 			
 			System.out.println(no + " | " + name + " | " + address);
 		}
+		System.out.println();
 	}
 	
 	//숙소 예약하기
