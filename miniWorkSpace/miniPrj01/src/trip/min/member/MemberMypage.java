@@ -46,15 +46,15 @@ public class MemberMypage {
 				break;
 			case "3":
 				System.out.println("숙소 찜 목록 조회");
-				checkWishList();
+				new WishController().showZzimList(LodgingVo vo);
 				break;
 			case "4":
 				System.out.println("내가 쓴 게시물 확인");
-				new PostController().postView();
+				new PostController().showMyPost();
 				break;
 			case "5":
-				System.out.println("내가 쓴 댓글 확인");
-				checkmycomment();
+				System.out.println("내가 쓴 문의글 확인");
+				new QnaController().showMyQna();
 				break;
 			case "6":
 				System.out.println("내가 쓴 리뷰 확인");
@@ -76,11 +76,7 @@ public class MemberMypage {
 		}
 		
 	}
-	
-	public void checkWishList() {
-		//찜 목록 조회
-		
-	}
+
 	
 	public void checkcommunity() {
 		//게시물 확인 - 게시물 상세페이지 연결
