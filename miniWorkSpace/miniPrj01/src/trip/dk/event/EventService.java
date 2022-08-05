@@ -7,6 +7,7 @@ import java.util.List;
 
 import trip.dk.coupon.CouponIssuedVo;
 import trip.dk.coupon.CouponService;
+import trip.dk.coupon.CouponVo;
 import trip.min.main.MemberMain;
 import static trip.min.common.JDBCTemplate.*;
 
@@ -63,7 +64,7 @@ public class EventService{
 
 		EventParticipateVo epv = new EventParticipateVo();
 		EventVo ev = new EventVo();
-		CouponIssuedVo civ = new CouponIssuedVo();
+		CouponVo cv = new CouponVo();
 		
 		int rpsResult =0;
 		int upDownResult =0;
@@ -85,12 +86,24 @@ public class EventService{
 
 			rpsResult = new EventGame().rpsGame();
 			
+			if(rpsResult==1) {
+				cv.setCouponInfoNo("1");
+				System.out.println("5천원 할인 쿠폰 당첨! 마이페이지를 확인해주세요.");
+			}else if(rpsResult==2) {
+				cv.setCouponInfoNo("2");
+				System.out.println("5만원 할인 쿠폰 당첨! 마이페이지를 확인해주세요.");
+				
+			}else if(rpsResult>=3) {
+				cv.setCouponInfoNo("3");
+				System.out.println("10만원 할인 쿠폰 당첨! 마이페이지를 확인해주세요.");
+			}else {
+				cv.setCouponInfoNo("0");
+				System.out.println(" 아쉽지만 다른 이벤트에 도전하세요!");
 			}
-		
-		
-		
-		
-		
+			couponIssued(cv);	
+			}
+			
+
 
 		if(num.equals("2")) {
 			epv.setMemberNo(MemberMain.LoginMember.getNo());
@@ -104,44 +117,25 @@ public class EventService{
 			System.out.println(" == 7회 이하 :  5천원 할인 쿠폰 코드 증정! == ");
 
 		upDownResult =new EventGame().upDownGame();
+		
+		if(upDownResult<=3) {
+			cv.setCouponInfoNo("4");
+			System.out.println("10만원 할인 쿠폰 당첨! 마이페이지를 확인해주세요.");
+
+		}else if(upDownResult<=5) {
+			cv.setCouponInfoNo("5");
+			System.out.println("5만원 할인 쿠폰 당첨! 마이페이지를 확인해주세요.");
+
+		}else if(upDownResult<=7) {
+			cv.setCouponInfoNo("6");
+			System.out.println("5천원 할인 쿠폰 당첨! 마이페이지를 확인해주세요.");
+		}else {
+			cv.setCouponInfoNo("0");
+			System.out.println(" 아쉽지만 다른 이벤트에 도전하세요!");
+		}
+		couponIssued(cv);
 
 		}
-		
-		
-		while(true) {
-			if(rpsResult>=3) {
-				civ.setCouponInfoNo("3");
-				System.out.println("10만원 할인 쿠폰 당첨! 마이페이지를 확인해주세요.");break;
-
-			}if(rpsResult==2) {
-				civ.setCouponInfoNo("2");
-				System.out.println("5만원 할인 쿠폰 당첨! 마이페이지를 확인해주세요.");break;
-
-			}if(rpsResult==1) {
-				civ.setCouponInfoNo("1");
-				System.out.println("5천원 할인 쿠폰 당첨! 마이페이지를 확인해주세요.");break;
-			}if(upDownResult<=3) {
-				civ.setCouponInfoNo("6");
-				System.out.println("10만원 할인 쿠폰 당첨! 마이페이지를 확인해주세요.");break;
-
-			}if(upDownResult<=5) {
-				civ.setCouponInfoNo("5");
-				System.out.println("5만원 할인 쿠폰 당첨! 마이페이지를 확인해주세요.");break;
-
-			}if(upDownResult<=7) {
-				civ.setCouponInfoNo("4");
-				System.out.println("5천원 할인 쿠폰 당첨! 마이페이지를 확인해주세요.");break;
-			}if(upDownResult>=8||rpsResult==0) {
-				civ.setCouponInfoNo("0");
-				System.out.println(" 아쉽지만 다른 이벤트에 도전하세요!");break;
-				
-			}
-			
-		}
-	
-		
-		
-		
 
 
 		// 참여 한 결과 값 넘긴것 같음..
@@ -167,6 +161,20 @@ public class EventService{
 		}
 
 		}
+		
+		public void couponIssued(CouponVo cv) {
+			
+			int result = new CouponService().couponIssued(cv);
+			
+			if(result == 1) {
+				System.out.println("쿠폰 발급 완료");
+				
+			}else{
+				System.out.println("쿠폰 발급 중 에러 발생!");
+			}
+		}
+		
+		
 		
 		// 이벤트 미참여
 		public EventParticipateVo participateCheck(String num) {

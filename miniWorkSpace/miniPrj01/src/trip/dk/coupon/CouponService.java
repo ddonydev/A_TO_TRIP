@@ -33,10 +33,23 @@ public class CouponService {
 	
 	
 	//게임 결과에 따라 쿠폰을 이벤트 번호, 회원번호에 맞춰 발급
-	public int couponIssued(CouponIssuedVo civ)  {
+	public int couponIssued(CouponVo cv)  {
 		
-		
-	
+//		if(rpsResult==1) {
+//		}else if(rpsResult==2) {
+//			
+//		}else if(rpsResult>=3) {
+//		}else {
+//		}
+//		
+//		if(upDownResult<=3) {
+//
+//		}else if(upDownResult<=5) {
+//
+//		}else if(upDownResult<=7) {
+//		}else {
+//		}
+//	
 		
 		Connection conn = null;
 		int result = 0;
@@ -44,7 +57,7 @@ public class CouponService {
 		try {
 			
 			conn = getConnection();
-			result = new CouponDao().couponIssued(civ, conn);
+			result = new CouponDao().couponIssued(cv, conn);
 			
 			
 			if (result == 1) {
