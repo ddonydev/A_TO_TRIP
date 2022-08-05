@@ -5,9 +5,9 @@ public class LodgingVo {
 	public LodgingVo() {
 		
 	}
-	
+
 	public LodgingVo(String no, String lodgingCode, String name, String phone, String address, String lodgingLike,
-			String breakfastYn, String locationCode) {
+			String breakfastYn, String locationCode, int zzimCnt, int reviewCnt) {
 		super();
 		this.no = no;
 		this.lodgingCode = lodgingCode;
@@ -17,6 +17,8 @@ public class LodgingVo {
 		this.lodgingLike = lodgingLike;
 		this.breakfastYn = breakfastYn;
 		this.locationCode = locationCode;
+		this.zzimCnt = zzimCnt;
+		this.reviewCnt = reviewCnt;
 	}
 
 	private String no;
@@ -27,6 +29,21 @@ public class LodgingVo {
 	private String lodgingLike;
 	private String breakfastYn;
 	private String locationCode;
+	private int zzimCnt;
+	private int reviewCnt;
+	
+	public int getReviewCnt() {
+		return reviewCnt;
+	}
+	public void setReviewCnt(int reviewCnt) {
+		this.reviewCnt = reviewCnt;
+	}
+	public int getZzimCnt() {
+		return zzimCnt;
+	}
+	public void setZzimCnt(int zzimCnt) {
+		this.zzimCnt = zzimCnt;
+	}
 	public String getNo() {
 		return no;
 	}
@@ -75,13 +92,12 @@ public class LodgingVo {
 	public void setLocationCode(String locationCode) {
 		this.locationCode = locationCode;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "LodgingVo [no=" + no + ", lodgingCode=" + lodgingCode + ", name=" + name + ", phone=" + phone
 				+ ", address=" + address + ", lodgingLike=" + lodgingLike + ", breakfastYn=" + breakfastYn
-				+ ", locationCode=" + locationCode + "]";
+				+ ", locationCode=" + locationCode + ", zzimCnt=" + zzimCnt + ", reviewCnt=" + reviewCnt + "]";
 	}
-
 	
 }
