@@ -627,7 +627,7 @@ public class LodgingDao {
 	public int zzimInsert(String lodgingNo, Connection conn) throws Exception {
 		int result = 0;
 		PreparedStatement pstmt = null;
-		String sql = "INSERT INTO LODGING_WISH VALUES(SEQ_LODGING_WISH_NO,?,?,'N')";
+		String sql = "INSERT INTO LODGING_WISH VALUES(SEQ_LODGING_WISH_NO.NEXTVAL,?,?,'N')";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -679,6 +679,30 @@ public class LodgingDao {
 		}
 		
 		return result;
+	}
+
+	public int selectLodgingNo(String updateNo, Connection conn) {
+		String sql = "SELECT LODGING_NO FROM LODGING_RESERVATION WHERE NO = ?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int lodgingNo = 0;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(updateNo));
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				lodgingNo = rs.getInt("LODGING_NO");
+			} 			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return lodgingNo;
 	}
 
 }
