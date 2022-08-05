@@ -18,7 +18,7 @@ public class LodgingReviewDao {
 		ResultSet rs = null;
 		List<LodgingReviewVo> lodgingReviewVoList = new ArrayList<LodgingReviewVo>();
 		
-		String query = " select R.no, R.writer, R.lodging_no, R.title, R.cont "
+		String query = " select R.no, R.writer, R.lodging_no, R.title, R.cont, R.review_like, R.review_date "
 				+ " from lodging_review R "
 				+ " join lodging_information I on R.lodging_no = I.no "
 				+ " where R.review_delete = 'N' ";
@@ -33,6 +33,8 @@ public class LodgingReviewDao {
 				int lodgingNo = rs.getInt("lodging_no");
 				String title = rs.getString("title");
 				String content = rs.getString("cont");
+				int reviewLike = rs.getInt("review_like");
+				Timestamp reviewDate = rs.getTimestamp("review_date");
 				
 				//add list
 				LodgingReviewVo lodgingReviewVo = new LodgingReviewVo();
@@ -41,6 +43,8 @@ public class LodgingReviewDao {
 				lodgingReviewVo.setLodgingNo(lodgingNo);
 				lodgingReviewVo.setTitle(title);
 				lodgingReviewVo.setContent(content);
+				lodgingReviewVo.setReviewLike(reviewLike);
+				lodgingReviewVo.setReviewDate(reviewDate);
 				
 				lodgingReviewVoList.add(lodgingReviewVo);
 				
@@ -197,7 +201,7 @@ public class LodgingReviewDao {
 		ResultSet rs = null;
 		List<LodgingReviewVo> lodgingReviewVoList = new ArrayList<LodgingReviewVo>();
 		
-		String query = " select R.no, R.writer, R.lodging_no, R.title, R.cont "
+		String query = " select R.no, R.writer, R.lodging_no, R.title, R.cont, R.review_like, R.review_date "
 				+ " from lodging_review R "
 				+ " join lodging_information I on R.lodging_no = I.no "
 				+ " where R.review_delete = 'N' and writer = " + MemberMain.LoginMember.getNo();
@@ -212,6 +216,8 @@ public class LodgingReviewDao {
 				int lodgingNo = rs.getInt("lodging_no");
 				String title = rs.getString("title");
 				String content = rs.getString("cont");
+				int reviewLike = rs.getInt("review_like");
+				Timestamp reviewDate = rs.getTimestamp("review_date");
 				
 				//add list
 				LodgingReviewVo lodgingReviewVo = new LodgingReviewVo();
@@ -220,6 +226,8 @@ public class LodgingReviewDao {
 				lodgingReviewVo.setLodgingNo(lodgingNo);
 				lodgingReviewVo.setTitle(title);
 				lodgingReviewVo.setContent(content);
+				lodgingReviewVo.setReviewLike(reviewLike);
+				lodgingReviewVo.setReviewDate(reviewDate);
 				
 				lodgingReviewVoList.add(lodgingReviewVo);
 				
