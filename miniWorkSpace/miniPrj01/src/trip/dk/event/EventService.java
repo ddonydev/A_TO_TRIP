@@ -5,11 +5,13 @@ package trip.dk.event;
 import java.sql.Connection;
 import java.util.List;
 
+import trip.dk.coupon.CouponIssuedVo;
+import trip.dk.coupon.CouponService;
 import trip.min.main.MemberMain;
 import static trip.min.common.JDBCTemplate.*;
 
 
-public class EventService {
+public class EventService{
 
 	//디비에 인설트(DAO)
 	//이벤트 조회
@@ -49,17 +51,22 @@ public class EventService {
 		return ev;
 
 }
+	
 
+
+	
 
 	// 선택한 게임 조회 및 결과 넣기
 		public void eventGame(String num) {
 
-		int rpsResult =0;
-		int upDownResult =0;
+		
 
 		EventParticipateVo epv = new EventParticipateVo();
 		EventVo ev = new EventVo();
+		CouponIssuedVo civ = new CouponIssuedVo();
 		
+		int rpsResult =0;
+		int upDownResult =0;
 	
 
 		// 참여 할 게임 물어보기.
@@ -98,32 +105,42 @@ public class EventService {
 
 		upDownResult =new EventGame().upDownGame();
 
-
 		}
+		
+		
 		while(true) {
 			if(rpsResult>=3) {
+				civ.setCouponInfoNo("3");
 				System.out.println("10만원 할인 쿠폰 당첨! 마이페이지를 확인해주세요.");break;
 
-			}if(rpsResult>=2) {
+			}if(rpsResult==2) {
+				civ.setCouponInfoNo("2");
 				System.out.println("5만원 할인 쿠폰 당첨! 마이페이지를 확인해주세요.");break;
 
-			}if(rpsResult>=1) {
+			}if(rpsResult==1) {
+				civ.setCouponInfoNo("1");
 				System.out.println("5천원 할인 쿠폰 당첨! 마이페이지를 확인해주세요.");break;
 			}if(upDownResult<=3) {
+				civ.setCouponInfoNo("6");
 				System.out.println("10만원 할인 쿠폰 당첨! 마이페이지를 확인해주세요.");break;
 
 			}if(upDownResult<=5) {
+				civ.setCouponInfoNo("5");
 				System.out.println("5만원 할인 쿠폰 당첨! 마이페이지를 확인해주세요.");break;
 
 			}if(upDownResult<=7) {
+				civ.setCouponInfoNo("4");
 				System.out.println("5천원 할인 쿠폰 당첨! 마이페이지를 확인해주세요.");break;
 			}if(upDownResult>=8||rpsResult==0) {
+				civ.setCouponInfoNo("0");
 				System.out.println(" 아쉽지만 다른 이벤트에 도전하세요!");break;
 				
 			}
 			
 		}
 	
+		
+		
 		
 
 

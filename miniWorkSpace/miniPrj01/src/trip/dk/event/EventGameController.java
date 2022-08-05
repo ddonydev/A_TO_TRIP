@@ -4,18 +4,15 @@ import trip.min.main.MemberMenu;
 
 public class EventGameController {
 
-
 	public int rpsResult =0;
 	public int upDownResult =0;
-
-
-
 
 	public void eventGame() {
 		// 참여 할 게임 물어보기.
 		// 출력문 입력받기.
 		
 		String gameNo = new MemberMenu().eventGame();
+		
 		
 		if(gameNo.equals("1")) {
 			// 가위바위보 게임
