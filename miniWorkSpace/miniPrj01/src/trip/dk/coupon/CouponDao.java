@@ -73,7 +73,7 @@ public class CouponDao {
 	
 	
 	// 쿠폰 발급 인설트
-	public int couponIssued(CouponIssuedVo civ,Connection conn) throws Exception {
+	public int couponIssued(CouponVo cv,Connection conn) throws Exception {
 		
 		int result = 0;
 		PreparedStatement pstmt = null;
@@ -84,7 +84,7 @@ public class CouponDao {
 			
 			//sql객체에 담아주기.(물음표 채우기)
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, civ.getCouponInfoNo());
+			pstmt.setString(1, cv.getCouponInfoNo());
 			pstmt.setString(2, MemberMain.LoginMember.getNo());
 			pstmt.setString(3, "N");
 			

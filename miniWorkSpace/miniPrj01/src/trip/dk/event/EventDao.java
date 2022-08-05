@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import trip.dk.coupon.CouponVo;
 import trip.min.main.MemberMain;
 
 public class EventDao {
