@@ -288,7 +288,7 @@ public class LodgingReviewController {
 			}
 		}
 		
-		while(true) 
+		while(true) {
 			System.out.println("---------------------------");
 			System.out.println("1. 전체 리뷰 보기로 이동");
 			System.out.println("2. 마이 페이지로 이동");
