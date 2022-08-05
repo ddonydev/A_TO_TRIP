@@ -13,7 +13,7 @@ import trip.min.member.MemberVo;
 
 public class LodgingReviewController {
 
-	//전체 리뷰 보여주기
+	//전체 리뷰 보여주기.
 	public void showReview() {
 		
 		while(true) {
