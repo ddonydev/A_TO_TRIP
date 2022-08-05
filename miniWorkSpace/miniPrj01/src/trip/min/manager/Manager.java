@@ -113,11 +113,11 @@ public class Manager {
 		
 	}
 	
-	//관리자 회원조회 및 회원의 닉네임 변경
+	//관리자 회원조회
 	public void memberSelectManager() {
 		//회원 조회(select)
 		System.out.println("회원 조회");
-		
+	//아이디, 이메일, 이름, 닉네임, 핸드폰, 생년월일, 가입일짜, 탈퇴여부
 	}
 	
 	//관리자 회원 닉네임 변경

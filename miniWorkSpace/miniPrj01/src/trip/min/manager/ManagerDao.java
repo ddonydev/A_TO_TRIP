@@ -73,4 +73,10 @@ public class ManagerDao {
 		return result;
 	}//Update
 	
+	public void selectMember() {
+		//conn
+		
+		
+	}
+	
 }
