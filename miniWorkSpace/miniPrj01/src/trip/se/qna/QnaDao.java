@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import trip.min.main.MemberMain;
 import trip.se.post.PostVo;
 
 
@@ -176,6 +177,100 @@ public class QnaDao {
 		return result;
 		
 	}//deleteQna
+	
+	// 내가 쓴 문의글 조회
+	public List<QnaVo> showMyQna(Connection conn) throws Exception {
+		
+		String sql = "SELECT * FROM QNA Q JOIN MEMBER M ON Q.WRITER = M.NO WHERE M.NO = ? AND DELETE_YN = 'N' ORDER BY Q_DATE DESC";
+		
+		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		List<QnaVo> showMyQna = new ArrayList<QnaVo>();
+		
+		try {
+			// SQL 담을 객체 준비 및 SQL 완성
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, MemberMain.LoginMember.getNo());
+			
+			// SQL 실행 및 결과 저장
+			rs = pstmt.executeQuery();		
+			
+			// 커서 내려서, 칼럼별로 데이터 읽어오기, 객체로 만들기
+			while(rs.next()) {
+				String no = rs.getString("NO");
+				String title = rs.getString("TITLE");
+				String writer = rs.getString("WRITER");
+				Timestamp date = rs.getTimestamp("Q_DATE");
+				String nick = rs.getString("NICK");
+			
+				// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
+				QnaVo vo = new QnaVo();
+				
+				vo.setNo(no);
+				vo.setTitle(title);
+				vo.setWriter(writer);
+				vo.setDate(date);
+				vo.setNick(nick);
+				
+				showMyQna.add(vo);
+				
+			}
+			
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		return showMyQna;
+		
+	}//showMyQna
+	
+	// 내 문의글 상세조회
+	public QnaVo showMyQnaDetail(Connection conn, String num) throws Exception {
+			
+		String sql = "SELECT * FROM QNA Q JOIN MEMBER M ON Q.WRITER = M.NO WHERE M.NO = ? AND DELETE_YN = 'N' ORDER BY Q_DATE DESC";
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		QnaVo vo = null;
+		
+		try {
+			// SQL 객체에 담기 및 쿼리 완성하기
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, MemberMain.LoginMember.getNo());
+			
+			// SQL 실행 및 결과 저장
+			rs = pstmt.executeQuery();
+			
+			// ResultSEt -> 자바 객체 
+			if(rs.next()) {
+				String no = rs.getString("NO");
+				String writer = rs.getString("WRITER");
+				String title = rs.getString("TITLE");
+				String content = rs.getString("CONT");
+				Timestamp date = rs.getTimestamp("Q_DATE");
+				String deleteYN = rs.getString("DELETE_YN");
+				Timestamp editDate = rs.getTimestamp("EDIT_DATE");
+				String nick = rs.getString("NICK");
+				
+				vo = new QnaVo();
+				vo.setNo(no);
+				vo.setWriter(writer);
+				vo.setTitle(title);
+				vo.setContent(content);
+				vo.setDate(editDate);
+				vo.setDeleteYN(deleteYN);
+				vo.setEditDate(editDate);
+				vo.setNick(nick);
+
+			}
+			
+		}finally {
+			close(pstmt);
+			close(rs);
+		}
+		return vo;
+		
+	}//showMyQnaDetail
 	
 	
 }// class

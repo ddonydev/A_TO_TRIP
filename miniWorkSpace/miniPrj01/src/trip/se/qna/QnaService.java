@@ -5,6 +5,9 @@ import static trip.min.common.JDBCTemplate.*;
 import java.sql.Connection;
 import java.util.List;
 
+import trip.se.post.PostDao;
+import trip.se.post.PostVo;
+
 
 public class QnaService {
 	
@@ -137,5 +140,44 @@ public class QnaService {
 		return result;
 		
 	}// deleteQna
+	
+	// 내 문의글 조회
+	public List<QnaVo> showMyQna() {
+		Connection conn = null;
+		List<QnaVo> showMyQna =null;
+		
+		try {
+			conn = getConnection();
+			showMyQna = new QnaDao().showMyQna(conn);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		}finally {
+			close(conn);
+		}
+		
+		return showMyQna;
+		
+	}//showMyQna
+	
+	// 내 문의글 상세조회
+	public QnaVo showMyQnaDetail(String num) {
+		
+		Connection conn = null;
+		QnaVo vo = null;
+		
+		try {
+			conn = getConnection();
+			vo = new QnaDao().showMyQnaDetail(conn, num);
+			commit(conn);
+			
+		} catch (Exception e) {
+			System.out.println("[ERROR!!!]");
+			e.printStackTrace();
+		}
+		return vo;
+		
+	}//showMyQnaDetail
 	
 }// class
