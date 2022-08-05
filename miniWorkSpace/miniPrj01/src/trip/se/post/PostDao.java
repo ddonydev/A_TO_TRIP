@@ -263,6 +263,7 @@ public class PostDao {
 		
 	}//showMyPost
 	
+	// 내가 쓴 글 상세조회
 	public PostVo showMyPostDetail(Connection conn, String num) throws Exception {
 		String sql = "SELECT * FROM TRAVEL_COMM T JOIN MEMBER M ON T.WRITER = M.NO WHERE M.NO = ? AND DELETE_YN = 'N' ORDER BY C_DATE DESC";
 		String sqlCnt = "UPDATE TRAVEL_COMM SET VIEW_COUNT = VIEW_COUNT + 1 WHERE NO = ?";
@@ -276,7 +277,7 @@ public class PostDao {
 			// SQL 객체에 담기 및 쿼리 완성하기
 			pstmt = conn.prepareStatement(sql);
 			pstmtCnt = conn.prepareStatement(sqlCnt);
-			pstmt.setString(1, num);
+			pstmt.setString(1, MemberMain.LoginMember.getNo());
 			pstmtCnt.setString(1, num);
 			
 			// SQL 실행 및 결과 저장
@@ -316,7 +317,7 @@ public class PostDao {
 			close(pstmtCnt);
 		}
 		return vo;
-	}
+	}//showMyPostDetail
 	
 	
 	

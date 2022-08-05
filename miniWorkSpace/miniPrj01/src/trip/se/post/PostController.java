@@ -204,35 +204,68 @@ public class PostController {
 	
 	public void showMyPost(MemberVo loginMember) {
 		
-		
-//		String n = post.getWriter();
-//		post.setWriter(MemberMain.LoginMember.getNo());
 		String nick = loginMember.getNick();
+	
+		List<PostVo> myPostList = new PostService().showMyPost();
+	
+		System.out.println("----- " + nick +"님의 게시글 조회 -----");
 		
-			List<PostVo> myPostList = new PostService().showMyPost();
-		
-			System.out.println("----- " + nick +"님의 게시글 조회 -----");
+		for(int i = 0; i < myPostList.size(); i++) {
 			
-			for(int i = 0; i < myPostList.size(); i++) {
-				
-				PostVo temp = myPostList.get(i);
-				
-				String no = temp.getNo();
-				String title = temp.getTitle();
-				String writer = temp.getNick();
-				String like = temp.getLike();
-				String viewcount = temp.getViewCount();
-				Timestamp date = temp.getDate();
-				
-				// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
-				System.out.println("[" + no + "] " + title + " |   " + writer + "  |  " +"좋아요 : "+ like + "  |  " + "조회수 : " + viewcount + "  |  " + date + "\n");
+			PostVo temp = myPostList.get(i);
+			
+			String no = temp.getNo();
+			String title = temp.getTitle();
+			String writer = temp.getNick();
+			String like = temp.getLike();
+			String viewcount = temp.getViewCount();
+			Timestamp date = temp.getDate();
+			
+			// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
+			System.out.println("[" + no + "] " + title + " |   " + writer + "  |  " +"좋아요 : "+ like + "  |  " + "조회수 : " + viewcount + "  |  " + date + "\n");
 			}
 			
+		String num = new MenuPost().showPostDetail();
 
-		// 로그인 한 사람의 회원번호 == 글 쓴 사람의 회원 번호 비교
-		// 글 리스트 보여주고
+		// 글 번호 받으면
+		PostVo vo = new PostService().showMyPostDetail(num);
 		
-		// 선택
+		// SQL 실행 결과(게시글 객체) 화면에 보여주기
+		System.out.println("\n----- " + nick +"님의 게시글 상세 조회 -----");
+		System.out.print("제목 : " + vo.getTitle() + " | ");
+		System.out.print("작성자 : " + vo.getNick() + " | ");
+		System.out.print("작성일 : " + vo.getDate());
+		System.out.println();	// 줄바꿈
+		System.out.println("내용 : " + vo.getContent()+"\n");
+	
+		List<CmtVo> cmtVoList = new CmtService().showList(num);
+		
+		if(cmtVoList.size() > 0) {
+			System.out.println("----- 댓글 -----");
+			for(int i = 0; i < cmtVoList.size(); i++) {
+						
+				CmtVo temp = (CmtVo)cmtVoList.get(i);
+
+				String cmtNo = temp.getCmtNo();
+				String cmt = temp.getCmt();
+				Timestamp date = temp.getDate();
+				String writer = temp.getNick();
+				
+				// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
+				System.out.println("[" + cmtNo + "] " + cmt + " |   " + writer + "  |  " + date + "\n");
+			}
+		}
+		
+		String x = new MenuPost().showComment();
+
+		switch(x) {
+		case "1" : editPost(num); break;// 게시글 수정
+		case "2": deletePost(num); break;
+		case "3": new CmtController().write(num); break;
+		case "4" : new CmtController().editCmt(); break;
+		case "5" : new CmtController().deleteCmt(); break;
+		case "6" : likePost(num); break;
+		}
 		
 		
 	}//showMyPost

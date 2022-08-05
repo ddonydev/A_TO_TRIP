@@ -185,6 +185,7 @@ public class PostService {
 		
 	}//showMyPost
 	
+	// 내가 쓴 글 상세조회
 	public PostVo showMyPostDetail(String num) {
 		
 		Connection conn = null;
@@ -202,7 +203,7 @@ public class PostService {
 		return vo;
 		
 		
-	}
+	}//showMyPostDetail
 	
 	
 }//class
