@@ -73,4 +73,28 @@ public class MemberService {
 		return memberVoList;
 	}//showListMember
 	
+	public int signOutMember(MemberVo vo) {
+		
+		Connection conn = null;
+		int result = 0;
+		
+		try {
+			conn = JDBCTemplate.getConnection();
+			result = new MemberDao().memberSignOut(vo, conn);
+			
+			if(result == 1) {
+				JDBCTemplate.commit(conn);
+			}else {
+				JDBCTemplate.rollBack(conn);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			JDBCTemplate.rollBack(conn);
+		}finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return result;
+	}//singOutMember
+	
 }//class

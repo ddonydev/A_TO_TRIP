@@ -4,7 +4,9 @@ import java.awt.im.InputContext;
 
 import trip.hyewon.lodging.LodgingController;
 import trip.min.main.MemberMain;
+import trip.min.manager.ManagerController;
 import trip.min.util.InputUtil;
+import trip.se.post.PostController;
 import trip.dk.coupon.CouponController;
 
 public class MemberMypage {
@@ -30,12 +32,13 @@ public class MemberMypage {
 			System.out.println("5. 내가 쓴 댓글 확인");
 			System.out.println("6. 내가 쓴 리뷰 확인");
 			System.out.println("7. 현재 보유 쿠폰");
-			System.out.println("8. 나가기");
+			System.out.println("8. 회원탈퇴");
+			System.out.println("9. 나가기");
 			String input = InputUtil.sc.nextLine();
 			switch(input) {
 			case "1":
 				System.out.println("내정보 수정하기");
-				editMember();
+				new ManagerController().editMember();
 				break;
 			case "2":
 				System.out.println("숙소 예약 내역 확인");
@@ -47,7 +50,7 @@ public class MemberMypage {
 				break;
 			case "4":
 				System.out.println("내가 쓴 게시물 확인");
-				checkcommunity();
+				new PostController().postView();
 				break;
 			case "5":
 				System.out.println("내가 쓴 댓글 확인");
@@ -59,25 +62,18 @@ public class MemberMypage {
 				break;
 			case "7":
 				System.out.println("현재 보유 쿠폰");
-				keepcoupon();
+				new CouponController().showCoupon(); 
 				break;
 			case "8":
+				System.out.println("회원탈퇴를 진행합니다.");
+				new MemberController().signOutMember();
+			case "9":
 				System.out.println("이전 페이지로 돌아갑니다.");
 				return;
 			default :
 				System.out.println("잘못 입력 하셨습니다.");
 			}
 		}
-		
-	}
-	
-	public void editMember() {
-		//내 정보 수정하기(sql = update)
-		
-	}
-	
-	public void checkReservation() {
-		//예약 확인
 		
 	}
 	
@@ -88,7 +84,7 @@ public class MemberMypage {
 	
 	public void checkcommunity() {
 		//게시물 확인 - 게시물 상세페이지 연결
-		
+		new PostController().postView();
 	}
 	
 	public void checkmycomment() {
@@ -100,12 +96,7 @@ public class MemberMypage {
 		//내가 쓴 리뷰 확인
 		
 	}
-	
-	public void keepcoupon() {
-		//현재 보유 쿠폰
-		new CouponController().showCoupon(); 
-	}
-	
+
 	
 	
 	
