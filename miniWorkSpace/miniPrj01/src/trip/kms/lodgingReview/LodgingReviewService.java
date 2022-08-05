@@ -62,12 +62,14 @@ public class LodgingReviewService {
 			JDBCTemplate.close(conn);
 		}
 		
-		return 1;
+		return result;
 	}
 	
 	public int editReview(LodgingReviewVo lodgingReviewVoEdit) {
 		Connection conn = null;
 		int result = 0;
+		int memberWriter = Integer.valueOf(MemberMain.LoginMember.getNo());
+		
 		try {
 			conn = JDBCTemplate.getConnection();
 			result = new LodgingReviewDao().editReview(conn, lodgingReviewVoEdit);
