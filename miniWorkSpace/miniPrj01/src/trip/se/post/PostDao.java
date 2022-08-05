@@ -8,6 +8,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import trip.min.main.MemberMain;
+
 import static trip.min.common.JDBCTemplate.*;
 
 public class PostDao {
@@ -77,7 +79,6 @@ public class PostDao {
 				
 			}
 			
-			
 		} finally {
 			close(rs);
 			close(pstmt);
@@ -135,9 +136,6 @@ public class PostDao {
 
 			}
 			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw e;
 		}finally {
 			close(pstmt);
 			close(rs);
@@ -216,7 +214,7 @@ public class PostDao {
 	}//likePost
 	
 	// 내가 쓴 글 조회
-	public List<PostVo> showMyPost(Connection conn, String mn) throws Exception {
+	public List<PostVo> showMyPost(Connection conn) throws Exception {
 		
 		String sql = "SELECT * FROM TRAVEL_COMM T JOIN MEMBER M ON T.WRITER = M.NO WHERE M.NO = ? ORDER BY C_DATE DESC";
 		
@@ -227,7 +225,8 @@ public class PostDao {
 		try {
 			// SQL 담을 객체 준비 및 SQL 완성
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, mn);
+			pstmt.setString(1, MemberMain.LoginMember.getNo());
+			
 			// SQL 실행 및 결과 저장
 			rs = pstmt.executeQuery();		
 			
@@ -262,8 +261,63 @@ public class PostDao {
 		}
 		return showMyPost;
 		
-		
 	}//showMyPost
+	
+	public PostVo showMyPostDetail(Connection conn, String num) throws Exception {
+		String sql = "SELECT * FROM TRAVEL_COMM T JOIN MEMBER M ON T.WRITER = M.NO WHERE M.NO = ? AND DELETE_YN = 'N' ORDER BY C_DATE DESC";
+		String sqlCnt = "UPDATE TRAVEL_COMM SET VIEW_COUNT = VIEW_COUNT + 1 WHERE NO = ?";
+		
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmtCnt = null;
+		ResultSet rs = null;
+		PostVo vo = null;
+		
+		try {
+			// SQL 객체에 담기 및 쿼리 완성하기
+			pstmt = conn.prepareStatement(sql);
+			pstmtCnt = conn.prepareStatement(sqlCnt);
+			pstmt.setString(1, num);
+			pstmtCnt.setString(1, num);
+			
+			// SQL 실행 및 결과 저장
+			rs = pstmt.executeQuery();
+			pstmtCnt.executeUpdate();
+			
+			// ResultSEt -> 자바 객체 
+			if(rs.next()) {
+				String no = rs.getString("NO");
+				String writer = rs.getString("WRITER");
+				String title = rs.getString("TITLE");
+				String content = rs.getString("CONT");
+				Timestamp date = rs.getTimestamp("C_DATE");
+				String deleteYN = rs.getString("DELETE_YN");
+				String like = rs.getString("C_LIKE");
+				Timestamp editDate = rs.getTimestamp("EDIT_DATE");
+				String viewcount = rs.getString("VIEW_COUNT");
+				String nick = rs.getString("NICK");
+				
+				vo = new PostVo();
+				vo.setNo(no);
+				vo.setWriter(writer);
+				vo.setTitle(title);
+				vo.setContent(content);
+				vo.setDate(editDate);
+				vo.setDeleteYN(deleteYN);
+				vo.setLike(like);
+				vo.setEditDate(editDate);
+				vo.setViewCount(viewcount);
+				vo.setNick(nick);
+
+			}
+			
+		}finally {
+			close(pstmt);
+			close(rs);
+			close(pstmtCnt);
+		}
+		return vo;
+	}
+	
 	
 	
 }// class

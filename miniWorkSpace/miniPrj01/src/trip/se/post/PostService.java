@@ -65,7 +65,7 @@ public class PostService {
 		
 		try { 
 			conn = getConnection();
-			vo = new PostDao().showPostDetail(conn, num);
+			vo = new PostDao().showPostDetail(conn, num); // num == 게시글 번호
 			commit(conn);
 			
 		} catch (Exception e) {
@@ -172,7 +172,7 @@ public class PostService {
 		
 		try {
 			conn = getConnection();
-			showMyPost = new PostDao().showMyPost(conn, null);
+			showMyPost = new PostDao().showMyPost(conn);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -182,6 +182,25 @@ public class PostService {
 		}
 		
 		return showMyPost;
+		
+	}//showMyPost
+	
+	public PostVo showMyPostDetail(String num) {
+		
+		Connection conn = null;
+		PostVo vo = null;
+		
+		try {
+			conn = getConnection();
+			vo = new PostDao().showMyPostDetail(conn, num);
+			commit(conn);
+			
+		} catch (Exception e) {
+			System.out.println("[ERROR!!!]");
+			e.printStackTrace();
+		}
+		return vo;
+		
 		
 	}
 	
