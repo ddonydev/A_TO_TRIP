@@ -6,9 +6,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import trip.hyewon.lodging.LodgingVo;
 import trip.min.common.JDBCTemplate;
+import trip.min.member.MemberVo;
 import trip.min.util.InputUtil;
 
 public class ManagerDao {
@@ -73,10 +77,76 @@ public class ManagerDao {
 		return result;
 	}//Update
 	
-	public void selectMember() {
-		//conn
+	public List<MemberVo> selectMember(Connection conn) throws Exception {
+		//conn = 파라미터
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<MemberVo> memberVoList = new ArrayList<MemberVo>();
+		//sql 준비
+		String sql = "SELECT ID, EMAIL, NAME, BIRTH, PHONE, NICK, ENROLL_DATE, QUIT_YN FROM MEMBER";
+		//
 		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				String id = rs.getString("ID");
+				String email = rs.getString("EMAIL");
+				String name = rs.getString("NAME");
+				String birth = rs.getString("BIRTH");
+				String phone = rs.getString("PHONE");
+				String nick = rs.getString("NICK");
+				Timestamp enrollDate = rs.getTimestamp("ENROLL_DATE");
+				String quitYn = rs.getString("QUIT_YN");
+				
+				MemberVo vo = new MemberVo();
+				
+				vo.setId(id);
+				vo.setEmail(email);
+				vo.setName(name);
+				vo.setBirth(birth);
+				vo.setNick(nick);
+				vo.setEnrollDate(enrollDate);
+				vo.setQuitYn(quitYn);
+				
+				memberVoList.add(vo);
+				
+			}
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(pstmt);
+		}
 		
-	}
+		return memberVoList;
+	}//listShowMember
+	
+	public int modifyMember(MemberVo vo, Connection conn) throws Exception {
+		
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		//SQL
+		String sql = "UPDATE MEMBER SET EMAIL = ? , NAME = ? , PHONE = ? , NICK = ? , QUIT_YN = ? WHERE ID = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, vo.getEmail());
+			pstmt.setString(2, vo.getName());
+			pstmt.setString(3, vo.getPhone());
+			pstmt.setString(4, vo.getNick());
+			pstmt.setString(5, vo.getQuitYn());
+			pstmt.setString(6, vo.getId());
+			
+			result = pstmt.executeUpdate();
+			
+		}finally{
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}//editMember
+	
 	
 }

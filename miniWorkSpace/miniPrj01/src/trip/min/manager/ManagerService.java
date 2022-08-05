@@ -5,6 +5,7 @@ import java.sql.Connection;
 import trip.hyewon.lodging.LodgingVo;
 import trip.min.common.JDBCTemplate;
 import trip.min.manager.ManagerDao;
+import trip.min.member.MemberVo;
 
 public class ManagerService {
 
@@ -56,7 +57,31 @@ public class ManagerService {
 		
 		return result;
 		
-	}
+	}//editLodging
+	
+	public int editMember(MemberVo vo) {
+		
+		Connection conn = null;
+		int result = 0;
+		
+		try {
+			conn = JDBCTemplate.getConnection();
+			result = new ManagerDao().modifyMember(vo, conn);
+			
+			if(result == 1) {
+				JDBCTemplate.commit(conn);
+			}else {
+				JDBCTemplate.rollBack(conn);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			JDBCTemplate.rollBack(conn);
+		}finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return result;
+	}//editMember
 	
 	
 }
