@@ -18,11 +18,11 @@ public class CouponDao {
 	public List<CouponVo> showList(Connection conn) throws Exception {
 		//CONN 준비
 		//SQL 준비
-		String sql = "SELECT ISS.NO,INFO.NO,M.NO,E.NO,INFO.DISCOUNT_RATE,ISS.USED_YN,ISS.USED_DATE FROM COUPON_ISSUED ISS JOIN COUPON_INFO INFO ON INFO.NO = ISS.NO JOIN MEMBER M ON M.NO = ISS.MEMBER_NO JOIN EVENT E ON E.NO = INFO.EVENT_NO WHERE M.NO =?";
+		String sql = "SELECT ISS.NO,INFO.NO,M.NO,E.NO,INFO.DISCOUNT_RATE,ISS.USED_YN,ISS.USED_DATE,INFO.COUPON_CODE FROM COUPON_ISSUED ISS JOIN COUPON_INFO INFO ON INFO.NO = ISS.NO JOIN MEMBER M ON M.NO = ISS.MEMBER_NO JOIN EVENT E ON E.NO = INFO.EVENT_NO";
 		
 		//SQL 담을 객체 준비 및 SQL 완성
 		PreparedStatement pstmt=null;
-		pstmt.setString(1,MemberMain.LoginMember.getNo());
+//		pstmt.setString(1,MemberMain.LoginMember.getNo());
 		
 		
 		ResultSet rs = null;
@@ -35,9 +35,9 @@ public class CouponDao {
 			while(rs.next()) {
 			
 				String no=rs.getString("NO");
-				String couponInfoNo=rs.getString("COUPON_INFO_NO");
-				String memberNo=rs.getString("MEMBER_NO");
-				String eventNo=rs.getString("EVENT_NO");
+				String couponInfoNo=rs.getString("NO");
+				String memberNo=rs.getString("NO");
+				String eventNo=rs.getString("NO");
 				String discountRate = rs.getString("DISCOUNT_RATE");
 				String couponCode = rs.getString("COUPON_CODE");
 				String usedYn=rs.getString("USED_YN");
@@ -47,7 +47,10 @@ public class CouponDao {
 				CouponVo civ = new CouponVo();
 				civ.setCouponIssuedNo(no);
 				civ.setCouponInfoNo(couponInfoNo);
-				civ.setMemberNo(memberNo);
+				civ.setMemberNo(MemberMain.LoginMember.getNo());
+				civ.setEventNo(eventNo);
+				civ.setDiscountRate(discountRate);
+				civ.setCouponCode(couponCode);
 				civ.setUsedYn(usedYn);
 				civ.setUsedDate(usedDate);
 				
@@ -81,9 +84,9 @@ public class CouponDao {
 			
 			//sql객체에 담아주기.(물음표 채우기)
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, "NO");
-			pstmt.setString(2, "COUPON_INFO_NO");
-			pstmt.setString(3, "MEMBER_NO");
+			pstmt.setString(1, civ.getCouponInfoNo());
+			pstmt.setString(2, MemberMain.LoginMember.getNo());
+			pstmt.setString(3, "N");
 			
 			//sql실행 및 결과 저장.
 			result = pstmt.executeUpdate();

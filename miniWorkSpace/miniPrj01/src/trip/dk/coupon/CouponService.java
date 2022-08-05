@@ -11,7 +11,7 @@ import trip.min.member.MemberDao;
 
 import static trip.min.common.JDBCTemplate.*;
 
-public class CouponService extends EventGameController {
+public class CouponService {
 	
 	
 	// 보유 쿠폰 조회
@@ -31,41 +31,12 @@ public class CouponService extends EventGameController {
 		
 	}
 	
+	
 	//게임 결과에 따라 쿠폰을 이벤트 번호, 회원번호에 맞춰 발급
-	public int couponIssued(CouponIssuedVo civ) {
+	public int couponIssued(CouponIssuedVo civ)  {
 		
-		int rpsresult = rpsResult;
-		int upDownresult = upDownResult;
 		
-		if(rpsResult>=3) {
-			civ.setMemberNo(MemberMain.LoginMember.getNo());
-			civ.setCouponInfoNo("3");
-
-		}if(rpsResult>=2) {
-			civ.setMemberNo(MemberMain.LoginMember.getNo());
-			civ.setCouponInfoNo("2");
-
-		}if(rpsResult>=1) {
-			civ.setMemberNo(MemberMain.LoginMember.getNo());
-			civ.setCouponInfoNo("1");
-			
-		}if(upDownResult<=3) {
-			civ.setMemberNo(MemberMain.LoginMember.getNo());
-			civ.setCouponInfoNo("6");
-
-		}if(upDownResult<=5) {
-			civ.setMemberNo(MemberMain.LoginMember.getNo());
-			civ.setCouponInfoNo("5");
-
-		}if(upDownResult<=7) {
-			civ.setMemberNo(MemberMain.LoginMember.getNo());
-			civ.setCouponInfoNo("4");
-			
-			
-		}if(upDownResult>=8||rpsResult==0) {
-			civ.setMemberNo(MemberMain.LoginMember.getNo());
-			civ.setCouponInfoNo("0");
-		}
+	
 		
 		Connection conn = null;
 		int result = 0;
