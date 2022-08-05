@@ -1,6 +1,7 @@
 package trip.daeun.lodging.wish;
 
 import java.sql.Connection;
+import java.util.List;
 
 import trip.hyewon.lodging.LodgingVo;
 import trip.min.common.JDBCTemplate;
@@ -44,5 +45,28 @@ public class WishService {
 		}
 		return isWish;
 	}
+	
+	
+	public List<LodgingVo> showZzimList(LodgingVo vo) {
+		
+		Connection conn = null;
+		List<LodgingVo> lodgingVoList = null;
+		
+		try {
+			conn = JDBCTemplate.getConnection();
+			lodgingVoList  = new WishDao().showZzimList(vo, conn);
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		
+		return lodgingVoList;
+	}
+	
+	
+	
 
 }
