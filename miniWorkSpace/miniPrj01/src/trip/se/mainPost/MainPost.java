@@ -5,6 +5,7 @@ import trip.se.qna.QnaController;
 
 public class MainPost {
 
+	//게시글
 	public void mainPost() {
 
 		MenuPost mp = new MenuPost();
@@ -19,13 +20,12 @@ public class MainPost {
 			
 			case "2" : new PostController().postWrite(); break;
 				
-				
-			}
-			
-		}
+			}//switch
+		}//while
 		
-	}
+	}//mainPost
 
+	//QnA 
 	public void mainQnaPost() {
 		
 		MenuPost mp = new MenuPost();
@@ -40,14 +40,14 @@ public class MainPost {
 			
 			case "2" : new QnaController().qnaWrite(); break;
 				
-			}
+			}//switch
 			
-		}
+		}//while
 		
-	}
+	}//mainQnaPost
 	
 	
-}
+}//MainPost
 
 // < 여행 커뮤니티 > 
 /* 1. 게시물 작성

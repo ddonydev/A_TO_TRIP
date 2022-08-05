@@ -15,11 +15,6 @@ public class PostController {
 	// 게시글 작성
 	public void postWrite() {
 		
-		if(MemberMain.LoginMember == null) {
-			System.out.println("로그인을 먼저 해주세요.\n\n");
-			return;
-		}
-		
 		System.out.println("\n----- 게시글 작성 -----");
 		
 		// 데이터 받기
@@ -72,7 +67,6 @@ public class PostController {
 			System.out.println("[" + no + "] " + title + " |   " + writer + "  |  " +"좋아요 : "+ like + "  |  " + "조회수 : " + viewcount + "  |  " + date + "\n");
 		}
 		
-		
 		// 상세 조회
 		// 출력문, 입력받기
 		String num = new MenuPost().showPostDetail();
@@ -122,7 +116,7 @@ public class PostController {
 		case "6" : likePost(num); break;
 		}
 		
-	}
+	}//postView
 	
 	// 게시글 수정
 	public void editPost(String num) {
@@ -130,9 +124,10 @@ public class PostController {
 		System.out.println("\n----- 게시글 수정 -----");
 		
 		PostVo post = new PostService().showPostDetail(num);
+		String no = post.getWriter();
 		post.setWriter(MemberMain.LoginMember.getNo());
 		
-		if(post.getWriter() != MemberMain.LoginMember.getNo()) {
+		if(!no.equals(MemberMain.LoginMember.getNo())) {
 			System.out.println("[수정 불가] 본인의 글을 선택해 주세요.");
 			return;
 		}
@@ -162,17 +157,18 @@ public class PostController {
 			System.out.println("게시글 수정 실패...");
 		}
 		
-		
 	}// editPost
 	
+	// 게시글 삭제
 	public void deletePost(String num) {
 		
 		System.out.println("\n----- 게시글 삭제 -----");
 		
 		PostVo post = new PostService().showPostDetail(num);
+		String no = post.getWriter();
 		post.setWriter(MemberMain.LoginMember.getNo());
 		
-		if(post.getWriter() != MemberMain.LoginMember.getNo()) {
+		if(!no.equals(MemberMain.LoginMember.getNo())) {
 			System.out.println("[삭제 불가] 본인의 글을 선택해 주세요.");
 			return;
 		}
@@ -191,6 +187,7 @@ public class PostController {
 		
 	}//deletePost
 	
+	// 좋아요
 	public void likePost(String num) {
 		
 		String result = Integer.toString(new PostService().likePost(num));

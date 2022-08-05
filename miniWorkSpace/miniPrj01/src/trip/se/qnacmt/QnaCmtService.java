@@ -53,7 +53,7 @@ public class QnaCmtService {
 		
 	}// showList
 
-
+	// 문의 댓글 조회
 	public QnaCmtVo showCmtDetail(int num) {
 		
 		Connection conn = null;
@@ -72,7 +72,7 @@ public class QnaCmtService {
 		
 	}// showCmtDetail
 	
-		
+	// 댓글 수정
 	public int editCmt(QnaCmtVo vo) {
 		
 		if(vo.getCmt().length() < 1) {
@@ -102,6 +102,7 @@ public class QnaCmtService {
 		
 	}//editCmt
 	
+	// 댓글 삭제
 	public int deleteCmt(int cmtNo) {
 		
 		Connection conn = null;
@@ -128,4 +129,4 @@ public class QnaCmtService {
 	}// deleteCmt
 	
 	
-}
+}// class

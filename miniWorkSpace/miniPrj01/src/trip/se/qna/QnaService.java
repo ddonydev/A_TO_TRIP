@@ -7,6 +7,7 @@ import java.util.List;
 
 
 public class QnaService {
+	
 	// 문의글 작성
 	public int qnaWrite(QnaVo vo) {
 		
@@ -35,7 +36,7 @@ public class QnaService {
 		}
 		
 		return result;
-	}
+	}//qnaWrite
 
 	// 문의글 조회
 	public List<QnaVo> qnaShowList() {
@@ -54,7 +55,7 @@ public class QnaService {
 		
 		return qnaVoList;
 		
-	}// showList
+	}// qnaShowList
 	
 	// 문의글 상세조회
 	public QnaVo showQnaDetail(String num) {
@@ -73,7 +74,7 @@ public class QnaService {
 		}
 		return vo;
 		
-	}// showPostDetail
+	}// showQnaDetail
 	
 	// 문의글 수정
 	public int editQna(QnaVo vo) {
@@ -109,7 +110,7 @@ public class QnaService {
 		
 		return result;
 		
-	}//editPost
+	}//editQna
 	
 	//문의글 삭제
 	public int deleteQna(String postNo) {
@@ -135,5 +136,6 @@ public class QnaService {
 		
 		return result;
 		
-	}// deletePost
-}
+	}// deleteQna
+	
+}// class

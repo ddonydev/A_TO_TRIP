@@ -12,6 +12,7 @@ import trip.se.post.PostVo;
 
 public class CmtService {
 	
+	// 댓글 작성
 	public int write(CmtVo vo) {
 		
 		if(vo.getCmt().length() < 1) {
@@ -37,6 +38,7 @@ public class CmtService {
 		return result;
 	}// write
 	
+	// 댓글 목록
 	public List<CmtVo> showList(String postNo) {
 		
 		Connection conn = null;
@@ -55,7 +57,7 @@ public class CmtService {
 		
 	}// showList
 
-
+	// 댓글 조회
 	public CmtVo showCmtDetail(int num) {
 		
 		Connection conn = null;
@@ -74,7 +76,7 @@ public class CmtService {
 		
 	}// showCmtDetail
 	
-		
+	// 댓글 수정
 	public int editCmt(CmtVo vo) {
 		
 		if(vo.getCmt().length() < 1) {
@@ -104,6 +106,7 @@ public class CmtService {
 		
 	}//editCmt
 	
+	// 댓글 삭제
 	public int deleteCmt(int cmtNo) {
 		
 		Connection conn = null;
@@ -129,13 +132,4 @@ public class CmtService {
 		
 	}// deleteCmt
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-}
+}// class

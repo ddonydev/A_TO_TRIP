@@ -15,7 +15,7 @@ import trip.se.post.PostVo;
 
 public class QnaDao {
 
-	// 게시글 작성
+	// 문의글 작성
 	public int qnaWrite(QnaVo vo, Connection conn) throws Exception {
 		
 		int result = 0;
@@ -38,9 +38,9 @@ public class QnaDao {
 		}
 		
 		return result;
-	}//write
+	}//qnaWrite
 	
-	// 게시글 조회
+	// 문의글 조회
 	public List<QnaVo> qnaShowList(Connection conn) throws Exception {		// 커넥션 가져오기
 		
 		String sql = "SELECT Q.NO, Q.WRITER, Q.TITLE, Q.CONT, Q.Q_DATE, Q.DELETE_YN, Q.EDIT_DATE, M.NICK FROM QNA Q JOIN MEMBER M ON Q.WRITER = M.NO WHERE DELETE_YN = 'N' ORDER BY Q_DATE DESC";
@@ -82,9 +82,9 @@ public class QnaDao {
 		}
 		return qnaVoList;
 		
-	}// showList
+	}// qnaShowList
 	
-	// 게시글 상세 조회
+	// 문의글 상세 조회
 	public QnaVo showQnaDetail(Connection conn, String num) throws Exception {
 		
 		String sql = "SELECT Q.NO, Q.WRITER, Q.TITLE, Q.CONT, Q.Q_DATE, Q.DELETE_YN, Q.EDIT_DATE, M.NICK FROM QNA Q JOIN MEMBER M ON Q.WRITER = M.NO WHERE Q.NO = ? ORDER BY Q_DATE DESC";
@@ -130,9 +130,9 @@ public class QnaDao {
 			close(rs);
 		}
 		return vo;
-	}
+	}// showQnaDetail
 	
-	// 게시글 수정
+	// 문의글 수정
 	public int editQna(QnaVo vo, Connection conn) throws Exception {
 		
 		// SQL 준비
@@ -154,8 +154,9 @@ public class QnaDao {
 		}
 		return result;
 		
-	}// editPost
+	}// editQna
 	
+	// 문의글 삭제
 	public int deleteQna(String postNo, Connection conn) throws Exception {
 		
 		String sql = "UPDATE QNA SET DELETE_YN = 'Y' WHERE NO = ?";
@@ -174,7 +175,7 @@ public class QnaDao {
 		
 		return result;
 		
-	}//deletePost
+	}//deleteQna
 	
 	
-}
+}// class

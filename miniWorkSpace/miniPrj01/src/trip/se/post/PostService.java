@@ -36,7 +36,7 @@ public class PostService {
 		}
 		
 		return result;
-	}
+	}//write
 
 	// 게시판 조회
 	public List<PostVo> showList() {
@@ -76,6 +76,7 @@ public class PostService {
 		
 	}// showPostDetail
 	
+	// 게시글 수정
 	public int editPost(PostVo vo) {
 		
 		if(vo.getTitle().length() < 1) {
@@ -111,6 +112,7 @@ public class PostService {
 		
 	}//editPost
 	
+	// 게시글 삭제
 	public int deletePost(String postNo) {
 		
 		Connection conn = null;
@@ -136,6 +138,7 @@ public class PostService {
 		
 	}// deletePost
 	
+	// 좋아요
 	public int likePost(String num) {
 		
 		Connection conn = null;
@@ -160,13 +163,5 @@ public class PostService {
 		return result;
 		
 	}//likePost
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }//class

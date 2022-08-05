@@ -14,7 +14,8 @@ import trip.se.qnacmt.QnaCmtService;
 import trip.se.qnacmt.QnaCmtVo;
 
 public class QnaController {
-	// 게시글 작성
+	
+	// 문의글 작성
 	public void qnaWrite() {
 		
 		System.out.println("\n----- 문의글 작성 -----");
@@ -44,10 +45,9 @@ public class QnaController {
 			System.out.println("문의글 작성 실패...");
 		}
 		
-		
-	}//postWrite
+	}//qnaWrite
 	
-	// 게시글 조회
+	// 문의글 조회
 	public void qnaView() {
 		
 		List<QnaVo> qnaVoList = new QnaService().qnaShowList();
@@ -124,7 +124,7 @@ public class QnaController {
 		case "5" : new QnaCmtController().deleteCmt(); break;
 		}
 		
-	}
+	}//qnaView
 	
 
 	// 문의글 수정
@@ -159,8 +159,7 @@ public class QnaController {
 			System.out.println("게시글 수정 실패...");
 		}
 		
-		
-	}// editPost
+	}// editQna
 	
 	// 문의글 삭제
 	public void deleteQna(String num) {
@@ -180,5 +179,5 @@ public class QnaController {
 			System.out.println("게시글 삭제 실패...");
 		}
 		
-	}//deletePost
+	}//deleteQna
 }
