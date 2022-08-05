@@ -1,5 +1,6 @@
 package trip.se.mainPost;
 
+import trip.min.main.MemberMenu;
 import trip.se.post.PostController;
 import trip.se.qna.QnaController;
 
@@ -19,6 +20,9 @@ public class MainPost {
 			case "1" : new PostController().postView(); break;
 			
 			case "2" : new PostController().postWrite(); break;
+			
+			case "3" : new MemberMenu().loginMenu(); break;
+
 				
 			}//switch
 		}//while
@@ -39,6 +43,8 @@ public class MainPost {
 			case "1" : new QnaController().qnaView(); break;
 			
 			case "2" : new QnaController().qnaWrite(); break;
+			
+			case "3" : new MemberMenu().loginMenu(); break;
 				
 			}//switch
 			

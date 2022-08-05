@@ -9,12 +9,13 @@ public class MenuPost {
 		System.out.println("===== 게시판 =====");
 		System.out.println("1. 게시글 조회");
 		System.out.println("2. 게시글 작성");
+		System.out.println("3. 메인 메뉴");
 	
 		return InputUtil.sc.nextLine();
 	}//showPost
 
 	public String showPostDetail() {
-		System.out.print("\n 조회할 글 번호 (0번 -> 메인메뉴로 가기) : ");
+		System.out.print("\n 조회할 글 번호 : ");
 		return InputUtil.sc.nextLine();
 	}//showPostDetail
 	
@@ -34,12 +35,12 @@ public class MenuPost {
 		System.out.println("===== Q&A =====");
 		System.out.println("1. 문의 게시글 조회");
 		System.out.println("2. 문의 게시글 작성");
-		
+		System.out.println("3. 메인 메뉴");		
 		return InputUtil.sc.nextLine();
 	}//showQna
 	
 	public String showQnaDetail() {
-		System.out.print("\n 조회할 글 번호 (0번 -> 메인메뉴로 가기) : ");
+		System.out.print("\n 조회할 글 번호  : ");
 		return InputUtil.sc.nextLine();
 	}//showQnaDetail
 	

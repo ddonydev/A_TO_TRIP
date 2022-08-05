@@ -7,6 +7,9 @@ import trip.se.comment.CmtController;
 import trip.se.comment.CmtService;
 import trip.se.comment.CmtVo;
 import trip.se.mainPost.MenuPost;
+import trip.se.qna.QnaVo;
+import trip.dk.coupon.CouponService;
+import trip.dk.coupon.CouponVo;
 import trip.min.main.MemberMain;
 import trip.min.util.InputUtil;
 
@@ -71,11 +74,6 @@ public class PostController {
 		// 출력문, 입력받기
 		String num = new MenuPost().showPostDetail();
 		
-		if(num.equals("0")) {
-			System.out.println("\n 메인 메뉴로 돌아갑니다. \n");
-			return;
-		}
-	
 		// 글 번호 받으면
 		PostVo vo = new PostService().showPostDetail(num);
 		
@@ -202,6 +200,34 @@ public class PostController {
 		}
 		
 	}//likePost
+	
+//	public void showMyPost(String num) {
+		
+		public String showMyPost() {
+			List<PostVo> PostVoList = new PostService().showMyPost();
+			System.out.println("==== "+MemberMain.LoginMember.getNick()+"님이 현재 보유 하고있는 쿠폰 내역입니다. ====");
+			for(int i = 0; i<PostVoList.size();++i) {
+						
+						
+				PostVo temp = (PostVo)PostVoList.get(i);
+
+				String no = temp.getNo();
+				String content = temp.getContent();
+				Timestamp date = temp.getDate();
+				String nick = temp.getNick();
+				
+				// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
+				System.out.println("[" + no + "] " + content + " |   " + nick + "  |  " + date + "\n");
+					
+			
+		}
+			return InputUtil.sc.nextLine();
+		
+		
+		}
+		
+		
+//	}//showMyPost
 	
 	
 }// class

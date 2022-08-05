@@ -215,5 +215,55 @@ public class PostDao {
 		
 	}//likePost
 	
+	// 내가 쓴 글 조회
+	public List<PostVo> showMyPost(Connection conn, String mn) throws Exception {
+		
+		String sql = "SELECT * FROM TRAVEL_COMM T JOIN MEMBER M ON T.WRITER = M.NO WHERE M.NO = ? ORDER BY C_DATE DESC";
+		
+		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		List<PostVo> showMyPost = new ArrayList<PostVo>();
+		
+		try {
+			// SQL 담을 객체 준비 및 SQL 완성
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mn);
+			// SQL 실행 및 결과 저장
+			rs = pstmt.executeQuery();		
+			
+			// 커서 내려서, 칼럼별로 데이터 읽어오기, 객체로 만들기
+			while(rs.next()) {
+				String no = rs.getString("NO");
+				String title = rs.getString("TITLE");
+				String writer = rs.getString("WRITER");
+				String like = rs.getString("C_LIKE");
+				String viewcount = rs.getString("VIEW_COUNT");
+				Timestamp date = rs.getTimestamp("C_DATE");
+				String nick = rs.getString("NICK");
+			
+				// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
+				PostVo vo = new PostVo();
+				
+				vo.setNo(no);
+				vo.setTitle(title);
+				vo.setWriter(writer);
+				vo.setLike(like);
+				vo.setViewCount(viewcount);
+				vo.setDate(date);
+				vo.setNick(nick);
+				
+				showMyPost.add(vo);
+				
+			}
+			
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		return showMyPost;
+		
+		
+	}//showMyPost
+	
 	
 }// class

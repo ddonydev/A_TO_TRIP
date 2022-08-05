@@ -164,4 +164,26 @@ public class PostService {
 		
 	}//likePost
 	
+	// 내가 쓴 글 조회
+	public List<PostVo> showMyPost() {
+		
+		Connection conn = null;
+		List<PostVo> showMyPost =null;
+		
+		try {
+			conn = getConnection();
+			showMyPost = new PostDao().showMyPost(conn, null);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		}finally {
+			close(conn);
+		}
+		
+		return showMyPost;
+		
+	}
+	
+	
 }//class
