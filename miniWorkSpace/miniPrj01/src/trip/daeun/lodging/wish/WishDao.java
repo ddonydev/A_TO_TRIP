@@ -44,7 +44,7 @@ public class WishDao {
 
 	public boolean selectWish(LodgingVo vo, Connection conn) throws Exception {
 		
-		String sql = "SELECT * FROM LODGING_WISH WHERE MEMBER_NO = ? AND LODGING_NO = ? AND CANCEL_YN = 'N'";
+		String sql = "SELECT * FROM LODGING_WISH WHERE MEMBER_NO = ? AND LODGING_NO = ?";
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
