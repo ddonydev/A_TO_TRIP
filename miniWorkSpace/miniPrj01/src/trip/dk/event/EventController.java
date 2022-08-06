@@ -23,7 +23,7 @@ public class EventController {
 			System.out.println( no + title+ " | 이벤트 기간 : "+ startDate +" ~ "+ endDate );
 
 			}
-
+		
 		num = new MemberMenu().showDetailByNo();
 		EventParticipateVo epv = new EventParticipateVo();
 		epv.setEventNo(num);
