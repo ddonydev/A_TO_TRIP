@@ -87,13 +87,13 @@ public class WishDao {
 			// SQL 담을 객체 준비 및 SQL 완성
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, MemberMain.LoginMember.getNo());
-			LodgingVo vo = new LodgingVo();
 
 			// SQL 실행 및 결과 저장
 			rs = pstmt.executeQuery();			
 			
 			while(rs.next()) {
 
+				LodgingVo vo = new LodgingVo();
 				String no = rs.getString("NO");
 				String name = rs.getString("NAME");
 				String address = rs.getString("ADDRESS");
