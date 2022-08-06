@@ -250,4 +250,53 @@ public class LodgingReviewDao {
 		return lodgingReviewVoList;
 	}
 	
+	public List<LodgingReviewVo> showLodgingList(Connection conn, int lodgingReservationNo) throws Exception {
+		//connection, sql
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<LodgingReviewVo> lodgingReviewVoList = new ArrayList<LodgingReviewVo>();
+		String lodgingReservationNoStr = String.valueOf(lodgingReservationNo);
+		
+		String query = " select R.no, R.writer, R.lodging_no, R.title, R.cont, R.review_like, R.review_date "
+				+ " from lodging_review R "
+				+ " join lodging_information I on R.lodging_no = I.no "
+				+ " where R.review_delete = 'N' and R.lodging_no = " + lodgingReservationNoStr;
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				//none default field
+				int no = rs.getInt("no");
+				int writer = rs.getInt("writer"); //int형으로 table에서 writer 가져오는게 맞나?
+				int lodgingNo = rs.getInt("lodging_no");
+				String title = rs.getString("title");
+				String content = rs.getString("cont");
+				int reviewLike = rs.getInt("review_like");
+				Timestamp reviewDate = rs.getTimestamp("review_date");
+				
+				//add list
+				LodgingReviewVo lodgingReviewVo = new LodgingReviewVo();
+				lodgingReviewVo.setNo(no);
+				lodgingReviewVo.setWriter(writer);
+				lodgingReviewVo.setLodgingNo(lodgingNo);
+				lodgingReviewVo.setTitle(title);
+				lodgingReviewVo.setContent(content);
+				lodgingReviewVo.setReviewLike(reviewLike);
+				lodgingReviewVo.setReviewDate(reviewDate);
+				
+				lodgingReviewVoList.add(lodgingReviewVo);
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+			JDBCTemplate.close(rs);
+		}
+		
+		
+		return lodgingReviewVoList;
+	}
+	
 }

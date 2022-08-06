@@ -183,4 +183,29 @@ public class LodgingReviewService {
 		return lodgingReviewVoList;
 	}
 	
+	public List<LodgingReviewVo> showLodgingList(int lodgingReservationNo) {
+		Connection conn = null;
+		List<LodgingReviewVo> lodgingReviewVoList = null;
+		
+//		if(MemberMain.LoginMember == null) {
+//			System.out.println("로그인을 먼저 진행해주세요.");
+//			return lodgingReviewVoList; //다음 내용 진행 막기(빈껍대기)
+//		}
+		
+		try {
+			//connect db
+			conn = JDBCTemplate.getConnection();
+			
+			lodgingReviewVoList = new LodgingReviewDao().showLodgingList(conn, lodgingReservationNo);
+			JDBCTemplate.commit(conn);
+			
+		} catch (Exception e) {
+			JDBCTemplate.rollBack(conn);
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return lodgingReviewVoList;
+	}
 }
