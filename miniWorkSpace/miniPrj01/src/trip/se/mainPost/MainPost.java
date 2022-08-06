@@ -21,10 +21,11 @@ public class MainPost {
 			
 			case "2" : new PostController().postWrite(); break;
 			
-			case "3" : new MemberMenu().loginMenu(); break;
-
+			case "3" : return;
+			
+			default : System.out.println("잘못 입력하셨습니다. 다시 입력해주세요.");
 				
-			}//switch
+			}
 		}//while
 		
 	}//mainPost
@@ -44,8 +45,10 @@ public class MainPost {
 			
 			case "2" : new QnaController().qnaWrite(); break;
 			
-			case "3" : new MemberMenu().loginMenu(); break;
+			case "3" : return;
 				
+			default : System.out.println("잘못 입력하셨습니다. 다시 입력해주세요.");
+			
 			}//switch
 			
 		}//while
@@ -66,8 +69,9 @@ public class MainPost {
 			
 			case "2" : new PostController().postWrite(); break;
 			
-			case "3" : new MemberMenu().loginMenu(); break;
-
+			case "3" : return;
+			
+			default : System.out.println("잘못 입력하셨습니다. 다시 입력해주세요.");
 				
 			}//switch
 		}//while

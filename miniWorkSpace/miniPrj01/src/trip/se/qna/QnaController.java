@@ -151,10 +151,10 @@ public class QnaController {
 		// insert 결과에 따라 로직 처리
 		if(result == 1) {
 			// 글 수정 성공
-			System.out.println("게시글 수정 성공!\n\n");
+			System.out.println("문의글 수정 성공!\n\n");
 		}else {
 			//글 수정 실패
-			System.out.println("게시글 수정 실패...");
+			System.out.println("문의글 수정 실패...");
 		}
 		
 	}// editQna
@@ -171,10 +171,10 @@ public class QnaController {
 		// insert 결과에 따라 로직 처리
 		if(result.equals("1")) {
 			// 글 삭제 성공
-			System.out.println("게시글 삭제 성공!\n\n");
+			System.out.println("문의글 삭제 성공!\n\n");
 		}else {
 			//글 삭제 실패
-			System.out.println("게시글 삭제 실패...");
+			System.out.println("문의글 삭제 실패...");
 		}
 		
 	}//deleteQna
@@ -271,7 +271,7 @@ public class QnaController {
 			Timestamp date = temp.getDate();
 			
 			// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
-			System.out.println("[" + no + "] " + title + " |   " + writer + "  |  " + "  |  " + date + "\n");
+			System.out.println("[" + no + "] " + title + " |   " + writer + "  |  "  + date + "\n");
 		}
 		
 		// 출력문, 입력받기
@@ -279,14 +279,6 @@ public class QnaController {
 
 		// 글 번호 받으면
 		QnaVo vo = new QnaService().showQnaDetail(num);
-//		String no = vo.getWriter();
-//		
-//		vo.setWriter(MemberMain.LoginMember.getNo());
-//
-//		if(!no.equals(MemberMain.LoginMember.getNo())) {
-//			System.out.println("[확인 불가] 본인의 글을 선택해 주세요.");
-//			return;
-//		}
 
 		// SQL 실행 결과(게시글 객체) 화면에 보여주기
 		System.out.println("\n----- 문의글 상세조회 -----");
@@ -313,18 +305,70 @@ public class QnaController {
 				// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
 				System.out.println("[" + cmtNo + "] " + cmt + " |   " + nick + "  |  " + date + "\n");
 			}
-		}
+		}//qnaManager
 		
 		String x = new MenuPost().showQnaComment();
 		
 		switch(x) {
-		case "1" : editQna(num); break;// 게시글 수정
-		case "2": deleteQna(num); break;
+		case "1" : managerEdit(num); break;// 게시글 수정
+		case "2": managerDelete(num); break;
 		case "3": new QnaCmtController().write(num); break;
 		case "4" : new QnaCmtController().editCmt(); break;
 		case "5" : new QnaCmtController().deleteCmt(); break;
 		}
 		
 	}
+	
+	// 관리자 문의글 수정
+	public void managerEdit(String num) {
+		
+		System.out.println("\n-----문의 글 수정 -----");
+		
+		QnaVo qna = new QnaService().showQnaDetail(num);
+		
+		System.out.println("현재 제목 : " + qna.getTitle());
+		System.out.println("현재 내용 : " + qna.getContent());
+		
+		// 데이터 받기
+		System.out.print("수정할 글의 제목 : ");
+		String title = InputUtil.sc.nextLine();
+		System.out.print("수정할 글의 내용 : ");
+		String content = InputUtil.sc.nextLine();
+				
+		// 데이터 뭉치기
+		qna.setTitle(title);
+		qna.setContent(content);
+		
+		int result = new QnaService().editQna(qna);
+		
+		// insert 결과에 따라 로직 처리
+		if(result == 1) {
+			// 글 수정 성공
+			System.out.println("문의글 수정 성공!\n\n");
+		}else {
+			//글 수정 실패
+			System.out.println("문의글 수정 실패...");
+		}
+		
+	}//managerEdit
+	
+	// 관리자 문의글 삭제
+	public void managerDelete(String num) {
+		
+		System.out.println("\n----- 문의 글 삭제 -----");
+		
+		QnaVo post = new QnaService().showQnaDetail(num);
+		
+		String result = Integer.toString(new QnaService().deleteQna(num)) ;
+
+		// insert 결과에 따라 로직 처리
+		if(result.equals("1")) {
+			// 글 삭제 성공
+			System.out.println("문의글 삭제 성공!\n\n");
+		}else {
+			//글 삭제 실패
+			System.out.println("문의글 삭제 실패...");
+		}
+	}//managerDelete
 	
 }//class
