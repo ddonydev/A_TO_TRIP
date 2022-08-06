@@ -10,6 +10,8 @@ public class MenuPost {
 		System.out.println("1. 게시글 조회");
 		System.out.println("2. 게시글 작성");
 		System.out.println("3. 메인 메뉴");
+		
+		System.out.print("\n입력 : ");
 	
 		return InputUtil.sc.nextLine();
 	}//showPost
@@ -28,6 +30,8 @@ public class MenuPost {
 		System.out.println("5. 게시글 댓글 삭제");
 		System.out.println("6. 좋아요 누르기");
 		System.out.println("7. 이전 메뉴");
+		
+		System.out.print("\n입력 : ");
 
 		return InputUtil.sc.nextLine();
 	}//showComment
@@ -37,6 +41,9 @@ public class MenuPost {
 		System.out.println("1. 문의 게시글 조회");
 		System.out.println("2. 문의 게시글 작성");
 		System.out.println("3. 메인 메뉴");		
+		
+		System.out.print("\n입력 : ");
+
 		return InputUtil.sc.nextLine();
 	}//showQna
 	
@@ -53,6 +60,8 @@ public class MenuPost {
 		System.out.println("4. 문의 댓글 수정");
 		System.out.println("5. 문의 댓글 삭제");
 		System.out.println("6. 이전 메뉴");
+		
+		System.out.print("\n입력 : ");
 
 		return InputUtil.sc.nextLine();
 	}//showQnaComment

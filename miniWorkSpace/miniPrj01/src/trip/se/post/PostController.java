@@ -68,7 +68,7 @@ public class PostController {
 			Timestamp date = temp.getDate();
 			
 			// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
-			System.out.println("[" + no + "] " + title + " |   " + writer + "  |  " +"좋아요 : "+ like + "  |  " + "조회수 : " + viewcount + "  |  " + date + "\n");
+			System.out.println("[" + no + "] " +  "제목 : " + title + " | " + writer + " | " +"좋아요 : "+ like + " | " + "조회수 : " + viewcount + " | " + date + "\n");
 		}
 		
 		// 상세 조회
@@ -100,7 +100,7 @@ public class PostController {
 				String nick = temp.getNick();
 				
 				// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
-				System.out.println("[" + cmtNo + "] " + cmt + " |   " + nick + "  |  " + date + "\n");
+				System.out.println("[" + cmtNo + "] " + cmt + " | " + nick + " | " + date + "\n");
 			}
 		}
 		
@@ -222,7 +222,7 @@ public class PostController {
 			Timestamp date = temp.getDate();
 			
 			// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
-			System.out.println("[" + no + "] " + title + " |   " + writer + "  |  " +"좋아요 : "+ like + "  |  " + "조회수 : " + viewcount + "  |  " + date + "\n");
+			System.out.println("[" + no + "] " +  "제목 : " + title + " | " + writer + " | " +"좋아요 : "+ like + " | " + "조회수 : " + viewcount + " | " + date + "\n");
 			}
 			
 		String num = new MenuPost().showPostDetail();
@@ -252,7 +252,7 @@ public class PostController {
 				String writer = temp.getNick();
 				
 				// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
-				System.out.println("[" + cmtNo + "] " + cmt + " |   " + writer + "  |  " + date + "\n");
+				System.out.println("[" + cmtNo + "] " + cmt + " | " + writer + " | " + date + "\n");
 			}
 		}
 		
@@ -287,7 +287,7 @@ public class PostController {
 			Timestamp date = temp.getDate();
 			
 			// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
-			System.out.println("[" + no + "] " + title + " |   " + writer + "  |  " +"좋아요 : "+ like + "  |  " + "조회수 : " + viewcount + "  |  " + date + "\n");
+			System.out.println("[" + no + "] " +  "제목 : " + title + " | " + writer + " | " +"좋아요 : "+ like + " | " + "조회수 : " + viewcount + " | " + date + "\n");
 		}
 		
 		// 상세 조회
@@ -319,7 +319,7 @@ public class PostController {
 				String nick = temp.getNick();
 				
 				// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
-				System.out.println("[" + cmtNo + "] " + cmt + " |   " + nick + "  |  " + date + "\n");
+				System.out.println("[" + cmtNo + "] " + cmt + " | " + nick + " | " + date + "\n");
 			}
 		}
 		
