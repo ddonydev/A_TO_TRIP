@@ -357,7 +357,6 @@ public class PostController {
 		post.setTitle(title);
 		post.setContent(content);
 		
-		
 		int result = new PostService().editPost(post);
 		
 		// insert 결과에 따라 로직 처리
