@@ -70,9 +70,15 @@ public class WishController {
 	
 	public void showZzimList() {
 		
-		List<LodgingVo> lodgingVoList = new WishService().showZzimList();
-		System.out.println("----- 찜한 숙소 목록 -----");
 		
+		
+		List<LodgingVo> lodgingVoList = new WishService().showZzimList();
+		System.out.println();
+		System.out.println();
+		System.out.println("--------------------------------");
+		System.out.println("----- 내가 찜한 숙소 목록 ----------");
+		System.out.println("--------------------------------");
+	
 		for(int i = 0; i < lodgingVoList.size(); ++i) {
 			LodgingVo temp = lodgingVoList.get(i);
 			
@@ -81,21 +87,28 @@ public class WishController {
 			String address = temp.getAddress();
 			String phone = temp.getPhone();
 			
-			System.out.println("[" + no + "]");
-			System.out.println("숙소 : " + name);
 			System.out.println();
-			System.out.println("------------------------");
-			System.out.println("주소 : " + address);
+			System.out.println("   [" + no + "]");
 			System.out.println();
-			System.out.println("------------------------");
-			System.out.println("번호 : " + phone);
+			System.out.println("   ღ 숙소 ღ : " + name);
 			System.out.println();
-			System.out.println("------------------------");
-	
+			System.out.println("   ღ 주소 ღ : " + address);
+			System.out.println();
+			System.out.println("   ღ 번호 ღ : " + phone);
+			System.out.println();
+			System.out.println("--------------------------------");
+			System.out.println("--------------------------------");
+			System.out.println("--------------------------------");
+			
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
 		}
 		
-		
-		
+	
 		
 		
 	}
