@@ -8,9 +8,9 @@ public class MemberVo {
 	public MemberVo() {
 		
 	}
-	
+
 	public MemberVo(String no, String id, String pwd, String email, String name, String birth, String phone,
-			String nick) {
+			String nick, Timestamp enrollDate, String quitYn) {
 		this.no = no;
 		this.id = id;
 		this.pwd = pwd;
@@ -19,7 +19,11 @@ public class MemberVo {
 		this.birth = birth;
 		this.phone = phone;
 		this.nick = nick;
+		this.enrollDate = enrollDate;
+		this.quitYn = quitYn;
 	}
+
+
 	private String no;
 	private String id;
 	private String id2;
@@ -135,8 +139,11 @@ public class MemberVo {
 	@Override
 	public String toString() {
 		return "MemberVo [no=" + no + ", id=" + id + ", pwd=" + pwd + ", email=" + email + ", name=" + name + ", birth="
-				+ birth + ", phone=" + phone + ", nick=" + nick + "]";
+				+ birth + ", phone=" + phone + ", nick=" + nick + ", enrollDate=" + enrollDate + ", quitYn=" + quitYn
+				+ "]";
 	}
+
+
 	
 	
 	

@@ -55,6 +55,25 @@ public class MemberService {
 		
 	}//join
 	
+	public boolean checkIdDuplicate(String id) {
+
+        Connection conn = null;
+        boolean result = false;
+        try {
+            conn = JDBCTemplate.getConnection();
+            result = new MemberDao().checkIdDuplicate(id, conn);
+
+            return result;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            JDBCTemplate.close(conn);
+        }
+
+        return result;
+    }
+	
 	public List<MemberVo> showListMember() {
 		
 		Connection conn = null;
@@ -96,5 +115,19 @@ public class MemberService {
 		
 		return result;
 	}//singOutMember
+	
+	public boolean checkNick(String nick) {
+        if(nick.contains("관리자")) {
+            return false;
+        }
+        return true;
+    }
+	
+	public boolean reconfirmPwd(String pwd, String pwd2) {
+        if(!pwd.equals(pwd2)) {
+            return true;
+        }
+        return false;
+    }
 	
 }//class

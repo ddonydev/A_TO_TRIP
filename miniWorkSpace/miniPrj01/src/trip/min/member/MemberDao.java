@@ -127,6 +127,31 @@ public class MemberDao {
 		
 		return result;
 	}
+	
+	public boolean checkIdDuplicate(String id, Connection conn) throws Exception {
+
+        String sql = "SELECT ID FROM MEMBER WHERE ID = ?";
+
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        boolean result = false;
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                result = true;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCTemplate.close(rs);
+            JDBCTemplate.close(pstmt);
+        }
+        return result;
+    }
 
 
 }//class

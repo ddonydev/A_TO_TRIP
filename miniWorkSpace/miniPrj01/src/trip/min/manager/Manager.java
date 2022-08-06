@@ -21,7 +21,7 @@ public class Manager {
 	 * 숙소 예약 현황 조회 -> Lodging_reservation 테이블 목록
 	 * 
 	 */
-	
+
 	//관리자 메뉴
 	public void managerMenu() {
 		
@@ -32,11 +32,10 @@ public class Manager {
 			System.out.println("3. 숙소 변경");
 			System.out.println("4. 커뮤니티 조회");
 			System.out.println("5. Q&A 조회");
-			System.out.println("6. Q&A 변경");
-			System.out.println("7. 회원 조회");
-			System.out.println("8. 회원정보 변경");
-			System.out.println("9. 숙소 예약 현황 조회");
-			System.out.println("10. 관리자 메뉴 나가기");
+			System.out.println("6. 회원 조회");
+			System.out.println("7. 회원정보 변경");
+			System.out.println("8. 숙소 예약 현황 조회");
+			System.out.println("9. 관리자 메뉴 나가기");
 			String input = InputUtil.sc.nextLine();
 			switch(input) {
 				case "1":
@@ -57,25 +56,21 @@ public class Manager {
 					break;
 				case "5":
 					System.out.println("Q&A 조회");
-					new MainPost().mainQnaPost(); 
+//					new QnaController().qnaManager(); 
 					break;
 				case "6":
-					System.out.println("Q&A 변경");
-					new QnaController().qnaView();
-					break;
-				case "7":
 					System.out.println("회원 조회");
 					new ManagerController().showListMember();
 					break;
-				case "8":
+				case "7":
 					System.out.println("회원 정보 변경");
 					new ManagerController().editMember();
 					break;
-				case "9":
+				case "8":
 					System.out.println("숙소 예약 현황 조회");
 					new LodgingController().showMyReservation(MemberMain.LoginMember.getNo());
 					break;
-				case "10":
+				case "9":
 					return;
 			}		
 		

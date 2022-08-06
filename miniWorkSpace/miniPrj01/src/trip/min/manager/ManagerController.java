@@ -4,7 +4,9 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import trip.hyewon.lodging.LodgingVo;
+import trip.min.main.MemberMain;
 import trip.min.manager.ManagerService;
+import trip.min.member.MemberDao;
 import trip.min.member.MemberService;
 import trip.min.member.MemberVo;
 import trip.min.util.InputUtil;
@@ -120,10 +122,32 @@ public class ManagerController {
 		}
 		
 	}//showlistMember
+	public void editMemberCheck() {
+		
+		while(true) {
+			System.out.println("===== 내 정보 수정하기 =====");
+			System.out.println("1. 회원 정보 수정");
+			System.out.println("2. 이전 메뉴로 돌아가기");
+			System.out.println("=========================");
+			System.out.print("입력 : ");
+			String input = InputUtil.sc.nextLine();
+			switch(input) {
+			case "1":
+				editMember();
+				break;
+			case "2":
+				return;
+			default :
+				System.out.println("잘못 입력하셨습니다.");
+			}
+			
+		}
+	}
 	
 	public void editMember() {
 		System.out.println("===== 회원 정보 수정 =====");
 		System.out.println("!!!모든 항목 작성하여야 함!!!");
+		System.out.println("=== 이메일, 이름, 연락처, 닉네임, 회원탈퇴여부 ===");
 		System.out.print("1. 변경할 이메일 : ");
 		String email = InputUtil.sc.nextLine();
 		System.out.print("2. 변경할 이름 : ");
@@ -153,5 +177,51 @@ public class ManagerController {
 			System.out.println("[ERROR :" + result + "] : 회원정보 수정 에러");
 		}
 	}//editMember
+	
+	public void managerLoginCheck() {
+		 
+		if(MemberMain.LoginMember != null) {
+			//로그인 후
+			new Manager().managerMenu();
+		}else {
+			System.out.println("관리자가 아닙니다.");
+		}
+		
+	}//managerLogin
+	
+	public boolean managerLogin() {
+		boolean isManager = false;
+//		if(MemberMain.LoginMember != null) {
+//			//로그인 O
+//			System.out.println("이미 로그인 되어있습니다.");
+//			return;
+//		}
+		
+		System.out.println("===== 관리자 로그인 =====");
+		System.out.print("아이디 : ");
+		String id = InputUtil.sc.nextLine();
+		System.out.print("패스워드 : ");
+		String pwd = InputUtil.sc.nextLine();
+		
+		try {
+			MemberVo vo = new ManagerDao().managerLogin(id, pwd);
+			if(vo != null) {
+				//로그인 성공
+				System.out.println("관리자 로그인 성공 !\n");
+				isManager = true;
+				MemberMain.LoginMember = vo;
+				return isManager;
+			}else {
+				//로그인 실패
+				System.out.println("관리자 로그인 실패 !\n\n");
+			}
+		} catch (Exception e) {
+			//로그인 실패
+			System.out.println("[에러] 관리자 로그인 실패 !\n\n");
+			e.printStackTrace();
+		}
+		
+		return isManager;
+	}//login
 	
 }

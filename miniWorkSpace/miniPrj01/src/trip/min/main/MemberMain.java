@@ -1,5 +1,7 @@
 package trip.min.main;
 
+import trip.min.manager.Manager;
+import trip.min.manager.ManagerController;
 import trip.min.member.MemberController;
 import trip.min.member.MemberVo;
 import trip.min.util.InputUtil;
@@ -20,14 +22,24 @@ public class MemberMain {
 		System.out.println("======== 환영합니다 ========");
 		System.out.println("===== A to Trip 입니다 =====");
 		
+		boolean isManager = false;
 		while(true) {
-			
-			new MemberMenu().showMenu();
+			new MemberMenu().showMenu(isManager);
+			//로그인 전
+			System.out.println("\n===== 로그인 메뉴 =====");
+			System.out.println("1. 로그인");
+			System.out.println("2. 회원가입");
+			System.out.println("3. 아이디, 비밀번호 찾기");
+			System.out.println("4. 프로그램 종료");
+			System.out.println("5. 관리자 로그인");
+			System.out.println("======================");
+			System.out.print("입력 : ");
 			String input = InputUtil.sc.nextLine();
 			switch(input) {
 			case "1":
 				//로그인
 				new MemberController().login(); 
+				isManager = false;
 				break;
 			case "2":
 				//회원가입
@@ -41,6 +53,11 @@ public class MemberMain {
 				//프로그램 종료
 				System.out.println("프로그램을 종료합니다.");
 				return;
+			case "5":
+				//관리자 로그인
+				boolean ismanager = new ManagerController().managerLogin();
+				isManager = ismanager;
+				break;
 			default :
 				System.out.println("다시 입력해 주세요");
 			}//switch
