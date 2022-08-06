@@ -61,7 +61,7 @@ public class MemberMypage {
 				break;
 			case "6":
 				System.out.println("내가 쓴 리뷰 확인");
-				checkmyreview();
+				new LodgingReviewController().showMyReview();
 				break;
 			case "7":
 				System.out.println("현재 보유 쿠폰");
