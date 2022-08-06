@@ -130,6 +130,7 @@ public class MemberController {
         boolean result = new MemberService().checkNick(nick);
         return result;
     }
+    
   //비밀번호 재확인
     public boolean reconfirmPwd(String pwd, String pwd2) {
         boolean result = new MemberService().reconfirmPwd(pwd, pwd2);

@@ -36,6 +36,8 @@ public class Manager {
 			System.out.println("7. 회원정보 변경");
 			System.out.println("8. 숙소 예약 현황 조회");
 			System.out.println("9. 관리자 메뉴 나가기");
+			System.out.println("==========================");
+			System.out.print("입력 : ");
 			String input = InputUtil.sc.nextLine();
 			switch(input) {
 				case "1":
