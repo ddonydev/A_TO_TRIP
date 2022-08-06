@@ -68,7 +68,7 @@ public class QnaController {
 			Timestamp date = temp.getDate();
 			
 			// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
-			System.out.println("[" + no + "] " + title + " |   " + writer + "  |  " + "  |  " + date + "\n");
+			System.out.println("[" + no + "] " + "제목 : " + title + " | " + writer + " | " + date + "\n");
 		}
 		
 		// 출력문, 입력받기
@@ -108,7 +108,7 @@ public class QnaController {
 				String nick = temp.getNick();
 				
 				// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
-				System.out.println("[" + cmtNo + "] " + cmt + " |   " + nick + "  |  " + date + "\n");
+				System.out.println("[" + cmtNo + "] " + cmt + " | " + nick + " | " + date + "\n");
 			}
 		}
 		
@@ -198,7 +198,7 @@ public class QnaController {
 			Timestamp date = temp.getDate();
 			
 			// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
-			System.out.println("[" + no + "] " + title + " |   " + writer + "  |  " + "  |  " + date + "\n");
+			System.out.println("[" + no + "] " + "제목 : " + title + " | " + writer + " | " + date + "\n");
 		}
 		
 		String num = new MenuPost().showQnaDetail();
@@ -237,7 +237,7 @@ public class QnaController {
 				String wirter = temp.getNick();
 				
 				// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
-				System.out.println("[" + cmtNo + "] " + cmt + " |   " + wirter + "  |  " + date + "\n");
+				System.out.println("[" + cmtNo + "] " + cmt + " | " + wirter + " | " + date + "\n");
 			}
 		}
 		
@@ -271,7 +271,7 @@ public class QnaController {
 			Timestamp date = temp.getDate();
 			
 			// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
-			System.out.println("[" + no + "] " + title + " |   " + writer + "  |  "  + date + "\n");
+			System.out.println("[" + no + "] " + "제목 : " + title + " | " + writer + " | "  + date + "\n");
 		}
 		
 		// 출력문, 입력받기
@@ -303,7 +303,7 @@ public class QnaController {
 				String nick = temp.getNick();
 				
 				// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
-				System.out.println("[" + cmtNo + "] " + cmt + " |   " + nick + "  |  " + date + "\n");
+				System.out.println("[" + cmtNo + "] " + cmt + " | " + nick + " | " + date + "\n");
 			}
 		}//qnaManager
 		
