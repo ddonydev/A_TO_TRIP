@@ -159,7 +159,9 @@ public void loginManagerMenu() {
 	}
     public String showDetailByNo() {
 
+
         System.out.println("참여할 게임을 선택 해주세요. (0번은 메인 메뉴)");
+        System.out.print("입력 : ");
 
         return InputUtil.sc.nextLine();
 
