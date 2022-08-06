@@ -27,6 +27,7 @@ public class MenuPost {
 		System.out.println("4. 게시글 댓글 수정");
 		System.out.println("5. 게시글 댓글 삭제");
 		System.out.println("6. 좋아요 누르기");
+		System.out.println("7. 이전 메뉴");
 
 		return InputUtil.sc.nextLine();
 	}//showComment
@@ -51,6 +52,7 @@ public class MenuPost {
 		System.out.println("3. 문의 댓글 작성");
 		System.out.println("4. 문의 댓글 수정");
 		System.out.println("5. 문의 댓글 삭제");
+		System.out.println("6. 이전 메뉴");
 
 		return InputUtil.sc.nextLine();
 	}//showQnaComment
