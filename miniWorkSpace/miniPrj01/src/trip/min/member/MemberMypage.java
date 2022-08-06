@@ -3,6 +3,7 @@ package trip.min.member;
 import java.awt.im.InputContext;
 
 import trip.hyewon.lodging.LodgingController;
+import trip.kms.lodgingReview.LodgingReviewController;
 import trip.min.main.MemberMain;
 import trip.min.manager.ManagerController;
 import trip.min.util.InputUtil;
