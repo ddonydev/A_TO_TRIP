@@ -13,7 +13,7 @@ import trip.min.member.MemberVo;
 
 public class LodgingReviewController {
 
-	//전체 리뷰 보여주기.
+	//전체 리뷰 보여주기
 	public void showReview() {
 		
 		while(true) {
@@ -105,8 +105,9 @@ public class LodgingReviewController {
 				break;
 			} else if(reviewLikeNum.equals("2")) {
 				System.out.println("이전페이지로 돌아갑니다.");
-				showReview();
-				break;
+				return;
+//				showReview();
+//				break;
 			} else {
 				System.out.println("잘못입력하셨습니다. 다시 입력해주세요.");
 			}
@@ -240,6 +241,7 @@ public class LodgingReviewController {
 			System.out.println("좋아요 누르기 실패");
 		}
 	}
+	
 	//1->4. 좋아요 취소하기
 	public void reviewLikeMinus(LodgingReviewVo vo) {
 		//membervo 받아와서 pwd 검사? => no 그냥 받아오기
@@ -291,7 +293,7 @@ public class LodgingReviewController {
 		while(true) {
 			System.out.println("---------------------------");
 			System.out.println("1. 전체 리뷰 보기로 이동");
-			System.out.println("2. 마이 페이지로 이동");
+			System.out.println("2. 나가기");
 			System.out.print("선택 : ");
 			String choose = scanner.nextLine();
 			
@@ -307,4 +309,75 @@ public class LodgingReviewController {
 		}
 		
 	}
+	
+	//특정 리뷰 숙소 이동하기
+	public void showLodgingReview(int lodgingReservationNo) {
+		
+		while(true) {
+			List<LodgingReviewVo> lodgingReviewVoList = new LodgingReviewService().showLodgingList(lodgingReservationNo);
+			System.out.println("===== " + lodgingReservationNo + "번 숙소 리뷰 =====");
+			for(int i = 0 ; i < lodgingReviewVoList.size() ; i++) {
+				
+				LodgingReviewVo tmp = lodgingReviewVoList.get(i);
+				
+				int no = tmp.getNo(); 
+				int writer = tmp.getWriter(); 
+				int lodgingNo = tmp.getLodgingNo(); 
+				String title = tmp.getTitle(); 
+				String content = tmp.getContent(); 
+				Timestamp reviewDate = tmp.getReviewDate(); 
+				Timestamp editDate = tmp.getEditDate(); 
+				int reviewLike = tmp.getReviewLike();
+				
+				System.out.print("리뷰 번호 :: " + no + " || ");
+				System.out.print("작성자 번호 :: " + writer + " || ");
+				System.out.print("숙소 번호 :: " + lodgingNo + " || ");
+				System.out.print("제목 :: " + title + " || ");
+				System.out.print("내용 :: " + content + " || ");
+				System.out.print("좋아요 갯수 :: " + reviewLike + " || ");
+				System.out.print("최근 작성일 :: " + reviewDate);
+				System.out.println();
+				
+			}
+			
+			LodgingReviewVo vo = new LodgingReviewVo();
+			
+			System.out.println("===== 리뷰 번호 선택 =====");
+			Scanner scanner = new Scanner(System.in);
+			System.out.print("조회할 리뷰 번호('Q'를 통해 뒤로 이동)  : ");
+			String inputNumStr = scanner.nextLine();
+			if(inputNumStr.equals("Q")) {
+				break;
+			}
+			
+			int reviewNum = Integer.valueOf(inputNumStr);
+			
+			for(int i = 0 ; i < lodgingReviewVoList.size() ; i++) {
+				LodgingReviewVo tmp = lodgingReviewVoList.get(i);
+				if(tmp.getNo() == reviewNum) {
+					int no = tmp.getNo(); 
+					int writer = tmp.getWriter(); 
+					int lodgingNo = tmp.getLodgingNo(); 
+					String title = tmp.getTitle(); 
+					String content = tmp.getContent(); 
+					Timestamp reviewDate = tmp.getReviewDate(); 
+					Timestamp editDate = tmp.getEditDate(); 
+					int reviewLike = tmp.getReviewLike();
+					
+					vo.setNo(no);
+					vo.setWriter(writer);
+					vo.setLodgingNo(lodgingNo);
+					vo.setTitle(title);
+					vo.setContent(content);
+					vo.setReviewDate(reviewDate);
+					vo.setEditDate(editDate);
+					vo.setReviewLike(reviewLike);
+
+					reviewChoose(vo);
+					break;
+				} 
+			}
+		}
+	}
+	
 }
