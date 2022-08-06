@@ -23,6 +23,8 @@ public class ServiceCenter {
 			System.out.println("1. QnA");
 			System.out.println("2. 챗봇 상담");
 			System.out.println("3. 나가기");
+			System.out.println("==========================");
+			System.out.print("입력 : ");
 			String input = InputUtil.sc.nextLine();
 			switch(input){
 				case "1" :
