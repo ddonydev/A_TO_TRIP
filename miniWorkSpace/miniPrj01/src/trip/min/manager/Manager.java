@@ -56,7 +56,7 @@ public class Manager {
 					break;
 				case "5":
 					System.out.println("Q&A 조회");
-//					new QnaController().qnaManager(); 
+					new QnaController().qnaManager(); 
 					break;
 				case "6":
 					System.out.println("회원 조회");
