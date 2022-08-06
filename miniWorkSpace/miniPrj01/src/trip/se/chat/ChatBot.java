@@ -11,6 +11,7 @@ public class ChatBot {
 			System.out.println("\n=====챗봇 상담 시작=====");
 		while(true) {
 			
+			
 			System.out.print("키워드를 입력 해주세요 : ");
 			String input = InputUtil.sc.nextLine();
 
@@ -18,39 +19,37 @@ public class ChatBot {
 				System.out.println("예약하기는 메인페이지에서 해주세요.\n");
 			}
 			
-			else if(input.contains("취소")) {
+			if(input.contains("취소")) {
 				System.out.println("예약 취소는 마이페이지에서 해주세요.\n");
 			}
 
-			else if(input.contains("변경")) {
+			if(input.contains("변경")) {
 				System.out.println("예약 변경은 마이페이지에서 해주세요.\n");
 			}
 			
-			else if(input.contains("닉네임")) {
+			if(input.contains("닉네임")) {
 				System.out.println("닉네임 변경은 마이페이지에서 해주세요.\n");
 			}
 			
-			else if(input.contains("탈퇴")) {
+			if(input.contains("탈퇴")) {
 				System.out.println("회원탈퇴는 마이페이지에서 해주세요.\n");
 			}
 			
-			else if(input.contains("쿠폰")) {
+			if(input.contains("쿠폰")) {
 				System.out.println("쿠폰 조회는 마이페이지에서 해주세요.\n");
 			}
 			
-			else if(input.contains("찜")) {
+			if(input.contains("찜")) {
 				System.out.println("숙소 찜 조회는 마이페이지에서 해주세요.\n");
 			}
 			
-			else if(input.contains("게시글")) {
+			if(input.contains("게시글")) {
 				System.out.println("게시글 관련 사항은 게시판에서 해주세요.\n");
 			}
 			
-			else if(input.contains("종료")) {
+			if(input.contains("종료")) {
 				System.out.println("상담을 종료합니다.\n\n");
 				return;
-			}else {
-				System.out.println("\n[잘못된 입력] 다시 입력해주세요.");
 			}
 			
 		}//while
@@ -65,13 +64,12 @@ public class ChatBot {
 		System.out.println("1. 상담 시작하기");
 		System.out.println("2. 나가기");
 		
-		System.out.print("\n입력 : ");
+		System.out.print("\n번호를 입력해주세요 : ");
 		
 		String x = InputUtil.sc.nextLine();
 		switch(x) {
 		case "1" : chatBot(); break;
-		case "2" : return;
-		default : System.out.println("잘못 입력하셨습니다. 다시 입력해주세요.");
+		case "2" : new MemberMenu().loginMenu(); break;
 		
 		}//switch
 		
