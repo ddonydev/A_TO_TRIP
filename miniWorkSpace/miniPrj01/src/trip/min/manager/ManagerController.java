@@ -154,8 +154,16 @@ public class ManagerController {
 		String name = InputUtil.sc.nextLine();
 		System.out.print("3. 변경할 연락처 : ");
 		String phone = InputUtil.sc.nextLine();
-		System.out.print("4. 변경할 닉네임 : ");
-		String nick = InputUtil.sc.nextLine();
+		boolean isContainManager = false;
+        String nick = null;
+        while(!isContainManager) {
+            System.out.print("4. 변경할 닉네임 : ");
+            nick = InputUtil.sc.nextLine();
+            isContainManager = checkNick(nick);
+            if(!isContainManager) {
+                System.out.println("닉네임에는 '관리자'가 포함될 수 없습니다!");
+            }
+        }
 		System.out.print("5. 회원탈퇴 여부 'Y / N' : ");
 		String quitYn = InputUtil.sc.nextLine();
 		System.out.print("6. 사용자 아이디 : ");
@@ -177,6 +185,12 @@ public class ManagerController {
 			System.out.println("[ERROR :" + result + "] : 회원정보 수정 에러");
 		}
 	}//editMember
+	
+	//닉네임 체크
+    public boolean checkNick(String nick) {
+        boolean result = new MemberService().checkNick(nick);
+        return result;
+    }
 	
 	public void managerLoginCheck() {
 		 
