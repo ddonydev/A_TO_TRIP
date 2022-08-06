@@ -179,7 +179,7 @@ public class LodgingController {
 					//찜하기만 했었다면 찜취소할때 Y로 [업데이트]
 					if(zzimCancel.equals("N")) {
 						System.out.println("1. 예약하기");
-						System.out.println("2. 찜취소하기");
+						System.out.println("2. 찜취소하기(이미 찜한 숙소입니다)");
 						System.out.println("3. 숙소리뷰보기");
 						System.out.println("4. 숙소리스트로 돌아가기");
 						System.out.print("입력 : ");
