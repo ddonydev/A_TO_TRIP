@@ -52,7 +52,7 @@ public class Manager {
 					break;
 				case "4":
 					System.out.println("커뮤니티 조회");
-					new MainPost().mainPost();
+					new MainPost().postmanager(); ;
 					break;
 				case "5":
 					System.out.println("Q&A 조회");
