@@ -52,6 +52,28 @@ public class MainPost {
 		
 	}//mainQnaPost
 	
+	public void postmanager() {
+		
+		MenuPost mp = new MenuPost();
+		
+		while(true) {
+				
+			String x = mp.showPost();
+		
+			switch(x) {
+			
+			case "1" : new PostController().managerPost(); break;
+			
+			case "2" : new PostController().postWrite(); break;
+			
+			case "3" : new MemberMenu().loginMenu(); break;
+
+				
+			}//switch
+		}//while
+		
+	}
+	
 	
 }//MainPost
 
@@ -60,8 +82,8 @@ public class MainPost {
  * 	a. 댓글 작성
  * 	b. 게시물 목록 돌아가기
  * 	c. 메인 메뉴로 돌아가기
- * 	d. 댓글 수정 -> 댓글 번호 입력 -> 비밀번호 확인
- * 	e. 댓글 삭제 -> 댓글 번호 입력 -> 비밀번호 확인
+ * 	d. 댓글 수정 -> 댓글 번호 입력 -> 로그인 == 글작성자 일치 한지 확인
+ * 	e. 댓글 삭제 -> 댓글 번호 입력 -> 로그인 == 글작성자 일치 한지 확인
  * 	f. 게시물 수정 -> 비밀번호 확인
  * 	g. 게시물 삭제 -> 비밀번호 확인
  * 	h. 좋아요(취소여부 체크 안함)
@@ -75,8 +97,8 @@ public class MainPost {
  * 	A. 댓글 작성
  * 	B. Q&A 목록 돌아가기
  * 	C. 메인 메뉴로 돌아가기
- * 	D. 댓글 수정 -> 댓글 번호 입력 -> 비밀번호 확인
- * 	E. 댓글 삭제 -> 댓글 번호 입력 -> 비밀번호 확인
+ * 	D. 댓글 수정 -> 댓글 번호 입력 -> 로그인 == 글작성자 일치 한지 확인
+ * 	E. 댓글 삭제 -> 댓글 번호 입력 -> 로그인 == 글작성자 일치 한지 확인
  * 
  * 		a. 문의 사항 목록 보이게 
  *  	b. 문의 글 작성하기

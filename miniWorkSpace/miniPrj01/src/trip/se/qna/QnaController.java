@@ -73,11 +73,6 @@ public class QnaController {
 		
 		// 출력문, 입력받기
 		String num = new MenuPost().showQnaDetail();
-		
-		if(num.equals("0")) {
-			System.out.println("\n 메인 메뉴로 돌아갑니다. \n");
-			return;
-		}
 
 		// 글 번호 받으면
 		QnaVo vo = new QnaService().showQnaDetail(num);
@@ -184,6 +179,7 @@ public class QnaController {
 		
 	}//deleteQna
 	
+	// 내 문의글 조회
 	public void showMyQna(MemberVo loginMember) {
 		
 		String nick = loginMember.getNick();
@@ -255,8 +251,80 @@ public class QnaController {
 		case "5" : new QnaCmtController().deleteCmt(); break;
 		}
 		
+	}//showMyQna
+	
+	//관리자 문의글 조회
+	public void qnaManager() {
+		
+		List<QnaVo> qnaVoList = new QnaService().qnaShowList();
+		
+		
+		System.out.println("----- 문의글 조회 -----");
+		
+		for(int i = 0; i < qnaVoList.size(); i++) {
+			
+			QnaVo temp = (QnaVo)qnaVoList.get(i);
+			
+			String no = temp.getNo();
+			String title = temp.getTitle();
+			String writer = temp.getNick();
+			Timestamp date = temp.getDate();
+			
+			// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
+			System.out.println("[" + no + "] " + title + " |   " + writer + "  |  " + "  |  " + date + "\n");
+		}
+		
+		// 출력문, 입력받기
+		String num = new MenuPost().showQnaDetail();
+
+		// 글 번호 받으면
+		QnaVo vo = new QnaService().showQnaDetail(num);
+//		String no = vo.getWriter();
+//		
+//		vo.setWriter(MemberMain.LoginMember.getNo());
+//
+//		if(!no.equals(MemberMain.LoginMember.getNo())) {
+//			System.out.println("[확인 불가] 본인의 글을 선택해 주세요.");
+//			return;
+//		}
+
+		// SQL 실행 결과(게시글 객체) 화면에 보여주기
+		System.out.println("\n----- 문의글 상세조회 -----");
+		System.out.print("제목 : " + vo.getTitle() + " | ");
+		System.out.print("작성자 : " + vo.getNick() + " | ");
+		System.out.print("작성일 : " + vo.getDate());
+		System.out.println();	// 줄바꿈
+		System.out.println("내용 : " + vo.getContent()+"\n");
+		
+		// 댓글 목록 조회
+		List<QnaCmtVo> qcmtVoList = new QnaCmtService().showList(num);
+		
+		if(qcmtVoList.size() > 0) {
+			System.out.println("----- 댓글 -----");
+			for(int i = 0; i < qcmtVoList.size(); i++) {
+						
+				QnaCmtVo temp = (QnaCmtVo)qcmtVoList.get(i);
+
+				String cmtNo = temp.getCmtNo();
+				String cmt = temp.getCmt();
+				Timestamp date = temp.getDate();
+				String nick = temp.getNick();
+				
+				// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
+				System.out.println("[" + cmtNo + "] " + cmt + " |   " + nick + "  |  " + date + "\n");
+			}
+		}
+		
+		String x = new MenuPost().showQnaComment();
+		
+		switch(x) {
+		case "1" : editQna(num); break;// 게시글 수정
+		case "2": deleteQna(num); break;
+		case "3": new QnaCmtController().write(num); break;
+		case "4" : new QnaCmtController().editCmt(); break;
+		case "5" : new QnaCmtController().deleteCmt(); break;
+		}
 		
 	}
-	
 	
 }//class

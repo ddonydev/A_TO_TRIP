@@ -267,9 +267,129 @@ public class PostController {
 		case "6" : likePost(num); break;
 		}
 		
-		
 	}//showMyPost
 	
+	public void managerPost() {
+		
+		List<PostVo> postVoList = new PostService().showList();
+		
+		System.out.println("----- 게시글 조회 -----");
+		
+		for(int i = 0; i < postVoList.size(); i++) {
+			
+			PostVo temp = (PostVo)postVoList.get(i);
+			
+			String no = temp.getNo();
+			String title = temp.getTitle();
+			String writer = temp.getNick();
+			String like = temp.getLike();
+			String viewcount = temp.getViewCount();
+			Timestamp date = temp.getDate();
+			
+			// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
+			System.out.println("[" + no + "] " + title + " |   " + writer + "  |  " +"좋아요 : "+ like + "  |  " + "조회수 : " + viewcount + "  |  " + date + "\n");
+		}
+		
+		// 상세 조회
+		// 출력문, 입력받기
+		String num = new MenuPost().showPostDetail();
+		
+		// 글 번호 받으면
+		PostVo vo = new PostService().showPostDetail(num);
+		
+		// SQL 실행 결과(게시글 객체) 화면에 보여주기
+		System.out.println("\n----- 게시글 상세조회 -----");
+		System.out.print("제목 : " + vo.getTitle() + " | ");
+		System.out.print("작성자 : " + vo.getNick() + " | ");
+		System.out.print("작성일 : " + vo.getDate());
+		System.out.println();	// 줄바꿈
+		System.out.println("내용 : " + vo.getContent()+"\n");
+		
+		List<CmtVo> cmtVoList = new CmtService().showList(num);
+		
+		if(cmtVoList.size() > 0) {
+			System.out.println("----- 댓글 -----");
+			for(int i = 0; i < cmtVoList.size(); i++) {
+						
+				CmtVo temp = (CmtVo)cmtVoList.get(i);
+
+				String cmtNo = temp.getCmtNo();
+				String cmt = temp.getCmt();
+				Timestamp date = temp.getDate();
+				String nick = temp.getNick();
+				
+				// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
+				System.out.println("[" + cmtNo + "] " + cmt + " |   " + nick + "  |  " + date + "\n");
+			}
+		}
+		
+		String x = new MenuPost().showComment();
+		
+		switch(x) {
+		case "1" : managerEdit(num); break;// 게시글 수정
+		case "2": managerDelete(num); break;
+		case "3": new CmtController().write(num); break;
+		case "4" : new CmtController().editCmt(); break;
+		case "5" : new CmtController().deleteCmt(); break;
+		case "6" : likePost(num); break;
+		}
+		
+		
+		
+	}
+	
+	public void managerEdit(String num) {
+		
+		System.out.println("\n----- 게시글 수정 -----");
+		
+		PostVo post = new PostService().showPostDetail(num);
+		
+		System.out.println("현재 제목 : " + post.getTitle());
+		System.out.println("현재 내용 : " + post.getContent());
+		
+		// 데이터 받기
+		System.out.print("수정할 글의 제목 : ");
+		String title = InputUtil.sc.nextLine();
+		System.out.print("수정할 글의 내용 : ");
+		String content = InputUtil.sc.nextLine();
+				
+		// 데이터 뭉치기
+		post.setTitle(title);
+		post.setContent(content);
+		
+		
+		int result = new PostService().editPost(post);
+		
+		// insert 결과에 따라 로직 처리
+		if(result == 1) {
+			// 글 수정 성공
+			System.out.println("게시글 수정 성공!\n\n");
+		}else {
+			//글 수정 실패
+			System.out.println("게시글 수정 실패...");
+		}//edit
+		
+		
+	}// delete
+	
+	
+	public void managerDelete(String num) {
+		System.out.println("\n----- 게시글 삭제 -----");
+		
+		PostVo p = new PostService().showPostDetail(num);
+		
+		String input = Integer.toString(new PostService().deletePost(num)) ;
+		
+
+		// insert 결과에 따라 로직 처리
+		if(input.equals("1")) {
+			// 글 삭제 성공
+			System.out.println("게시글 삭제 성공!\n\n");
+		}else {
+			//글 삭제 실패
+			System.out.println("게시글 삭제 실패...");
+		}
+	}
 	
 }// class
 
