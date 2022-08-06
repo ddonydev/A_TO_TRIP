@@ -608,7 +608,6 @@ public class LodgingController {
 			default:
 				System.out.println("잘못된 입력입니다!");
 			}
-			
 		}
 		
 		
