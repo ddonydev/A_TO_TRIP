@@ -390,8 +390,7 @@ public class LodgingDao {
 
 	public List<LodgingReservationVo> showMyReservation(String num, Connection conn) throws Exception {
 		
-		String sql = "SELECT LR.NO, LR.RESERVE_DATE, LR.PEOPLE, LR.START_DATE, LR.END_DATE, LR.PAYMENT_YN, LR.PAYMENT, LR.BREAKFAST_YN, LR.CANCEL_YN, LI.NAME, LI.PHONE, LI.ADDRESS FROM LODGING_RESERVATION LR JOIN LODGING_INFORMATION LI ON LR.LODGING_NO = LI.NO WHERE LR.MEMBER_NO = ?";
-		
+		String sql = "SELECT LR.NO, LR.RESERVE_DATE, LR.PEOPLE, LR.START_DATE, LR.END_DATE, LR.PAYMENT_YN, LR.PAYMENT, LR.BREAKFAST_YN, LR.CANCEL_YN, LI.NAME, LI.PHONE, LI.ADDRESS , RT.R_TYPE FROM LODGING_RESERVATION LR JOIN LODGING_INFORMATION LI ON LR.LODGING_NO = LI.NO JOIN ROOM R ON R.NO = LR.ROOM_NO JOIN ROOM_TYPE RT ON RT.CODE = R.ROOM_CODE WHERE LR.MEMBER_NO = ?";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
@@ -420,6 +419,7 @@ public class LodgingDao {
 				int payment = rs.getInt("PAYMENT");
 				String payYn = rs.getString("PAYMENT_YN");
 				String cancelYn = rs.getString("CANCEL_YN");
+				String roomType = rs.getString("R_TYPE");
 				
 				LodgingReservationVo vo = new LodgingReservationVo();
 				vo.setNo(Integer.toString(no));
@@ -434,6 +434,7 @@ public class LodgingDao {
 				vo.setPayment(Integer.toString(payment));
 				vo.setPayYn(payYn);
 				vo.setCancelYn(cancelYn);
+				vo.setRoomType(roomType);
 				
 				VoList.add(vo);
 			} 
