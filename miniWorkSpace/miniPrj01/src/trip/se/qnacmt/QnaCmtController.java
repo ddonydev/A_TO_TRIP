@@ -19,7 +19,7 @@ public class QnaCmtController {
 		String cmt = InputUtil.sc.nextLine();
 		
 		if(cmt.equals("Q")) {
-			new QnaController().qnaView();
+			return;
 		}
 		
 		String memberNo = MemberMain.LoginMember.getNo();
@@ -52,7 +52,7 @@ public class QnaCmtController {
 		String cmtNo = InputUtil.sc.nextLine();
 		
 		if(cmtNo.equals("Q")) {
-			new QnaController().qnaView();
+			return;
 		}
 		
 		QnaCmtVo cmt = new QnaCmtService().showCmtDetail(cmtNo);
@@ -96,7 +96,7 @@ public class QnaCmtController {
 		String cmtNo = InputUtil.sc.nextLine();
 		
 		if(cmtNo.equals("Q")) {
-			new QnaController().qnaView();
+			return;
 		}
 		
 		QnaCmtVo cmt = new QnaCmtService().showCmtDetail(cmtNo);
