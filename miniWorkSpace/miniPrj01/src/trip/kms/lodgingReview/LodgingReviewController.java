@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Scanner;
 
 import trip.hyewon.lodging.LodgingController;
-import trip.kms.lodgingReviewLike.LodgingReviewLikeController;
-import trip.kms.lodgingReviewLike.LodgingReviewLikeVo;
 import trip.min.main.MemberMain;
 import trip.min.main.MemberMenu;
 import trip.min.member.MemberVo;
