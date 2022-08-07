@@ -661,6 +661,7 @@ public class LodgingController {
 			String payment = vo.getPayment();
 			String payYn = vo.getPayYn();
 			String cancelYn = vo.getCancelYn();
+			String roomType = vo.getRoomType();
 			
 			noList.add(no);
 			cancelYnList.add(cancelYn);
@@ -673,6 +674,7 @@ public class LodgingController {
 			System.out.println("숙소전화번호 : " + phone);
 			System.out.println("입실날짜 : " + startDate.substring(0,10));
 			System.out.println("퇴실날짜 : " + endDate.substring(0,10));
+			System.out.println("방유형 : " + roomType);
 			System.out.println("인원수 : " + people + "명");
 			System.out.println("조식여부 : " + breakfastYn);
 			System.out.println("총금액 : " + payment + "원");
