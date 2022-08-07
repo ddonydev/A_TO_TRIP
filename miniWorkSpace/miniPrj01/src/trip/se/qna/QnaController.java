@@ -135,13 +135,13 @@ public class QnaController {
             new QnaCmtController().editCmt(); break;
         }else {
             System.out.println("작성된 댓글이 없어 이전페이지로 돌아갑니다.");
-            qnaView();
+            return;
         }
 		case "5" : if(qcmtVoList.size() > 0) {
 			new QnaCmtController().deleteCmt(); break;
 		}else {
             System.out.println("작성된 댓글이 없어 이전페이지로 돌아갑니다.");
-            qnaView();
+            return;
         	}
 		}
 		
@@ -162,7 +162,7 @@ public class QnaController {
 		System.out.print("수정할 글의 제목(Q -> 이전 메뉴) : ");
 		String title = InputUtil.sc.nextLine();
 		if(title.equals("Q")) {
-			qnaView();
+			return;
 		}
 		System.out.print("수정할 글의 내용 : ");
 		String content = InputUtil.sc.nextLine();
@@ -287,13 +287,13 @@ public class QnaController {
             new QnaCmtController().editCmt(); break;
         }else {
             System.out.println("작성된 댓글이 없어 이전페이지로 돌아갑니다.");
-            qnaView();
+            return;
         }
 		case "5" : if(mycmtVoList.size() > 0) {
 			new QnaCmtController().deleteCmt(); break;
 		}else {
             System.out.println("작성된 댓글이 없어 이전페이지로 돌아갑니다.");
-            qnaView();
+            return;
         	}
 		}
 		
@@ -373,13 +373,13 @@ public class QnaController {
             new QnaCmtController().editCmt(); break;
         }else {
             System.out.println("작성된 댓글이 없어 이전페이지로 돌아갑니다.");
-            qnaView();
+            return;
         }
 		case "5" : if(qcmtVoList.size() > 0) {
 			new QnaCmtController().deleteCmt(); break;
 		}else {
             System.out.println("작성된 댓글이 없어 이전페이지로 돌아갑니다.");
-            qnaView();
+            return;
         	}
 		}
 		

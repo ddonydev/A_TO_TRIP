@@ -20,7 +20,7 @@ public class CmtController {
 		String cmt = InputUtil.sc.nextLine();
 		
 		if(cmt.equals("Q")) {
-			new PostController().postView();
+			return;
 		}
 		
 		String memberNo = MemberMain.LoginMember.getNo();
@@ -53,7 +53,7 @@ public class CmtController {
 		String cmtNo = InputUtil.sc.nextLine();
 		
 		if(cmtNo.equals("Q")) {
-			new PostController().postView();
+			return;
 		}
 		
 		CmtVo cmt = new CmtService().showCmtDetail(cmtNo);
@@ -100,7 +100,7 @@ public class CmtController {
 		String cmtNo = InputUtil.sc.nextLine();
 		
 		if(cmtNo.equals("Q")) {
-			new PostController().postView();
+			return;
 		}
 		
 		CmtVo cmt = new CmtService().showCmtDetail(cmtNo);
