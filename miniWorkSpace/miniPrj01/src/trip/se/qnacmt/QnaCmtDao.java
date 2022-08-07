@@ -80,7 +80,7 @@ public class QnaCmtDao {
 	}// showList
 	
 	// 댓글 조회
-	public QnaCmtVo showCmtDetail(Connection conn, int num) throws Exception {
+	public QnaCmtVo showCmtDetail(Connection conn, String num) throws Exception {
 		
 		String sql = "SELECT C.CMT_NO, C.WRITER, C.CMT, C.CMT_DATE, C.DELETE_YN, C.EDIT_DATE, M.NICK FROM QNA_CMT C JOIN MEMBER M ON C.WRITER = M.NO WHERE C.CMT_NO = ? ORDER BY CMT_DATE DESC";
 		
@@ -91,7 +91,7 @@ public class QnaCmtDao {
 		try {
 			// SQL 객체에 담기 및 쿼리 완성하기
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, num);
+			pstmt.setString(1, num);
 			
 			// SQL 실행 및 결과 저장
 			rs = pstmt.executeQuery();
@@ -150,7 +150,7 @@ public class QnaCmtDao {
 	}// editCmt
 	
 	// 댓글 삭제
-	public int deleteCmt(int cmtNo, Connection conn) throws Exception {
+	public int deleteCmt(String cmtNo, Connection conn) throws Exception {
 		
 		String sql = "UPDATE QNA_CMT SET DELETE_YN = 'Y' WHERE CMT_NO = ?";
 		
@@ -158,7 +158,7 @@ public class QnaCmtDao {
 		int result = 0;
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, cmtNo);
+			pstmt.setString(1, cmtNo);
 			
 			result = pstmt.executeUpdate();
 			

@@ -24,8 +24,11 @@ public class QnaController {
 		System.out.println("\n----- 문의글 작성 -----");
 		
 		// 데이터 받기
-		System.out.print("제목 : ");
+		System.out.print("제목 (Q -> 이전 메뉴): ");
 		String title = InputUtil.sc.nextLine();
+		if(title.equals("Q")) {
+			return;
+		}
 		System.out.print("내용 : ");
 		String content = InputUtil.sc.nextLine();
 		
@@ -58,22 +61,32 @@ public class QnaController {
 		
 		System.out.println("----- 문의글 조회 -----");
 		
-		for(int i = 0; i < qnaVoList.size(); i++) {
+		if(qnaVoList.size() != 0 ) {
 			
-			QnaVo temp = (QnaVo)qnaVoList.get(i);
-			
-			String no = temp.getNo();
-			String title = temp.getTitle();
-			String writer = temp.getNick();
-			Timestamp date = temp.getDate();
-			
-			// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
-			System.out.println("[" + no + "] " + "제목 : " + title + " | " + writer + " | " + date + "\n");
+			for(int i = 0; i < qnaVoList.size(); i++) {
+				
+				QnaVo temp = (QnaVo)qnaVoList.get(i);
+				
+				String no = temp.getNo();
+				String title = temp.getTitle();
+				String writer = temp.getNick();
+				Timestamp date = temp.getDate();
+				
+				// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
+				System.out.println("[" + no + "] " + "제목 : " + title + " | " + "작성자 : " + writer + " | " + date + "\n");
+			}
+		}else {
+			System.out.println("작성 내역이 없습니다.\n");
+			return;
 		}
 		
 		// 출력문, 입력받기
 		String num = new MenuPost().showQnaDetail();
 
+		if(num.equals("Q")) {
+			return;
+		}
+		
 		// 글 번호 받으면
 		QnaVo vo = new QnaService().showQnaDetail(num);
 		String no = vo.getWriter();
@@ -115,11 +128,21 @@ public class QnaController {
 		String x = new MenuPost().showQnaComment();
 		
 		switch(x) {
-		case "1" : editQna(num); break;// 게시글 수정
-		case "2": deleteQna(num); break;
+		case "1" : managerEdit(num); break;// 게시글 수정
+		case "2": managerDelete(num); break;
 		case "3": new QnaCmtController().write(num); break;
-		case "4" : new QnaCmtController().editCmt(); break;
-		case "5" : new QnaCmtController().deleteCmt(); break;
+		case "4" : if(qcmtVoList.size() > 0) {
+            new QnaCmtController().editCmt(); break;
+        }else {
+            System.out.println("작성된 댓글이 없어 이전페이지로 돌아갑니다.");
+            qnaView();
+        }
+		case "5" : if(qcmtVoList.size() > 0) {
+			new QnaCmtController().deleteCmt(); break;
+		}else {
+            System.out.println("작성된 댓글이 없어 이전페이지로 돌아갑니다.");
+            qnaView();
+        	}
 		}
 		
 	}//qnaView
@@ -136,8 +159,11 @@ public class QnaController {
 		System.out.println("현재 내용 : " + qna.getContent());
 		
 		// 데이터 받기
-		System.out.print("수정할 글의 제목 : ");
+		System.out.print("수정할 글의 제목(Q -> 이전 메뉴) : ");
 		String title = InputUtil.sc.nextLine();
+		if(title.equals("Q")) {
+			qnaView();
+		}
 		System.out.print("수정할 글의 내용 : ");
 		String content = InputUtil.sc.nextLine();
 				
@@ -188,20 +214,30 @@ public class QnaController {
 	
 		System.out.println("----- " + nick +"님의 문의글 조회 -----");
 		
-		for(int i = 0; i < myQnaList.size(); i++) {
+		if(myQnaList.size() != 0 ) {
 			
-			QnaVo temp = myQnaList.get(i);
-			
-			String no = temp.getNo();
-			String title = temp.getTitle();
-			String writer = temp.getNick();
-			Timestamp date = temp.getDate();
-			
-			// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
-			System.out.println("[" + no + "] " + "제목 : " + title + " | " + writer + " | " + date + "\n");
+			for(int i = 0; i < myQnaList.size(); i++) {
+				
+				QnaVo temp = myQnaList.get(i);
+				
+				String no = temp.getNo();
+				String title = temp.getTitle();
+				String writer = temp.getNick();
+				Timestamp date = temp.getDate();
+				
+				// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
+				System.out.println("[" + no + "] " + "제목 : " + title + " | " + "작성자 : " + writer + " | " + date + "\n");
+			}
+		}else {
+			System.out.println("작성 내역이 없습니다.\n");
+			return;
 		}
 		
 		String num = new MenuPost().showQnaDetail();
+		
+		if(num.equals("Q")) {
+			return;
+		}
 		
 		// 글 번호 받으면
 		QnaVo vo = new QnaService().showMyQnaDetail(num);
@@ -244,11 +280,21 @@ public class QnaController {
 		String x = new MenuPost().showQnaComment();
 		
 		switch(x) {
-		case "1" : editQna(num); break;// 게시글 수정
-		case "2": deleteQna(num); break;
+		case "1" : managerEdit(num); break;// 게시글 수정
+		case "2": managerDelete(num); break;
 		case "3": new QnaCmtController().write(num); break;
-		case "4" : new QnaCmtController().editCmt(); break;
-		case "5" : new QnaCmtController().deleteCmt(); break;
+		case "4" : if(mycmtVoList.size() > 0) {
+            new QnaCmtController().editCmt(); break;
+        }else {
+            System.out.println("작성된 댓글이 없어 이전페이지로 돌아갑니다.");
+            qnaView();
+        }
+		case "5" : if(mycmtVoList.size() > 0) {
+			new QnaCmtController().deleteCmt(); break;
+		}else {
+            System.out.println("작성된 댓글이 없어 이전페이지로 돌아갑니다.");
+            qnaView();
+        	}
 		}
 		
 	}//showMyQna
@@ -261,22 +307,32 @@ public class QnaController {
 		
 		System.out.println("----- 문의글 조회 -----");
 		
-		for(int i = 0; i < qnaVoList.size(); i++) {
+		if(qnaVoList.size() != 0 ) {
 			
-			QnaVo temp = (QnaVo)qnaVoList.get(i);
-			
-			String no = temp.getNo();
-			String title = temp.getTitle();
-			String writer = temp.getNick();
-			Timestamp date = temp.getDate();
-			
-			// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
-			System.out.println("[" + no + "] " + "제목 : " + title + " | " + writer + " | "  + date + "\n");
+			for(int i = 0; i < qnaVoList.size(); i++) {
+				
+				QnaVo temp = (QnaVo)qnaVoList.get(i);
+				
+				String no = temp.getNo();
+				String title = temp.getTitle();
+				String writer = temp.getNick();
+				Timestamp date = temp.getDate();
+				
+				// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
+				System.out.println("[" + no + "] " + "제목 : " + title + " | " + "작성자 : " + writer + " | "  + date + "\n");
+			}
+		}else {
+			System.out.println("작성 내역이 없습니다.\n");
+			return;
 		}
 		
 		// 출력문, 입력받기
 		String num = new MenuPost().showQnaDetail();
 
+		if(num.equals("Q")) {
+			return;
+		}
+		
 		// 글 번호 받으면
 		QnaVo vo = new QnaService().showQnaDetail(num);
 
@@ -294,7 +350,7 @@ public class QnaController {
 		if(qcmtVoList.size() > 0) {
 			System.out.println("----- 댓글 -----");
 			for(int i = 0; i < qcmtVoList.size(); i++) {
-						
+					
 				QnaCmtVo temp = (QnaCmtVo)qcmtVoList.get(i);
 
 				String cmtNo = temp.getCmtNo();
@@ -305,7 +361,7 @@ public class QnaController {
 				// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
 				System.out.println("[" + cmtNo + "] " + cmt + " | " + nick + " | " + date + "\n");
 			}
-		}//qnaManager
+		}
 		
 		String x = new MenuPost().showQnaComment();
 		
@@ -313,11 +369,21 @@ public class QnaController {
 		case "1" : managerEdit(num); break;// 게시글 수정
 		case "2": managerDelete(num); break;
 		case "3": new QnaCmtController().write(num); break;
-		case "4" : new QnaCmtController().editCmt(); break;
-		case "5" : new QnaCmtController().deleteCmt(); break;
+		case "4" : if(qcmtVoList.size() > 0) {
+            new QnaCmtController().editCmt(); break;
+        }else {
+            System.out.println("작성된 댓글이 없어 이전페이지로 돌아갑니다.");
+            qnaView();
+        }
+		case "5" : if(qcmtVoList.size() > 0) {
+			new QnaCmtController().deleteCmt(); break;
+		}else {
+            System.out.println("작성된 댓글이 없어 이전페이지로 돌아갑니다.");
+            qnaView();
+        	}
 		}
 		
-	}
+	}//qnaManager
 	
 	// 관리자 문의글 수정
 	public void managerEdit(String num) {
@@ -330,8 +396,11 @@ public class QnaController {
 		System.out.println("현재 내용 : " + qna.getContent());
 		
 		// 데이터 받기
-		System.out.print("수정할 글의 제목 : ");
+		System.out.print("수정할 글의 제목(Q -> 이전 메뉴) : ");
 		String title = InputUtil.sc.nextLine();
+		if(title.equals("Q")) {
+			return;
+		}
 		System.out.print("수정할 글의 내용 : ");
 		String content = InputUtil.sc.nextLine();
 				

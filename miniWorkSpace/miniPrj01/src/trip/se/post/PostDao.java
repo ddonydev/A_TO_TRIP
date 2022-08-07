@@ -216,7 +216,7 @@ public class PostDao {
 	// 내가 쓴 글 조회
 	public List<PostVo> showMyPost(Connection conn) throws Exception {
 		
-		String sql = "SELECT * FROM TRAVEL_COMM T JOIN MEMBER M ON T.WRITER = M.NO WHERE M.NO = ? ORDER BY C_DATE DESC";
+		String sql = "SELECT * FROM TRAVEL_COMM T JOIN MEMBER M ON T.WRITER = M.NO WHERE M.NO = ? AND DELETE_YN = 'N' ORDER BY C_DATE DESC";
 		
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
