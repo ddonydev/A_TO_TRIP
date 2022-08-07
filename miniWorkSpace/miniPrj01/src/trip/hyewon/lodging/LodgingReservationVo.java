@@ -6,13 +6,11 @@ public class LodgingReservationVo {
 		
 	}
 
-	
-
-
 	public LodgingReservationVo(String no, String memberNo, String lodgingNo, String roomNo, String reserveDate,
 			String people, String startDate, String endDate, String payYn, String payment, String breakfastYn,
 			String cancelYn, String locationCode, String lodgingName, String address, String couponIssuedNo,
-			String couponYn, String payWay, String lodgingPhone) {
+			String couponYn, String payWay, String lodgingPhone, String memberId, String memberName, String lodgingBfYn,
+			String roomType) {
 		super();
 		this.no = no;
 		this.memberNo = memberNo;
@@ -33,10 +31,11 @@ public class LodgingReservationVo {
 		this.couponYn = couponYn;
 		this.payWay = payWay;
 		this.lodgingPhone = lodgingPhone;
+		this.memberId = memberId;
+		this.memberName = memberName;
+		this.lodgingBfYn = lodgingBfYn;
+		this.roomType = roomType;
 	}
-
-
-
 
 	private String no;			//예약번호
 	private String memberNo;	//회원번호
@@ -57,18 +56,42 @@ public class LodgingReservationVo {
 	private String couponYn; 	//쿠폰사용여부
 	private String payWay;		//결제수단
 	private String lodgingPhone;//숙소전화번호
+	private String memberId; //아이디
+	private String memberName; //회원이름
+	private String lodgingBfYn; //숙소조식여부
+	private String roomType; //방유형
 	
 	
-	
-	
+	public String getMemberId() {
+		return memberId;
+	}
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
+	}
+	public String getMemberName() {
+		return memberName;
+	}
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
+	}
+	public String getLodgingBfYn() {
+		return lodgingBfYn;
+	}
+	public void setLodgingBfYn(String lodgingBfYn) {
+		this.lodgingBfYn = lodgingBfYn;
+	}
+	public String getRoomType() {
+		return roomType;
+	}
+	public void setRoomType(String roomType) {
+		this.roomType = roomType;
+	}
 	public String getLodgingPhone() {
 		return lodgingPhone;
 	}
-
 	public void setLodgingPhone(String lodgingPhone) {
 		this.lodgingPhone = lodgingPhone;
 	}
-
 	public String getCouponIssuedNo() {
 		return couponIssuedNo;
 	}
@@ -165,9 +188,6 @@ public class LodgingReservationVo {
 	public void setLocationCode(String locationCode) {
 		this.locationCode = locationCode;
 	}
-	
-	
-	
 	public String getLodgingName() {
 		return lodgingName;
 	}
@@ -175,15 +195,12 @@ public class LodgingReservationVo {
 	public void setLodgingName(String lodgingName) {
 		this.lodgingName = lodgingName;
 	}
-
 	public String getAddress() {
 		return address;
 	}
-
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
 	@Override
 	public String toString() {
 		return "LodgingReservationVo [no=" + no + ", memberNo=" + memberNo + ", lodgingNo=" + lodgingNo + ", roomNo="
@@ -191,10 +208,7 @@ public class LodgingReservationVo {
 				+ ", endDate=" + endDate + ", payYn=" + payYn + ", payment=" + payment + ", breakfastYn=" + breakfastYn
 				+ ", cancelYn=" + cancelYn + ", locationCode=" + locationCode + ", lodgingName=" + lodgingName
 				+ ", address=" + address + ", couponIssuedNo=" + couponIssuedNo + ", couponYn=" + couponYn + ", payWay="
-				+ payWay + ", lodgingPhone=" + lodgingPhone + "]";
+				+ payWay + ", lodgingPhone=" + lodgingPhone + ", memberId=" + memberId + ", memberName=" + memberName
+				+ ", lodgingBfYn=" + lodgingBfYn + ", roomType=" + roomType + "]";
 	}
-
-	
-
-
 }

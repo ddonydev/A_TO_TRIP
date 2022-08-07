@@ -7,7 +7,8 @@ public class LodgingVo {
 	}
 
 	public LodgingVo(String no, String lodgingCode, String name, String phone, String address, String lodgingLike,
-			String breakfastYn, String locationCode, int zzimCnt, int reviewCnt) {
+			String breakfastYn, String locationCode, int zzimCnt, int reviewCnt, String roomType, String price,
+			int maxPeople) {
 		super();
 		this.no = no;
 		this.lodgingCode = lodgingCode;
@@ -19,19 +20,44 @@ public class LodgingVo {
 		this.locationCode = locationCode;
 		this.zzimCnt = zzimCnt;
 		this.reviewCnt = reviewCnt;
+		this.roomType = roomType;
+		this.price = price;
+		this.maxPeople = maxPeople;
 	}
 
 	private String no;
 	private String lodgingCode;
-	private String name;
-	private String phone;
-	private String address;
+	private String name; //숙소이름
+	private String phone; //숙소전화번호
+	private String address; //숙소주소
 	private String lodgingLike;
-	private String breakfastYn;
+	private String breakfastYn; //숙소조식여부
 	private String locationCode;
-	private int zzimCnt;
-	private int reviewCnt;
+	private int zzimCnt; //찜개수
+	private int reviewCnt; //리뷰개수
+	private String roomType;//방유형
+	private String price;//1박가격
+	private int maxPeople;//최대인원수
 	
+	
+	public String getRoomType() {
+		return roomType;
+	}
+	public void setRoomType(String roomType) {
+		this.roomType = roomType;
+	}
+	public String getPrice() {
+		return price;
+	}
+	public void setPrice(String price) {
+		this.price = price;
+	}
+	public int getMaxPeople() {
+		return maxPeople;
+	}
+	public void setMaxPeople(int maxPeople) {
+		this.maxPeople = maxPeople;
+	}
 	public int getReviewCnt() {
 		return reviewCnt;
 	}
@@ -92,12 +118,11 @@ public class LodgingVo {
 	public void setLocationCode(String locationCode) {
 		this.locationCode = locationCode;
 	}
-
 	@Override
 	public String toString() {
 		return "LodgingVo [no=" + no + ", lodgingCode=" + lodgingCode + ", name=" + name + ", phone=" + phone
 				+ ", address=" + address + ", lodgingLike=" + lodgingLike + ", breakfastYn=" + breakfastYn
-				+ ", locationCode=" + locationCode + ", zzimCnt=" + zzimCnt + ", reviewCnt=" + reviewCnt + "]";
+				+ ", locationCode=" + locationCode + ", zzimCnt=" + zzimCnt + ", reviewCnt=" + reviewCnt + ", roomType="
+				+ roomType + ", price=" + price + ", maxPeople=" + maxPeople + "]";
 	}
-	
 }

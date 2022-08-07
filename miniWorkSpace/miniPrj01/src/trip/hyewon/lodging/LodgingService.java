@@ -553,6 +553,83 @@ public class LodgingService {
 		return lodgingNo;
 	}
 
+	public List<LodgingReservationVo> selectTotalReservation() {
+		Connection conn = null;
+		List<LodgingReservationVo> voList = null;
+		try {
+			conn = JDBCTemplate.getConnection();
+			voList = new LodgingDao().selectTotalReservation(conn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return voList;
+		
+	}
+
+	public List<LodgingVo> showLodgingInformation(int num) {
+		Connection conn = null;
+		List<LodgingVo> voList = null;
+		try {
+			conn = JDBCTemplate.getConnection();
+			voList = new LodgingDao().showLodgingInformation(num, conn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return voList;
+		
+	}
+
+	public int getReviewCnt(int num) {
+		Connection conn = null;
+		int reviewCnt = 0;
+		try {
+			conn = JDBCTemplate.getConnection();
+			reviewCnt = new LodgingDao().getReviewCnt(num, conn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return reviewCnt;
+	}
+
+	public int getZzimCnt(int num) {
+		Connection conn = null;
+		int zzimCnt = 0;
+		try {
+			conn = JDBCTemplate.getConnection();
+			zzimCnt = new LodgingDao().getZzimCnt(num, conn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return zzimCnt;
+	}
+
+	public int getMinPrice(int num) {
+		Connection conn = null;
+		int minPrice = 0;
+		try {
+			conn = JDBCTemplate.getConnection();
+			minPrice = new LodgingDao().getMinPrice(num, conn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(conn);
+		}
+		
+		return minPrice;
+	}
+
 	
 
 }

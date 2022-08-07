@@ -713,4 +713,182 @@ public class LodgingDao {
 		return lodgingNo;
 	}
 
+	public List<LodgingReservationVo> selectTotalReservation(Connection conn) throws Exception {
+		
+		String sql = "SELECT LR.NO 예약번호, LR.RESERVE_DATE 예약날짜, M.ID 아이디, M.NAME 회원이름, LI.NAME 숙소이름, LI.ADDRESS 숙소주소, LI.PHONE 숙소전화번호, LI.BREAKFAST_YN 숙소조식여부, RT.R_TYPE 방유형, LR.PEOPLE 인원수, LR.START_DATE 입실날짜, LR.END_DATE 퇴실날짜, LR.BREAKFAST_YN 조식선택여부, LR.PAYMENT 총금액, LR.PAYMENT_YN 결제여부, LR.CANCEL_YN 예약취소여부 FROM LODGING_RESERVATION LR JOIN LODGING_INFORMATION LI ON LR.LODGING_NO = LI.NO JOIN MEMBER M ON M.NO = LR.MEMBER_NO JOIN ROOM R ON R.NO = LR.ROOM_NO JOIN ROOM_TYPE RT ON RT.CODE = R.ROOM_CODE";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		List<LodgingReservationVo> VoList = new ArrayList<LodgingReservationVo>();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);			
+			rs = pstmt.executeQuery();
+			
+
+			while(rs.next()) {
+				int no = rs.getInt("예약번호");
+				String reserveDate = rs.getString("예약날짜");
+				String memberId = rs.getString("아이디"); //아이디
+				String memberName = rs.getString("회원이름"); //회원이름
+				String lodgingName = rs.getString("숙소이름");
+				String address = rs.getString("숙소주소");
+				String phone = rs.getString("숙소전화번호");
+				String lodgingBfYn = rs.getString("숙소조식여부"); //숙소조식여부
+				String roomType = rs.getString("방유형"); //방유형
+				int people = rs.getInt("인원수");
+				String startDate = rs.getString("입실날짜");
+				String endDate = rs.getString("퇴실날짜");
+				String breakfastYn = rs.getString("조식선택여부");
+				int payment = rs.getInt("총금액");
+				String payYn = rs.getString("결제여부");
+				String cancelYn = rs.getString("예약취소여부");
+				
+				LodgingReservationVo vo = new LodgingReservationVo();
+				vo.setNo(Integer.toString(no));
+				vo.setReserveDate(reserveDate);
+				vo.setMemberId(memberId);
+				vo.setMemberName(memberName);
+				vo.setLodgingName(lodgingName);
+				vo.setAddress(address);
+				vo.setLodgingPhone(phone);
+				vo.setLodgingBfYn(lodgingBfYn);
+				vo.setRoomType(roomType);
+				vo.setPeople(Integer.toString(people));
+				vo.setStartDate(startDate);
+				vo.setEndDate(endDate);
+				vo.setBreakfastYn(breakfastYn);
+				vo.setPayment(Integer.toString(payment));
+				vo.setPayYn(payYn);
+				vo.setCancelYn(cancelYn);
+				
+				VoList.add(vo);
+			} 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return VoList;
+	}
+
+	public List<LodgingVo> showLodgingInformation(int num, Connection conn) throws Exception {
+		String sql = "SELECT LI.NO, LI.NAME 숙소이름, LI.ADDRESS 숙소주소, LI.PHONE 숙소전화번호, LI.BREAKFAST_YN 숙소조식여부, R.PRICE 방가격, RT.R_TYPE 방유형, R.MAX_PEOPLE 최대인원수 FROM LODGING_INFORMATION LI JOIN ROOM R ON LI.NO = R.LODGING_NO JOIN ROOM_TYPE RT ON R.ROOM_CODE = RT.CODE WHERE LI.NO = ? ORDER BY R.NO";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		List<LodgingVo> VoList = new ArrayList<LodgingVo>();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);		
+			pstmt.setInt(1, num);
+			rs = pstmt.executeQuery();
+			
+
+			while(rs.next()) {
+				
+				String lodgingName = rs.getString("숙소이름");
+				String address = rs.getString("숙소주소");
+				String phone = rs.getString("숙소전화번호");
+				String lodgingBfYn = rs.getString("숙소조식여부"); 
+				String roomType = rs.getString("방유형"); 
+				String price = rs.getString("방가격");
+				int maxPeople = rs.getInt("최대인원수");
+				
+				
+				LodgingVo vo = new LodgingVo();
+				vo.setName(lodgingName);
+				vo.setAddress(address);
+				vo.setPhone(phone);
+				vo.setBreakfastYn(lodgingBfYn);
+				vo.setRoomType(roomType);
+				vo.setPrice(price);
+				vo.setMaxPeople(maxPeople);
+				
+				VoList.add(vo);
+			} 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return VoList;
+	}
+
+	public int getReviewCnt(int num, Connection conn) {
+		String sql = "SELECT LI.NO 숙소번호, COUNT(LR.LODGING_NO) 리뷰개수 , LI.NAME 숙소이름, LI.ADDRESS 숙소주소 FROM LODGING_REVIEW LR RIGHT JOIN LODGING_INFORMATION LI ON LR.LODGING_NO = LI.NO WHERE LI.NO = ? GROUP BY NAME, ADDRESS, LI.NO ORDER BY COUNT(LR.LODGING_NO) DESC";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int reviewCnt = 0;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				reviewCnt = rs.getInt("리뷰개수");
+			} 			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return reviewCnt;
+	}
+
+	public int getZzimCnt(int num, Connection conn) {
+		String sql = "SELECT LI.NO 숙소번호, COUNT(LW.LODGING_NO) 찜개수 , LI.NAME 숙소이름, LI.ADDRESS 숙소주소 FROM LODGING_WISH LW RIGHT JOIN LODGING_INFORMATION LI ON LW.LODGING_NO = LI.NO WHERE LW.CANCEL_YN = 'N' AND LI.NO = ? GROUP BY NAME, ADDRESS, LI.NO ORDER BY COUNT(LW.LODGING_NO) DESC OFFSET 0 ROWS FETCH NEXT 10 ROWS ONLY";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int zzimCnt = 0;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				zzimCnt = rs.getInt("찜개수");
+			} 			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return zzimCnt;
+	}
+
+	public int getMinPrice(int num, Connection conn) {
+		String sql = "SELECT LODGING_NO 숙소번호, PRICE 방가격 FROM ROOM WHERE LODGING_NO = ?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int minPrice = 0;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				minPrice = rs.getInt("방가격");
+			} 			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return minPrice;
+	}
+
 }

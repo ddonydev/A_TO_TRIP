@@ -3,8 +3,11 @@ package trip.hyewon.lodging;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import trip.daeun.lodging.information.InformationController;
 import trip.daeun.lodging.wish.WishController;
@@ -103,42 +106,141 @@ public class LodgingController {
 				List<LodgingVo> lodgingVoList = new LodgingService().showLodgingList(vo);
 				System.out.println("\n----- 숙소 목록 -----");
 				List noList = new ArrayList();
+				
+				List priceList = new ArrayList();
+				
+				Map priceMap = new HashMap();
+				
 				for(int i=0; i<lodgingVoList.size(); i++) {
 					LodgingVo temp = lodgingVoList.get(i);
 					
 					String no = temp.getNo();
 					String name = temp.getName();
 					String address = temp.getAddress();
+					int minPrice = getMinPrice(Integer.parseInt(no));
 					
-					System.out.println(no + " | " + name + " | " + address);
+					System.out.println("숙소번호:"+no+" | 리뷰:" + getReviewCnt(Integer.parseInt(no)) + "개 | 찜:" + getZzimCnt(Integer.parseInt(no)) + "개" + " | " + name + " | " + address + " | 1박가격:" + minPrice +"원부터");
 					
 					noList.add(no);
+					priceMap.put(minPrice, i);
+					priceList.add(minPrice);
 				}
 				
+				
+				
 				boolean isNum = false;
-				String input = "";
+				boolean isSelect = false;
+				String lodgingNoInput = "";
 				while(!isNum) {
-					System.out.println("숙소를 선택해주세요(나가기:Q)");
+					System.out.println("숙소를 선택해주세요[나가기:Q | 낮은가격순:L | 높은가격순:H ]");
 					System.out.print("입력 : ");
-					input = InputUtil.sc.nextLine();
+					lodgingNoInput = InputUtil.sc.nextLine();
 					for(int i=0; i<noList.size(); i++) {
 						String no = (String) noList.get(i);
-						if(input.equals(no) || input.equals("Q")) {
+						if(lodgingNoInput.equals(no) || lodgingNoInput.equals("Q") || lodgingNoInput.equals("L") || lodgingNoInput.equals("H")) {
 							isNum = true;
+							if(lodgingNoInput.equals(no) || lodgingNoInput.equals("Q")) {
+								isSelect = true;
+							}
 							break;
 						}
 					}
 				}
 				
-				if(input.equals("Q")) {
+				if(lodgingNoInput.equals("Q")) {
 					break;//잘됨
 				}
 				
-				new InformationController().showInformation(Integer.parseInt(input));
+				
+				while(!isSelect) {
+					switch(lodgingNoInput) {
+					case "L" :
+						priceList.sort(Comparator.naturalOrder());
+						for(int i=0; i<priceList.size(); i++) {
+							int price = (int)priceList.get(i);
+							int index = (int)priceMap.get(price);
+							LodgingVo temp = lodgingVoList.get(index);
+							
+							String no = temp.getNo();
+							String name = temp.getName();
+							String address = temp.getAddress();
+							int minPrice = getMinPrice(Integer.parseInt(no));
+							
+							System.out.println("숙소번호:"+no+" | 리뷰:" + getReviewCnt(Integer.parseInt(no)) + "개 | 찜:" + getZzimCnt(Integer.parseInt(no)) + "개" + " | " + name + " | " + address + " | 1박가격:" + minPrice +"원부터");
+							
+							
+						}
+						
+						isNum = false;
+						lodgingNoInput = "";
+						while(!isNum) {
+							System.out.println("숙소를 선택해주세요[나가기:Q | 낮은가격순:L | 높은가격순:H ]");
+							System.out.print("입력 : ");
+							lodgingNoInput = InputUtil.sc.nextLine();
+							for(int i=0; i<noList.size(); i++) {
+								String no = (String) noList.get(i);
+								if(lodgingNoInput.equals(no) || lodgingNoInput.equals("Q") || lodgingNoInput.equals("L")|| lodgingNoInput.equals("H")) {
+									isNum = true;
+									if(lodgingNoInput.equals(no) || lodgingNoInput.equals("Q")) {
+										isSelect = true;
+									}
+									break;
+								}
+							}
+						}
+						break;
+					case "H" :
+						priceList.sort(Comparator.reverseOrder());
+						for(int i=0; i<priceList.size(); i++) {
+							int price = (int)priceList.get(i);
+							int index = (int)priceMap.get(price);
+							LodgingVo temp = lodgingVoList.get(index);
+							
+							String no = temp.getNo();
+							String name = temp.getName();
+							String address = temp.getAddress();
+							int minPrice = getMinPrice(Integer.parseInt(no));
+							
+							System.out.println("숙소번호:"+no+" | 리뷰:" + getReviewCnt(Integer.parseInt(no)) + "개 | 찜:" + getZzimCnt(Integer.parseInt(no)) + "개" + " | " + name + " | " + address + " | 1박가격:" + minPrice +"원부터");
+							
+							
+						}
+						
+						isNum = false;
+						lodgingNoInput = "";
+						while(!isNum) {
+							System.out.println("숙소를 선택해주세요[나가기:Q | 낮은가격순:L | 높은가격순:H ]");
+							System.out.print("입력 : ");
+							lodgingNoInput = InputUtil.sc.nextLine();
+							for(int i=0; i<noList.size(); i++) {
+								String no = (String) noList.get(i);
+								if(lodgingNoInput.equals(no) || lodgingNoInput.equals("Q") || lodgingNoInput.equals("L")|| lodgingNoInput.equals("H")) {
+									isNum = true;
+									if(lodgingNoInput.equals(no) || lodgingNoInput.equals("Q")) {
+										isSelect = true;
+									}
+									break;
+								}
+							}
+						}
+						break;
+					default :
+						
+						
+						
+					}
+				}
+				
+				if(lodgingNoInput.equals("Q")) {
+					break;//잘됨
+				}
+				
+				new InformationController().showInformation(Integer.parseInt(lodgingNoInput));
+				//showLodgingInformation(Integer.parseInt(lodgingNoInput));
 				
 				//menu.showMenu();
 				
-				boolean isWish = new DaeunMenu().showDetailMenu(MemberMain.LoginMember.getNo(), input); //리턴 boolean값 찜했었으면 true, 찜안했으면 false
+				boolean isWish = new DaeunMenu().showDetailMenu(MemberMain.LoginMember.getNo(), lodgingNoInput); //리턴 boolean값 찜했었으면 true, 찜안했으면 false
 				
 				//isWish가 false면 무조건 찜하기가 떠야되고
 				//isWish가 true이면서 찜취소여부가 Y일때 찜하기가 떠야되고
@@ -147,7 +249,7 @@ public class LodgingController {
 				
 				if(isWish == true) {
 					//찜했던 경험은 있지만 찜취소를했는지 안했는지 판단 먼저 해야한다.
-					String zzimCancel = checkZzimCancel(input);
+					String zzimCancel = checkZzimCancel(lodgingNoInput);
 					
 					//찜취소를 했었다면 찜하기할때 N으로 [업데이트] 해야한다.
 					if(zzimCancel.equals("Y")) {
@@ -160,14 +262,14 @@ public class LodgingController {
 						switch(deinput1) {
 						case "1" :
 							System.out.println("예약 페이지로 넘어갑니다.");
-							reserveRoom(Integer.parseInt(input), vo);	//숙소예약하기
+							reserveRoom(Integer.parseInt(lodgingNoInput), vo);	//숙소예약하기
 							break;
 						case "2" : //찜하기 업데이트메소드
 							//new WishController().wishCancel();
-							updateZzimCancelN(input);
+							updateZzimCancelN(lodgingNoInput);
 							break;
 						case "3" : //리뷰보기
-							new LodgingReviewController().showReview();
+							new LodgingReviewController().showLodgingReview(Integer.parseInt(lodgingNoInput));
 							break;
 							
 						}
@@ -188,14 +290,14 @@ public class LodgingController {
 						switch(deinput1) {
 						case "1" :
 							System.out.println("예약 페이지로 넘어갑니다.");
-							reserveRoom(Integer.parseInt(input), vo);	//숙소예약하기
+							reserveRoom(Integer.parseInt(lodgingNoInput), vo);	//숙소예약하기
 							break;
 						case "2" : //찜취소 업데이트 메소드
 							//new WishController().wishCancel();
-							updateZzimCancelY(input);
+							updateZzimCancelY(lodgingNoInput);
 							break;
 						case "3" : //리뷰보기
-							new LodgingReviewController().showReview();
+							new LodgingReviewController().showLodgingReview(Integer.parseInt(lodgingNoInput));
 							break;
 							
 						}
@@ -218,14 +320,14 @@ public class LodgingController {
 					switch(deinput2) {
 					case "1" :
 						System.out.println("예약 페이지로 넘어갑니다.");
-						reserveRoom(Integer.parseInt(input), vo);	//숙소예약하기
+						reserveRoom(Integer.parseInt(lodgingNoInput), vo);	//숙소예약하기
 						break;
 					case "2" : //찜하기 insert 메소드
 						//new WishController().wish();
-						zzimInsert(input);
+						zzimInsert(lodgingNoInput);
 						break;
 					case "3" : //리뷰보기
-						new LodgingReviewController().showReview();
+						new LodgingReviewController().showLodgingReview(Integer.parseInt(lodgingNoInput));
 						break;
 					}
 					if(deinput2.equals("4")) {
@@ -352,7 +454,7 @@ public class LodgingController {
 			
 			roomNoList.add(no);
 			
-			System.out.println(no + " | " + roomType + " | " + "1박가격:"+price + " | " + "조식여부:"+breakfastYn + " | " + "최대인원수:"+people + " | 1개남음");
+			System.out.println("방번호: " + no + " | " + roomType + " | " + "1박가격:"+price + " | " + "조식여부:"+breakfastYn + " | " + "최대인원수:"+people + " | 1개남음");
 			
 		}
 		
@@ -569,14 +671,13 @@ public class LodgingController {
 			System.out.println("숙소이름 : " + lodgingName);
 			System.out.println("숙소주소 : " + address);
 			System.out.println("숙소전화번호 : " + phone);
-			System.out.println("입실날짜 : " + startDate);
-			System.out.println("퇴실날짜 : " + endDate);
-			System.out.println("인원수 : " + people);
+			System.out.println("입실날짜 : " + startDate.substring(0,10));
+			System.out.println("퇴실날짜 : " + endDate.substring(0,10));
+			System.out.println("인원수 : " + people + "명");
 			System.out.println("조식여부 : " + breakfastYn);
-			System.out.println("총금액 : " + payment);
+			System.out.println("총금액 : " + payment + "원");
 			System.out.println("결제여부 : " + payYn);
 			System.out.println("예약취소여부 " + cancelYn);
-			System.out.println();
 			System.out.println();
 		}
 		
@@ -933,7 +1034,7 @@ public class LodgingController {
 			String couponCode = vo.getCouponCode();
 			String discount = vo.getDiscount();
 			
-			System.out.println(couponInfoNo + " | " + couponCode + " | " + discount);
+			System.out.println("쿠폰번호: " + couponInfoNo + " | " + couponCode + " | " + discount);
 			
 			couponInfoNoList.add(couponInfoNo);
 			couponIssuedNoList.add(couponIssuedNo);
@@ -944,6 +1045,7 @@ public class LodgingController {
 		int index = 0;
 		while(!isNum) {
 			System.out.println("쿠폰사용은 숫자를 입력해주세요(건너뛰려면 Y입력)");
+			System.out.print("입력 : ");
 			input = InputUtil.sc.nextLine();
 			for(int i=0; i<couponInfoNoList.size(); i++) {
 				String no = (String) couponInfoNoList.get(i);
@@ -980,6 +1082,15 @@ public class LodgingController {
 		case "3" :
 			discount = 100000;
 			break;	
+		case "4" :
+			discount = 5000;
+			break;	
+		case "5" :
+			discount = 50000;
+			break;	
+		case "6" :
+			discount = 100000;
+			break;		
 		}
 		return discount;
 	}
@@ -1021,6 +1132,91 @@ public class LodgingController {
 		}else {
 			System.out.println("결제 시 에러발생!");
 		}
+	}
+	
+	//관리자 페이지에서 숙소예약현황조회 (LODGING_RESERVATION 테이블에서 전체 SELECT해서 가져오기)
+	public void selectTotalReservation() {
+
+		System.out.println("\n----- 숙소 예약 현황 조회 -----\n");
+		
+		List<LodgingReservationVo> voList = new LodgingService().selectTotalReservation();
+
+		System.out.println("예약번호 | 예약날짜 | 회원아이디 | 회원이름 | 숙소이름 | 숙소주소 | 숙소전화번호 | 숙소조식여부 | 방유형 | 인원수 | 입실날짜 | 퇴실날짜 | 조식선택여부 | 총금액 | 결제여부 | 예약취소여부");
+		
+		for(int i=0; i<voList.size(); i++) {
+			LodgingReservationVo vo = voList.get(i);
+			String no = vo.getNo();
+			String reserveDate = vo.getReserveDate();
+			String memberId = vo.getMemberId();
+			String memberName = vo.getMemberName();
+			String lodgingName = vo.getLodgingName();
+			String address = vo.getAddress();
+			String phone = vo.getLodgingPhone();
+			String lodgingBfYn = vo.getLodgingBfYn();
+			String roomType = vo.getRoomType();
+			String people = vo.getPeople();
+			String startDate = vo.getStartDate();
+			String endDate = vo.getEndDate();
+			String breakfastYn = vo.getBreakfastYn();
+			String payment = vo.getPayment();
+			String payYn = vo.getPayYn();
+			String cancelYn = vo.getCancelYn();
+			
+			System.out.println(no + " | " + reserveDate+ " | " + memberId+ " | " + memberName+ " | " + lodgingName+ " | " + address+ " | " + phone+ " | " + lodgingBfYn+ " | " + roomType+ " | " + people+ "명 | " +startDate.substring(0,10)+ " | " + endDate.substring(0,10)+ " | " + breakfastYn+ " | " + payment+ "원 | " + payYn+ " | "+ cancelYn);
+
+		}
+		System.out.println();
+	}
+	
+	public void showLodgingInformation(int num) {
+		
+		List<LodgingVo> voList = new LodgingService().showLodgingInformation(num);
+		
+		System.out.println("-----------------------");
+		System.out.println("----- 숙소 상세 정보 -----");
+		System.out.println("-----------------------");
+		
+		LodgingVo vo1 = voList.get(0);
+		System.out.println("리뷰 : " + getReviewCnt(num) + "개 | 찜 : " + getZzimCnt(num) + "개");
+		System.out.println("숙소 이름 : " + vo1.getName());
+		System.out.println("숙소 주소 : " + vo1.getAddress());
+		System.out.println("전화번호 : " + vo1.getPhone());
+		System.out.println("조식여부 : " + vo1.getBreakfastYn());
+		System.out.println();
+		for(int i=0; i<voList.size(); i++) {
+			LodgingVo vo = voList.get(i);
+			
+			String roomType = vo.getRoomType();
+			int maxPeople = vo.getMaxPeople();
+			String price = vo.getPrice();		
+			int maxPeople2 = vo.getMaxPeople();
+			
+			System.out.println("방 타입 : " + vo.getRoomType() + " | 1박가격 : " + vo.getPrice() + "원 | 최대인원수 : " + maxPeople2 + "명");
+
+		}
+
+		System.out.println("-----------------------");
+		System.out.println("-----------------------");
+		System.out.println("맞으시면 다음으로 넘어가주세요.");	
+		
+	}
+	
+	//숙소번호를 파라미터로 숙소의 리뷰 개수 리턴
+	public int getReviewCnt(int num) {
+		int reviewCnt = new LodgingService().getReviewCnt(num);
+		return reviewCnt;
+	}
+	
+	//숙소번호를 파라미터로 숙소의 찜개수 리턴
+	public int getZzimCnt(int num) {
+		int ZzimCntCnt = new LodgingService().getZzimCnt(num);
+		return ZzimCntCnt;
+	}
+	
+	//숙소번호를 파라미터로 숙소의 최저가격 리턴
+	public int getMinPrice(int num) {
+		int minPrice = new LodgingService().getMinPrice(num);
+		return minPrice;
 	}
 
 }
