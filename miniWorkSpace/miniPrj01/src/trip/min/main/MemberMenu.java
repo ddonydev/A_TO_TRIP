@@ -31,7 +31,7 @@ public class MemberMenu {
 		
 		if(MemberMain.LoginMember != null) {
 			//로그인 후
-			System.out.println("=====" +MemberMain.LoginMember.getNick() +" 님 반갑습니다. =====\n");
+			System.out.println("===== " +MemberMain.LoginMember.getNick() +"님 반갑습니다. =====\n");
 			loginMenu();
 		
 		}//if

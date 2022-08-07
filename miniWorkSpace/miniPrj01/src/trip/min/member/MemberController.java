@@ -162,6 +162,44 @@ public class MemberController {
 		
 	}//findIdPwdview
 	
+	public void memberInformation() {
+
+		System.out.println("===== 내 정보 확인하기 =====");
+		System.out.println("\n내 정보 확인을 위해 아이디 및 비밀번호를 입력해주세요");
+		System.out.print("아이디 : ");
+		String id = InputUtil.sc.nextLine();
+		System.out.print("비밀번호 : ");
+		String pwd = InputUtil.sc.nextLine();
+		
+		if(MemberMain.LoginMember.getId().equals(id)) {
+			
+			try {
+				MemberVo vo = new MemberDao().checkMyInfo(id, pwd);
+				
+				if(vo != null) {
+					System.out.println("\n===================================");
+					System.out.println('"'+vo.getName()+'"'+" 님의 정보 입니다.");
+					System.out.println("이메일 : "+ '"' + vo.getEmail()+'"');
+					System.out.println("생년월일 : " + '"' + vo.getBirth()+'"');
+					System.out.println("연락처 : "+'"'+vo.getPhone()+'"');
+					System.out.println("닉네임 : "+'"'+vo.getNick()+'"');
+					System.out.println("===================================\n");
+					
+				}else {
+					System.out.println("아이디 및 비밀번호가 다릅니다.");
+				}
+			} catch (Exception e) {
+				System.out.println("[ERROR] :: 뭔가 에러");
+				e.printStackTrace();
+			}
+		}else {
+			System.out.println("로그인 정보가 다릅니다.");
+		}
+		
+		
+		
+	}
+	
 	public boolean signOutMember() {
 		boolean isSignOut = false;
 		System.out.println("===== 회원 탈퇴 =====");
@@ -183,11 +221,9 @@ public class MemberController {
 				isSignOut = true;
 				System.out.println("\n=======================================");
 				System.out.println("회원 탈퇴 요청이 완료되었습니다.");
-				System.out.println("이시간 이후로 로그아웃 후 재 로그인이 불가능합니다.");
-				System.out.println("탈퇴를 번복하고 싶으시면 다시 마이페이지로 돌아가서");
-				System.out.println("회원 탈퇴 메뉴에서 N 을 입력해 주세요.");
+				System.out.println("이용해주셔서 감사합니다.");
 				System.out.println("========================================\n");
-				return isSignOut;
+				System.exit(0);
 			}else if(quitYn.equals("N")) {
 				//탈퇴 취소
 				System.out.println("\n============================");
