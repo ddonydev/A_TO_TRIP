@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 import trip.min.common.JDBCTemplate;
 
@@ -153,5 +154,40 @@ public class MemberDao {
         return result;
     }
 
+	public MemberVo checkMyInfo(String id, String pwd) throws Exception {
+		
+		Connection conn = JDBCTemplate.getConnection();
+		
+		String sql = "SELECT EMAIL, NAME, BIRTH, PHONE, NICK FROM MEMBER WHERE ID =? AND PWD =?";
+		
+
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, id);
+		pstmt.setString(2, pwd);
+		
+		ResultSet rs = pstmt.executeQuery();
+		
+		MemberVo vo = null;
+		
+		if(rs.next()) {
+			String email = rs.getString("EMAIL");
+			String name = rs.getString("NAME");
+			String birth = rs.getString("BIRTH");
+			String phone = rs.getString("PHONE");
+			String nick = rs.getString("NICK");
+			
+			vo = new MemberVo();
+			vo.setEmail(email);
+			vo.setName(name);
+			vo.setBirth(birth);
+			vo.setPhone(phone);
+			vo.setNick(nick);
+		}
+		
+		return vo;
+		
+		
+		
+	}
 
 }//class
