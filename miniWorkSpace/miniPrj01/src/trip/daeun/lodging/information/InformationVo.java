@@ -11,13 +11,14 @@ public class InformationVo {
 	}
 	
 	
-	public InformationVo(int no, String name, String room, int price, String breakfast, String address) {
+	public InformationVo(int no, String name, String room, int price, String breakfast, String address, String maxPeople) {
 		this.no = no;
 		this.name = name;
 		this.room = room;
 		this.price = price;
 		this.breakfast = breakfast;
 		this.address = address;
+		this.maxPeople = maxPeople;
 	}
 
 
@@ -27,6 +28,7 @@ public class InformationVo {
 	private int price;
 	private String breakfast;
 	private String address;
+	private String maxPeople;
 	
 	
 	public int getNo() {
@@ -88,14 +90,26 @@ public class InformationVo {
 		this.address = address;
 	}
 
-
 	
+	
+	public String getMaxPeople() {
+		return maxPeople;
+	}
+
+
+	public void setMaxPeople(String maxPeople) {
+		this.maxPeople = maxPeople;
+	}
+
+
 	@Override
 	public String toString() {
 		return "InformationVo [no=" + no + ", name=" + name + ", room=" + room + ", price=" + price + ", breakfast="
-				+ breakfast + ", address=" + address + "]";
+				+ breakfast + ", address=" + address + ", maxPeople=" + maxPeople + "]";
 	}
-	
+
+
+
 	
 	
 	
