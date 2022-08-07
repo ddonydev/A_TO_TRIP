@@ -119,10 +119,6 @@ public class CmtDao {
 				vo.setNick(nick);
 
 			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw e;
 		}finally {
 			close(pstmt);
 			close(rs);

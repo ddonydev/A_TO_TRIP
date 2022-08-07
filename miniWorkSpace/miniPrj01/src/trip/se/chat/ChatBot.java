@@ -11,7 +11,7 @@ public class ChatBot {
 			System.out.println("\n=====챗봇 상담 시작=====");
 		while(true) {
 			
-			System.out.print("키워드를 입력 해주세요 : ");
+			System.out.print("키워드를 입력 해주세요(Q -> 종료) : ");
 			String input = InputUtil.sc.nextLine();
 
 			if(input.contains("예약")) {
@@ -45,8 +45,14 @@ public class ChatBot {
 			else if(input.contains("게시글")) {
 				System.out.println("게시글 관련 사항은 게시판에서 해주세요.\n");
 			}
+			else if(input.contains("결제")) {
+				System.out.println("결제는 카드 / 카카오페이 / 계좌이체 / 후불 결제가 있습니다.");
+			}
+			else if(input.contains("안녕")) {
+				System.out.println("안녕하세요. 오늘도 좋은 하루 되세요.^0^");
+			}
 			
-			else if(input.contains("종료")) {
+			else if(input.contains("Q")) {
 				System.out.println("상담을 종료합니다.\n\n");
 				return;
 			}else {
