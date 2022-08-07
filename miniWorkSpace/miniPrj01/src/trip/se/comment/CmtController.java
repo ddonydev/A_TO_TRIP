@@ -59,6 +59,7 @@ public class CmtController {
 		CmtVo cmt = new CmtService().showCmtDetail(cmtNo);
 		String no = cmt.getWriter();
 		
+	
 		
 		cmt.setWriter(MemberMain.LoginMember.getNo());
 		if(!no.equals(MemberMain.LoginMember.getNo())) {

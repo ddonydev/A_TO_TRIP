@@ -23,7 +23,7 @@ public class MainPost {
 			
 			case "2" : new PostController().postWrite(); break;
 			
-			case "3" : new MemberMenu().loginMenu();
+			case "3" : return;
 			
 			default : System.out.println("잘못 입력하셨습니다. 다시 입력해주세요.");
 				
