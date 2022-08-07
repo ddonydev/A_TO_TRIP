@@ -70,7 +70,7 @@ public class Manager {
 					break;
 				case "8":
 					System.out.println("숙소 예약 현황 조회");
-					new LodgingController().showMyReservation(MemberMain.LoginMember.getNo());
+					new LodgingController().selectTotalReservation();
 					break;
 				case "9":
 					return;
