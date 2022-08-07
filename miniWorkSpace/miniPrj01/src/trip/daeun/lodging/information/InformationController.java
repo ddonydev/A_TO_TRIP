@@ -3,6 +3,7 @@ package trip.daeun.lodging.information;
 import java.util.List;
 
 import trip.daeun.lodging.menu.DaeunMenu;
+import trip.hyewon.lodging.LodgingController;
 import trip.hyewon.lodging.LodgingVo;
 
 public class InformationController {
@@ -25,6 +26,15 @@ public class InformationController {
 		List<InformationVo> informationVoList = new InformationService().showDetailByNo(num);
 		
 		
+		InformationVo vo2 = informationVoList.get(0);
+		String name = vo2.getName();
+		String address = vo2.getAddress();
+		int reviewcnt = new LodgingController().getReviewCnt(num);
+		int zzimcnt = new LodgingController().getZzimCnt(num);
+		
+		
+		
+		
 		System.out.println();
 		System.out.println();
 		System.out.println(".         　。　　　　•　    　ﾟ　　      。");
@@ -32,6 +42,13 @@ public class InformationController {
 		System.out.println(" •.        𝑳𝒐𝒅𝒈𝒊𝒏𝒈 𝑰𝒏𝒇𝒐𝒓𝒎𝒂𝒕𝒊𝒐𝒏        。　.      ");
 		System.out.println("　 　　。　　　　　　ﾟ　　　.　　　　　    .");
 		System.out.println(",　　　　.　 .　　     .               。");
+		System.out.println();
+		System.out.println("   ღ 𝑳𝒐𝒅𝒈𝒊𝒏𝒈 ღ  " + name);
+		System.out.println("   ღ 𝑨𝒅𝒅𝒓𝒆𝒔𝒔 ღ  " + address);
+		System.out.println("   ღ 𝑹𝒆𝒗𝒊𝒆𝒘 ღ  " + reviewcnt + "개" );
+		System.out.println("   ღ 𝒁𝒛𝒊𝒎 ღ " + zzimcnt + "개");
+		System.out.println();
+		System.out.println();
 		
 		
 		
@@ -39,16 +56,12 @@ public class InformationController {
 			InformationVo temp = informationVoList.get(i);
 		
 			int no = temp.getNo();
-			String name = temp.getName();
 			String room = temp.getRoom();
 			int price = temp.getPrice();
-			String address = temp.getAddress();
 			String breakfast = temp.getBreakfast();
 			String maxPeople = temp.getMaxPeople();
 			
 			System.out.println();
-			System.out.println("   ღ 𝑳𝒐𝒅𝒈𝒊𝒏𝒈 ღ  " + name);
-			System.out.println("   ღ 𝑨𝒅𝒅𝒓𝒆𝒔𝒔 ღ  " + address);
 			System.out.println("   ღ 𝑹𝒐𝒐𝒎 𝑻𝒚𝒑𝒆 ღ  " + room);
 			System.out.println("   ღ 𝑷𝒓𝒊𝒄𝒆 ღ  " + price + "원");
 			System.out.println("   ღ 𝑩𝒓𝒆𝒂𝒌𝒇𝒂𝒔𝒕 ღ  " + breakfast);
