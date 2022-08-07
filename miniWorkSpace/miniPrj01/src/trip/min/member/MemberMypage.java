@@ -7,6 +7,7 @@ import trip.kms.lodgingReview.LodgingReviewController;
 import trip.min.main.MemberMain;
 import trip.min.manager.ManagerController;
 import trip.min.util.InputUtil;
+import trip.se.mainPost.MainPost;
 import trip.se.post.PostController;
 import trip.se.qna.QnaController;
 import trip.daeun.lodging.wish.WishController;
