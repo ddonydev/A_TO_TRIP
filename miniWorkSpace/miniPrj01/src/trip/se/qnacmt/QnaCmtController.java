@@ -4,6 +4,8 @@ import trip.min.main.MemberMain;
 import trip.min.util.InputUtil;
 import trip.se.comment.CmtService;
 import trip.se.comment.CmtVo;
+import trip.se.post.PostController;
+import trip.se.qna.QnaController;
 
 public class QnaCmtController {
 
@@ -13,8 +15,12 @@ public class QnaCmtController {
 		System.out.println("\n----- 댓글 작성 -----");
 		
 		// 데이터 받기
-		System.out.print("내용 : ");
+		System.out.print("내용(Q -> 이전 메뉴) : ");
 		String cmt = InputUtil.sc.nextLine();
+		
+		if(cmt.equals("Q")) {
+			new QnaController().qnaView();
+		}
 		
 		String memberNo = MemberMain.LoginMember.getNo();
 		
@@ -42,8 +48,13 @@ public class QnaCmtController {
 		
 		System.out.println("\n----- 댓글 수정 -----");
 		
-		System.out.print("수정할 댓글의 번호 : ");
-		int cmtNo = InputUtil.getInt();
+		System.out.print("수정할 댓글의 번호(Q -> 이전 메뉴) : ");
+		String cmtNo = InputUtil.sc.nextLine();
+		
+		if(cmtNo.equals("Q")) {
+			new QnaController().qnaView();
+		}
+		
 		QnaCmtVo cmt = new QnaCmtService().showCmtDetail(cmtNo);
 		String no = cmt.getWriter();
 
@@ -52,6 +63,7 @@ public class QnaCmtController {
 			System.out.println("[수정 불가] 본인의 글을 선택해 주세요.");
 			return;
 		}
+		
 		
 		System.out.println("현재 내용 : " + cmt.getCmt());
 		
@@ -80,8 +92,13 @@ public class QnaCmtController {
 		
 		System.out.println("\n----- 댓글 삭제 -----");
 		
-		System.out.print("삭제할 댓글의 번호 : ");
-		int cmtNo = InputUtil.getInt();
+		System.out.print("삭제할 댓글의 번호(Q -> 이전 메뉴) : ");
+		String cmtNo = InputUtil.sc.nextLine();
+		
+		if(cmtNo.equals("Q")) {
+			new QnaController().qnaView();
+		}
+		
 		QnaCmtVo cmt = new QnaCmtService().showCmtDetail(cmtNo);
 		String no = cmt.getWriter();
 

@@ -58,7 +58,7 @@ public class CmtService {
 	}// showList
 
 	// 댓글 조회
-	public CmtVo showCmtDetail(int num) {
+	public CmtVo showCmtDetail(String num) {
 		
 		Connection conn = null;
 		CmtVo vo = null;
@@ -107,7 +107,7 @@ public class CmtService {
 	}//editCmt
 	
 	// 댓글 삭제
-	public int deleteCmt(int cmtNo) {
+	public int deleteCmt(String cmtNo) {
 		
 		Connection conn = null;
 		int result = 0;

@@ -6,6 +6,7 @@ import java.util.List;
 import trip.se.comment.CmtController;
 import trip.se.comment.CmtService;
 import trip.se.comment.CmtVo;
+import trip.se.mainPost.MainPost;
 import trip.se.mainPost.MenuPost;
 import trip.se.qna.QnaVo;
 import trip.dk.coupon.CouponService;
@@ -19,13 +20,18 @@ public class PostController {
 	// 게시글 작성
 	public void postWrite() {
 		
+		
 		System.out.println("\n----- 게시글 작성 -----");
 		
 		// 데이터 받기
-		System.out.print("제목 : ");
+		System.out.print("제목(Q -> 이전 메뉴) : ");
 		String title = InputUtil.sc.nextLine();
+		if(title.equals("Q")) {
+			return;
+		}
 		System.out.print("내용 : ");
 		String content = InputUtil.sc.nextLine();
+		
 		
 		String memberNo = MemberMain.LoginMember.getNo();
 		
@@ -46,7 +52,6 @@ public class PostController {
 			System.out.println("게시글 작성 실패...");
 		}
 		
-		
 	}//postWrite
 	
 	// 게시글 조회
@@ -56,24 +61,34 @@ public class PostController {
 		
 		System.out.println("----- 게시글 조회 -----");
 		
-		for(int i = 0; i < postVoList.size(); i++) {
+		if(postVoList.size() != 0 ) {
 			
-			PostVo temp = (PostVo)postVoList.get(i);
-			
-			String no = temp.getNo();
-			String title = temp.getTitle();
-			String writer = temp.getNick();
-			String like = temp.getLike();
-			String viewcount = temp.getViewCount();
-			Timestamp date = temp.getDate();
-			
-			// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
-			System.out.println("[" + no + "] " +  "제목 : " + title + " | " + writer + " | " +"좋아요 : "+ like + " | " + "조회수 : " + viewcount + " | " + date + "\n");
+			for(int i = 0; i < postVoList.size(); i++) {
+				
+				PostVo temp = (PostVo)postVoList.get(i);
+				
+				String no = temp.getNo();
+				String title = temp.getTitle();
+				String writer = temp.getNick();
+				String like = temp.getLike();
+				String viewcount = temp.getViewCount();
+				Timestamp date = temp.getDate();
+				
+				// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
+				System.out.println("[" + no + "] " +  "제목 : " + title + " | " + "작성자 : " + writer + " | " +"좋아요 : "+ like + " | " + "조회수 : " + viewcount + " | " + date + "\n");
+			}
+		}else {
+			System.out.println("작성 내역이 없습니다.\n");
+			return;
 		}
 		
 		// 상세 조회
 		// 출력문, 입력받기
 		String num = new MenuPost().showPostDetail();
+		
+		if(num.equals("Q")) {
+			new MainPost().mainPost();
+		}
 		
 		// 글 번호 받으면
 		PostVo vo = new PostService().showPostDetail(num);
@@ -110,8 +125,18 @@ public class PostController {
 		case "1" : editPost(num); break;// 게시글 수정
 		case "2": deletePost(num); break;
 		case "3": new CmtController().write(num); break;
-		case "4" : new CmtController().editCmt(); break;
-		case "5" : new CmtController().deleteCmt(); break;
+		case "4" : if(cmtVoList.size() > 0) {
+			new CmtController().editCmt(); break;
+		}else {
+            System.out.println("작성된 댓글이 없어 이전페이지로 돌아갑니다.");
+            postView();
+        }
+		case "5" : if(cmtVoList.size() > 0) {
+			new CmtController().deleteCmt(); break;
+		}else {
+            System.out.println("작성된 댓글이 없어 이전페이지로 돌아갑니다.");
+            postView();
+        }
 		case "6" : likePost(num); break;
 		}
 		
@@ -135,8 +160,11 @@ public class PostController {
 		System.out.println("현재 내용 : " + post.getContent());
 		
 		// 데이터 받기
-		System.out.print("수정할 글의 제목 : ");
+		System.out.print("수정할 글의 제목(Q -> 이전 메뉴) : ");
 		String title = InputUtil.sc.nextLine();
+		if(title.equals("Q")) {
+			postView();
+		}
 		System.out.print("수정할 글의 내용 : ");
 		String content = InputUtil.sc.nextLine();
 				
@@ -210,23 +238,33 @@ public class PostController {
 	
 		System.out.println("----- " + nick +"님의 게시글 조회 -----");
 		
-		for(int i = 0; i < myPostList.size(); i++) {
+		if(myPostList.size() != 0 ) {
 			
-			PostVo temp = myPostList.get(i);
-			
-			String no = temp.getNo();
-			String title = temp.getTitle();
-			String writer = temp.getNick();
-			String like = temp.getLike();
-			String viewcount = temp.getViewCount();
-			Timestamp date = temp.getDate();
-			
-			// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
-			System.out.println("[" + no + "] " +  "제목 : " + title + " | " + writer + " | " +"좋아요 : "+ like + " | " + "조회수 : " + viewcount + " | " + date + "\n");
+			for(int i = 0; i < myPostList.size(); i++) {
+				
+				PostVo temp = (PostVo)myPostList.get(i);
+				
+				String no = temp.getNo();
+				String title = temp.getTitle();
+				String writer = temp.getNick();
+				String like = temp.getLike();
+				String viewcount = temp.getViewCount();
+				Timestamp date = temp.getDate();
+				
+				// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
+				System.out.println("[" + no + "] " +  "제목 : " + title + " | " + "작성자 : " + writer + " | " +"좋아요 : "+ like + " | " + "조회수 : " + viewcount + " | " + date + "\n");
 			}
-			
+		}else {
+			System.out.println("작성 내역이 없습니다.\n");
+			return;
+		}
+		
 		String num = new MenuPost().showPostDetail();
-
+		
+		if(num.equals("Q")) {
+			return;
+		}
+		
 		// 글 번호 받으면
 		PostVo vo = new PostService().showMyPostDetail(num);
 		
@@ -262,8 +300,18 @@ public class PostController {
 		case "1" : editPost(num); break;// 게시글 수정
 		case "2": deletePost(num); break;
 		case "3": new CmtController().write(num); break;
-		case "4" : new CmtController().editCmt(); break;
-		case "5" : new CmtController().deleteCmt(); break;
+		case "4" : if(cmtVoList.size() > 0) {
+			new CmtController().editCmt(); break;
+		}else {
+            System.out.println("작성된 댓글이 없어 이전페이지로 돌아갑니다.");
+            postView();
+        }
+		case "5" : if(cmtVoList.size() > 0) {
+			new CmtController().deleteCmt(); break;
+		}else {
+            System.out.println("작성된 댓글이 없어 이전페이지로 돌아갑니다.");
+            postView();
+        }
 		case "6" : likePost(num); break;
 		}
 		
@@ -274,25 +322,33 @@ public class PostController {
 		List<PostVo> postVoList = new PostService().showList();
 		
 		System.out.println("----- 게시글 조회 -----");
-		
-		for(int i = 0; i < postVoList.size(); i++) {
-			
-			PostVo temp = (PostVo)postVoList.get(i);
-			
-			String no = temp.getNo();
-			String title = temp.getTitle();
-			String writer = temp.getNick();
-			String like = temp.getLike();
-			String viewcount = temp.getViewCount();
-			Timestamp date = temp.getDate();
-			
-			// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
-			System.out.println("[" + no + "] " +  "제목 : " + title + " | " + writer + " | " +"좋아요 : "+ like + " | " + "조회수 : " + viewcount + " | " + date + "\n");
+		if(postVoList.size() != 0 ) {
+			for(int i = 0; i < postVoList.size(); i++) {
+				
+				PostVo temp = (PostVo)postVoList.get(i);
+				
+				String no = temp.getNo();
+				String title = temp.getTitle();
+				String writer = temp.getNick();
+				String like = temp.getLike();
+				String viewcount = temp.getViewCount();
+				Timestamp date = temp.getDate();
+				
+				// 번호, 제목, 작성자, 좋아요 개수, 조회수, 작성일자
+				System.out.println("[" + no + "] " +  "제목 : " + title + " | " + "작성자 : " + writer + " | " +"좋아요 : "+ like + " | " + "조회수 : " + viewcount + " | " + date + "\n");
+			}
+		}else {
+			System.out.println("작성 내역이 없습니다.\n");
+			return;
 		}
 		
 		// 상세 조회
 		// 출력문, 입력받기
 		String num = new MenuPost().showPostDetail();
+		
+		if(num.equals("Q")) {
+			return;
+		}
 		
 		// 글 번호 받으면
 		PostVo vo = new PostService().showPostDetail(num);
@@ -326,11 +382,21 @@ public class PostController {
 		String x = new MenuPost().showComment();
 		
 		switch(x) {
-		case "1" : managerEdit(num); break;// 게시글 수정
-		case "2": managerDelete(num); break;
+		case "1" : editPost(num); break;// 게시글 수정
+		case "2": deletePost(num); break;
 		case "3": new CmtController().write(num); break;
-		case "4" : new CmtController().editCmt(); break;
-		case "5" : new CmtController().deleteCmt(); break;
+		case "4" : if(cmtVoList.size() > 0) {
+			new CmtController().editCmt(); break;
+		}else {
+            System.out.println("작성된 댓글이 없어 이전페이지로 돌아갑니다.");
+            postView();
+        }
+		case "5" : if(cmtVoList.size() > 0) {
+			new CmtController().deleteCmt(); break;
+		}else {
+            System.out.println("작성된 댓글이 없어 이전페이지로 돌아갑니다.");
+            postView();
+        }
 		case "6" : likePost(num); break;
 		}
 		
@@ -348,8 +414,11 @@ public class PostController {
 		System.out.println("현재 내용 : " + post.getContent());
 		
 		// 데이터 받기
-		System.out.print("수정할 글의 제목 : ");
+		System.out.print("수정할 글의 제목(Q -> 이전 메뉴) : ");
 		String title = InputUtil.sc.nextLine();
+		if(title.equals("Q")) {
+			return;
+		}
 		System.out.print("수정할 글의 내용 : ");
 		String content = InputUtil.sc.nextLine();
 				

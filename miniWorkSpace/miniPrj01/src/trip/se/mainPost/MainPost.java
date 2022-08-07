@@ -1,6 +1,8 @@
 package trip.se.mainPost;
 
+import trip.min.main.MemberMain;
 import trip.min.main.MemberMenu;
+import trip.min.member.MemberMypage;
 import trip.se.post.PostController;
 import trip.se.qna.QnaController;
 
@@ -9,9 +11,9 @@ public class MainPost {
 	//게시글
 	public void mainPost() {
 
-		MenuPost mp = new MenuPost();
 		
 		while(true) {
+			MenuPost mp = new MenuPost();
 				
 			String x = mp.showPost();
 		
@@ -21,7 +23,7 @@ public class MainPost {
 			
 			case "2" : new PostController().postWrite(); break;
 			
-			case "3" : return;
+			case "3" : new MemberMenu().loginMenu();
 			
 			default : System.out.println("잘못 입력하셨습니다. 다시 입력해주세요.");
 				
@@ -33,9 +35,9 @@ public class MainPost {
 	//QnA 
 	public void mainQnaPost() {
 		
-		MenuPost mp = new MenuPost();
 		
 		while(true) {
+			MenuPost mp = new MenuPost();
 				
 			String x = mp.showQna();
 		
@@ -55,11 +57,12 @@ public class MainPost {
 		
 	}//mainQnaPost
 	
+	// Qna 관리자
 	public void postmanager() {
 		
-		MenuPost mp = new MenuPost();
 		
 		while(true) {
+			MenuPost mp = new MenuPost();
 				
 			String x = mp.showPost();
 		
@@ -76,7 +79,52 @@ public class MainPost {
 			}//switch
 		}//while
 		
-	}
+	}//postmanager
+	
+	public void showMyPost() {
+	
+		while(true) {
+			MenuPost mp = new MenuPost();
+				
+			String x = mp.showPost();
+		
+			switch(x) {
+			
+			case "1" : new PostController().showMyPost(MemberMain.LoginMember); break;
+			
+			case "2" : new PostController().postWrite(); break;
+			
+			case "3" : return;
+			
+			default : System.out.println("잘못 입력하셨습니다. 다시 입력해주세요.");
+				
+			}//switch
+		}//while
+		
+	}//showMyPost
+	
+	public void showMyQna() {
+		
+		while(true) {
+			MenuPost mp = new MenuPost();
+				
+			String x = mp.showQna();
+		
+			switch(x) {
+			
+			case "1" : new QnaController().showMyQna(MemberMain.LoginMember); break;
+			
+			case "2" : new QnaController().qnaWrite(); break;
+			
+			case "3" : return;
+				
+			default : System.out.println("잘못 입력하셨습니다. 다시 입력해주세요.");
+			
+			}//switch
+			
+		}//while
+		
+	}//showMyQna
 	
 	
 }//MainPost

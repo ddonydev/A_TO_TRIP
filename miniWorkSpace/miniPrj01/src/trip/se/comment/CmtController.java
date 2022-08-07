@@ -2,6 +2,7 @@ package trip.se.comment;
 
 import java.util.List;
 
+import trip.se.post.PostController;
 import trip.se.post.PostService;
 import trip.se.post.PostVo;
 import trip.min.main.MemberMain;
@@ -15,8 +16,12 @@ public class CmtController {
 		System.out.println("\n----- 댓글 작성 -----");
 		
 		// 데이터 받기
-		System.out.print("내용 : ");
+		System.out.print("내용(Q -> 이전 메뉴) : ");
 		String cmt = InputUtil.sc.nextLine();
+		
+		if(cmt.equals("Q")) {
+			new PostController().postView();
+		}
 		
 		String memberNo = MemberMain.LoginMember.getNo();
 		
@@ -44,10 +49,16 @@ public class CmtController {
 
 		System.out.println("\n----- 댓글 수정 -----");
 		
-		System.out.print("수정할 댓글의 번호 : ");
-		int cmtNo = InputUtil.getInt();
+		System.out.print("수정할 댓글의 번호(Q -> 이전 메뉴)  : ");
+		String cmtNo = InputUtil.sc.nextLine();
+		
+		if(cmtNo.equals("Q")) {
+			new PostController().postView();
+		}
+		
 		CmtVo cmt = new CmtService().showCmtDetail(cmtNo);
 		String no = cmt.getWriter();
+		
 		
 		cmt.setWriter(MemberMain.LoginMember.getNo());
 		if(!no.equals(MemberMain.LoginMember.getNo())) {
@@ -56,8 +67,12 @@ public class CmtController {
 		}
 		System.out.println("현재 내용 : " + cmt.getCmt());
 		
-		System.out.print("수정할 댓글의 내용 : ");
+		System.out.print("수정할 댓글의 내용(Q -> 이전 메뉴) : ");
 		String content = InputUtil.sc.nextLine();
+		
+		if(content.equals("Q")) {
+			return;
+		}
 				
 		// 데이터 뭉치기
 		cmt.setCmt(content);
@@ -81,8 +96,13 @@ public class CmtController {
 		
 		System.out.println("\n----- 댓글 삭제 -----");
 		
-		System.out.print("삭제할 댓글의 번호 : ");
-		int cmtNo = InputUtil.getInt();
+		System.out.print("삭제할 댓글의 번호(Q -> 이전 메뉴) : ");
+		String cmtNo = InputUtil.sc.nextLine();
+		
+		if(cmtNo.equals("Q")) {
+			new PostController().postView();
+		}
+		
 		CmtVo cmt = new CmtService().showCmtDetail(cmtNo);
 		String no = cmt.getWriter();
 		
