@@ -1,7 +1,10 @@
 package trip.daeun.lodging.wish;
 
+import java.awt.Color;
 import java.sql.Connection;
 import java.util.List;
+
+import javax.swing.JLabel;
 
 import trip.hyewon.lodging.LodgingVo;
 import trip.min.main.MemberMain;
@@ -9,6 +12,18 @@ import trip.min.util.InputUtil;
 
 public class WishController {
 	
+    public static final String black    = "\u001B[30m" ;
+    public static final String red      = "\u001B[31m" ;
+    public static final String green    = "\u001B[32m" ;
+    public static final String yellow   = "\u001B[33m" ;
+    public static final String blue     = "\u001B[34m" ;
+    public static final String purple   = "\u001B[35m" ;
+    public static final String cyan     = "\u001B[36m" ;
+    public static final String white     = "\u001B[37m" ;
+
+    public static final String exit     = "\u001B[0m" ;
+
+
 	public void wish() {
 		
 		
@@ -69,16 +84,29 @@ public class WishController {
 	
 	
 	public void showZzimList() {
-		
+
 		
 		
 		List<LodgingVo> lodgingVoList = new WishService().showZzimList();
+		
+		try {
+			Thread.sleep(600);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+
 		System.out.println();
 		System.out.println();
-		System.out.println("--------------------------------");
-		System.out.println("----- 내가 찜한 숙소 목록 ----------");
-		System.out.println("--------------------------------");
 	
+		System.out.println(".         　。　　　　•　    　ﾟ　　      。");
+		System.out.println(" 　'    .　　　.　　　  　　.　　　　　。　　");
+		System.out.println(" •.        𝑴𝒚 𝒁𝒛𝒊𝒎 𝑳𝒊𝒔𝒕            。　.      ");
+		System.out.println("　 　　。　　　　　　ﾟ　　　.　　　　　    .");
+		System.out.println(",　　　　.　 .　　     .               。");
+	
+
+		
 		for(int i = 0; i < lodgingVoList.size(); ++i) {
 			LodgingVo temp = lodgingVoList.get(i);
 			
@@ -90,18 +118,17 @@ public class WishController {
 			System.out.println();
 			System.out.println("   [" + no + "]");
 			System.out.println();
-			System.out.println("   ღ 숙소 ღ : " + name);
+			System.out.println("   ღ 𝑳𝒐𝒅𝒈𝒊𝒏𝒈 ღ  " + name);
 			System.out.println();
-			System.out.println("   ღ 주소 ღ : " + address);
+			System.out.println("   ღ 𝑨𝒅𝒅𝒓𝒆𝒔𝒔 ღ  " + address);
 			System.out.println();
-			System.out.println("   ღ 번호 ღ : " + phone);
+			System.out.println("   ღ 𝑷𝒉𝒐𝒏𝒆 ღ  " + phone);
 			System.out.println();
-			System.out.println("--------------------------------");
-			System.out.println("--------------------------------");
-			System.out.println("--------------------------------");
+			System.out.println(".         　。　　　　•　       . 　ﾟ　　      。");
+			System.out.println("　 　　。　　　　　　ﾟ　　　.　　　　　    .");
 			
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(900);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -112,7 +139,6 @@ public class WishController {
 		
 		
 	}
-	
 	
 	
 	
