@@ -54,11 +54,11 @@ public class MemberMypage {
 				break;
 			case "4":
 				System.out.println("내가 쓴 게시물 확인");
-				new PostController().showMyPost(MemberMain.LoginMember);
+				new MainPost().showMyPost();
 				break;
 			case "5":
 				System.out.println("내가 쓴 문의글 확인");
-				new QnaController().showMyQna(MemberMain.LoginMember);
+				new MainPost().showMyQna();
 				break;
 			case "6":
 				System.out.println("내가 쓴 리뷰 확인");
